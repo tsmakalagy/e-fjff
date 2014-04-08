@@ -201,5 +201,11 @@ if (defined('ENVIRONMENT'))
  */
 require_once BASEPATH.'core/CodeIgniter.php';
 
+/*
+ * ------------------------- 
+ * AUTOLOAD VENDOR
+ * -------------------------
+ */
+include_once './vendor/autoload.php';
 /* End of file index.php */
 /* Location: ./index.php */
