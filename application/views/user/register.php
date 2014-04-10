@@ -11,7 +11,7 @@
       <div class="modal-body">
           <form class="form col-md-12 center-block" method="post" action="">
             <div class="form-group">
-              <input type="text" name="username" class="form-control input-lg register-input" placeholder="Username">
+              <input type="text" name="username" class="form-control input-lg register-input" placeholder="Username" autocomplete="off">
               <span class="pull-right loading-username"></span>
             </div>
             <div class="form-group">
@@ -39,6 +39,12 @@ var timeoutReference, pwdTimeout;
 var url = "<?php echo site_url('user/checkUsername');?>";
 $(document).ready(function() {
 
+//	$('input[name="username"]').blur(function() {
+//		if ($(this).val() == '') {
+//			$('.loading-username').html("");
+//		}
+//	});
+
     $('input[name="username"]').keypress(function() {
         var _this = $(this); 
         
@@ -63,6 +69,8 @@ $(document).ready(function() {
             			
             		}
                 });
+            } else {
+            	$('.loading-username').html("");
             }
             
         }, 1000);
