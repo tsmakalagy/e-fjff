@@ -39,11 +39,11 @@ var timeoutReference, pwdTimeout;
 var url = "<?php echo site_url('user/checkUsername');?>";
 $(document).ready(function() {
 
-//	$('input[name="username"]').blur(function() {
-//		if ($(this).val() == '') {
-//			$('.loading-username').html("");
-//		}
-//	});
+	$('input[name="username"]').blur(function() {
+		if ($(this).val() == '') {
+			$('.loading-username').html("");
+		}
+	});
 
     $('input[name="username"]').keypress(function() {
         var _this = $(this); 
