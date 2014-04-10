@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+span.loading-username {
+    left: -8px;
+    position: relative;
+    top: -36px;
+}
+
+span.check-password {
+    left: -8px;
+    position: relative;
+    top: -36px;
+}
+
+.register-input {
+	padding-right: 35px;
+}

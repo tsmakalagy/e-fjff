@@ -41,6 +41,7 @@
 //$route['default_controller'] = "welcome";
 //$route['404_override'] = '';
 
+$route['user/(.+)$'] = 'user/user/$1';
 $route['attributes'] = 'attributes';
 $route['default_controller'] = 'pages/view';
 $route['(:any)'] = 'pages/view/$1';

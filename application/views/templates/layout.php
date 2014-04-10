@@ -51,7 +51,7 @@
           	</ul><!-- / ul.navbar-nav -->
 
           	<ul class="nav navbar-nav navbar-right">            	
-            	<li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">Login</a></li>
+            	<li><a href="<?php echo site_url('user/login');?>">Login</a></li>
           	</ul><!-- / ul.navbar-right -->
 
         </div><!-- / div#navbar-main -->

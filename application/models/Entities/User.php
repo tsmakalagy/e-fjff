@@ -2,9 +2,10 @@
 namespace Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Entities\UserRepository")
  * @ORM\Table(name="fk_fkt_user")
  * @author raiza
  *
@@ -42,6 +43,21 @@ class User
      * @var datetime
      */
 	protected $lastLogout;
+	
+	/**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\ManyToMany(targetEntity="Role")
+     * @ORM\JoinTable(name="fk_user_role",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="fk_us_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="fk_ro_id")}
+     * )
+     */
+    protected $roles;
+    
+	public function __construct()
+    {
+        $this->roles = new Collection();
+    }
 	
 	public function getId()
 	{
@@ -97,5 +113,33 @@ class User
 		$this->lastLogout = $lastLogout;
 		return $this;
 	}
+	
+	public function getRoles()
+    {
+    	return $this->roles;
+    }
+    
+    public function addRole(Role $role)
+    {
+    	$role->addPost($this);
+    	$this->roles[] = $role;
+    	return $this;
+    }
+    
+	public function addRoles(Collection $roles)
+    {
+        foreach ($roles as $role) {
+            $this->roles->add($role);
+        }
+        return $this;
+    }
+
+    public function removeRoles(Collection $roles)
+    {
+        foreach ($roles as $role) {
+            $this->roles->removeElement($role);
+        }
+        return $this;
+    }
 	
 }
