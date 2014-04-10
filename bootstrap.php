@@ -35,8 +35,8 @@ $config->setAutoGenerateProxyClasses( TRUE );
 
 $config->setQueryCacheImpl($cache);
 
-$logger = new EchoSQLLogger;
-$config->setSQLLogger($logger);
+//$logger = new EchoSQLLogger;
+//$config->setSQLLogger($logger);
 
 $connectionOptions = array(
 	'driver' => 'pdo_mysql',
