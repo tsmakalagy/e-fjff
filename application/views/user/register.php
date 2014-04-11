@@ -16,10 +16,11 @@
             </div>
             <div class="form-group">
               <input type="password" name="password" class="form-control input-lg" placeholder="Password">
+              <span class="pull-right check-password"></span>
             </div>
             <div class="form-group">
               <input type="password" name="passwordVerify" class="form-control input-lg register-input" placeholder="Re-type password">
-              <span class="pull-right check-password"></span>
+              <span class="pull-right check-password-verify"></span>
             </div>
             <div class="form-group">
               <button class="btn btn-primary btn-lg btn-block">Register</button>
@@ -36,12 +37,22 @@
 </div>
 <script type="text/javascript">
 var timeoutReference, pwdTimeout;
-var url = "<?php echo site_url('user/checkUsername');?>";
+var url = "<?php echo site_url('user/validation_check');?>";
 $(document).ready(function() {
 
 	$('input[name="username"]').blur(function() {
 		if ($(this).val() == '') {
 			$('.loading-username').html("");
+			$(this).parents('.form-group').removeClass('has-error');
+			$(this).parents('.form-group').find('.help-block').remove();
+		}
+	});
+
+	$('input[name="password"]').blur(function() {
+		if ($(this).val() == '') {
+			$('.check-password').html("");
+			$(this).parents('.form-group').removeClass('has-error');
+			$(this).parents('.form-group').find('.help-block').remove();
 		}
 	});
 
@@ -58,25 +69,68 @@ $(document).ready(function() {
                     data: "username="+username,
                     dataType: "json",
     				beforeSend: function() {    
-            			$('.loading-username').html("<i class='fa fa-spinner fa-spin fa-lg'></i>"); 			
+            			$('.loading-username').html("<i class='fa fa-spinner fa-spin fa-lg'></i>"); 
+            			_this.parents('.form-group').removeClass('has-error');
+                    	_this.parents('.form-group').find('.help-block').remove();			
             		},
                     success: function(res) {
-                        if (!res.id) {
-                        	$('.loading-username').html("<i class='fa fa-check text-success fa-lg'></i>");
+                        if (!res.success) {
+                        	$('.loading-username').html("<i class='fa fa-times text-danger fa-lg'></i>");                        	
+                        	_this.parents('.form-group').addClass('has-error');
+                        	_this.parents('.form-group').append(res.error_msg);
                         } else {
-                        	$('.loading-username').html("<i class='fa fa-times text-danger fa-lg'></i>");
+                        	$('.loading-username').html("<i class='fa fa-check text-success fa-lg'></i>");
                         }
             			
             		}
                 });
             } else {
             	$('.loading-username').html("");
+            	_this.parents('.form-group').removeClass('has-error');
+            	_this.parents('.form-group').find('.help-block').remove();
             }
             
         }, 1000);
     });
 
-    $('input[name="passwordVerify"]').keypress(function() {
+    $('input[name="password"]').keypress(function() {
+        var _this = $(this); 
+        
+        if (timeoutReference) clearTimeout(timeoutReference);
+        timeoutReference = setTimeout(function() {
+            if (_this.val() != '') {
+                var password = _this.val();
+            	$.ajax({
+                	type: "POST",
+                    url: url,
+                    data: "password="+password,
+                    dataType: "json",
+    				beforeSend: function() {    
+            			$('.check-password').html("<i class='fa fa-spinner fa-spin fa-lg'></i>"); 
+            			_this.parents('.form-group').removeClass('has-error');
+                    	_this.parents('.form-group').find('.help-block').remove();			
+            		},
+                    success: function(res) {
+                        if (!res.success) {
+                        	$('.check-password').html("<i class='fa fa-times text-danger fa-lg'></i>");                        	
+                        	_this.parents('.form-group').addClass('has-error');
+                        	_this.parents('.form-group').append(res.error_msg);
+                        } else {
+                        	$('.check-password').html("<i class='fa fa-check text-success fa-lg'></i>");
+                        }
+            			
+            		}
+                });
+            } else {
+            	$('.check-password').html("");
+            	_this.parents('.form-group').removeClass('has-error');
+            	_this.parents('.form-group').find('.help-block').remove();
+            }
+            
+        }, 1000);
+    });
+
+    /*$('input[name="passwordVerify"]').keypress(function() {
         var _this = $(this); 
         var pwd = $('input[name="password"]').val();
 
@@ -90,7 +144,7 @@ $(document).ready(function() {
             	$('.check-password').html("<i class='fa fa-check text-success fa-lg'></i>");
             }
         }, 1000);
-    });
+    });*/
     
     
 });
