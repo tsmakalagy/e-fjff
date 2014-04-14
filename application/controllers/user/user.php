@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 class User extends CI_Controller 
 {
 	private $em = null;
@@ -29,9 +29,23 @@ class User extends CI_Controller
 	{
 		$data['title'] = 'Login - e-Fokonolona';
 		
-		$this->load->view('templates/header', $data);
-		$this->load->view('user/login');		
-		$this->load->view('templates/footer');
+		$this->load->helper(array('form', 'url'));
+
+		$this->load->library('form_validation');
+		
+		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|max_length[12]|xss_clean');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|md5|xss_clean|callback_user_check');
+		
+		if ($this->form_validation->run() == FALSE) {
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');
+			$this->load->view('templates/header', $data);
+			$this->load->view('user/login');		
+			$this->load->view('templates/footer');
+		} else {
+			redirect('home', 'refresh');			
+		}
+		
+		
 	}
 	
 	public function register()
@@ -42,22 +56,43 @@ class User extends CI_Controller
 
 		$this->load->library('form_validation');
 		
-		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|xss_clean|md5');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|matches[passwordVerify]|md5');
-		$this->form_validation->set_rules('passwordVerify', 'Password Confirmation', 'trim|required');
+		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|max_length[12]|xss_clean');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|md5|xss_clean');
+		$this->form_validation->set_rules('passwordVerify', 'Password Confirmation', 'trim|required|matches[password]|');
 		
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view('templates/header', $data);
 			$this->load->view('user/register');
 			$this->load->view('templates/footer');
 		} else {
+			$user = new Entities\User();
+			$user->setUsername(set_value('username'));
+			$user->setPassword(set_value('password'));
+			$this->em->persist($user);
+			$this->em->flush();
 			$this->load->view('templates/header', $data);
 			$this->load->view('user/register');
 			$this->load->view('templates/footer');
+			
 		}
 		
 				
 	}
+	
+	function logout()
+ 	{
+ 		$session_data = $this->session->userdata('logged_in');
+	    $username = $session_data['username'];
+ 		$users = $this->em->getRepository('Entities\User')->findByUsername($username);
+ 		foreach ($users as $user) {
+ 			$user->setLastLogout(new \DateTime());
+ 			$this->em->persist($user);
+			$this->em->flush();
+ 		}
+   		$this->session->unset_userdata('logged_in');
+   		session_destroy();
+   		redirect('home', 'refresh');
+ 	}
 	
 	public function validation_check()
 	{		
@@ -109,6 +144,29 @@ class User extends CI_Controller
 			return false;
 		} else {
 			return true;
+		}
+	}
+	
+	public function user_check($password)
+	{
+		$username = $this->input->post('username');
+		$users = $this->em->getRepository('Entities\User')->findByUsernameAndPassword($username, $password);
+		if ($users) {
+			$sess_array = array();
+     		foreach($users as $user) {
+       			$sess_array = array(
+         			'id' => $user->getId(),
+         			'username' => $user->getUsername()
+       			);
+       			$this->session->set_userdata('logged_in', $sess_array);
+       			$user->setLastLogin(new \DateTime());
+       			$this->em->persist($user);
+				$this->em->flush();
+     		}
+			return true;
+		} else {
+			$this->form_validation->set_message('user_check', 'Invalid username or password');
+			return false;
 		}
 	}
 }

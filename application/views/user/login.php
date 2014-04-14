@@ -9,12 +9,14 @@
           <h1 class="text-center">Login</h1>
       </div>
       <div class="modal-body">
-          <form class="form col-md-12 center-block">
+      
+          <form class="form col-md-12 center-block" method="post" action="">
+          <?php echo validation_errors(); ?>
             <div class="form-group">
-              <input type="text" class="form-control input-lg" placeholder="Username">
+              <input type="text" name="username" class="form-control input-lg" placeholder="Username">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control input-lg" placeholder="Password">
+              <input type="password" name="password" class="form-control input-lg" placeholder="Password">
             </div>
             <div class="form-group">
               <button class="btn btn-primary btn-lg btn-block">Sign In</button>
@@ -30,3 +32,10 @@
   </div>
   </div>
 </div>
+<script type="text/javascript">
+$(document).ready(function() {
+	window.setTimeout(function() {
+		$('.alert').fadeOut("slow");
+	}, 3000);
+});
+</script>

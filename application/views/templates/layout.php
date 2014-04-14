@@ -50,8 +50,17 @@
 	            </li><!-- / li.dropdown -->
           	</ul><!-- / ul.navbar-nav -->
 
-          	<ul class="nav navbar-nav navbar-right">            	
+          	<ul class="nav navbar-nav navbar-right">   
+          		<?php if (isset($username)): ?>
+          		<li class="dropdown">
+          			<a class="dropdown-toggle" data-toggle="dropdown" href="#" ><?php echo $username;?> <span class="caret"></span></a>
+	              	<ul class="dropdown-menu">
+		                <li><a href="<?php echo site_url('user/logout');?>">Logout</a></li>
+		            </ul>
+          		</li>
+          		<?php else: ?>         	
             	<li><a href="<?php echo site_url('user/login');?>">Login</a></li>
+            	<?php endif; ?>
           	</ul><!-- / ul.navbar-right -->
 
         </div><!-- / div#navbar-main -->

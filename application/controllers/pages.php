@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 class Pages extends CI_Controller
 {
 	
@@ -9,7 +9,10 @@ class Pages extends CI_Controller
 			// Whoops, we don't have a page for that!
 			show_404();
 		}
-	
+		if($this->session->userdata('logged_in')) {
+	     	$session_data = $this->session->userdata('logged_in');
+	     	$data['username'] = $session_data['username'];
+	   	}
 		$data['title'] = ucfirst($page); // Capitalize the first letter
 		$data['content'] = $this->load->view('pages/'.$page, $data, true);
 		

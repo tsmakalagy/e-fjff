@@ -13,5 +13,14 @@ class UserRepository extends EntityRepository
 		return $query->getResult();		
 	}
 	
+	public function findByUserNameAndPassword($username, $password)
+	{
+		$sql = 'SELECT u FROM Entities\User u WHERE u.username = ?1 AND u.password = ?2';
+		$query = $this->_em->createQuery($sql);
+		$query->setParameter(1, $username);
+		$query->setParameter(2, $password);
+		return $query->getResult();
+	}
+	
 	
 }
