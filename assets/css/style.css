@@ -1,12 +1,7 @@
 @CHARSET "UTF-8";
 
-span.loading-username {
-    left: -8px;
-    position: relative;
-    top: -36px;
-}
 
-span.check-password {
+span.loading-username, span.check-password, span.check-password-verify {
     left: -8px;
     position: relative;
     top: -36px;

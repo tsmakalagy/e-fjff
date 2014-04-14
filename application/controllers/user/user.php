@@ -78,7 +78,7 @@ class User extends CI_Controller
 				
 		$password = $this->input->post('password');
 		if (isset($password) && strlen($password)) {
-			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|md5');
+			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]');
 			if ($this->form_validation->run('password') == FALSE) {
 				$res['success'] = false;
 				$res['error_msg'] = form_error('password', '<div class="help-block">', '</div>'); 
