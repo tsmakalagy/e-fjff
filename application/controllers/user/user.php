@@ -13,16 +13,16 @@ class User extends CI_Controller
 
 	public function index()
 	{
-		$attributeRepository = $this->em->getRepository('Entities\Attribute');
-		$attributes = $attributeRepository->findAll();
-		
-		$data['attributes'] = $attributes;		
-		$data['title'] = 'Attribute archive';
-		$data['content'] = $this->load->view('attributes/index', $data, true);
-		
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/layout', $data);		
-		$this->load->view('templates/footer');
+//		$attributeRepository = $this->em->getRepository('Entities\Attribute');
+//		$attributes = $attributeRepository->findAll();
+//		
+//		$data['attributes'] = $attributes;		
+//		$data['title'] = 'Attribute archive';
+//		$data['content'] = $this->load->view('attributes/index', $data, true);
+//		
+//		$this->load->view('templates/header', $data);
+//		$this->load->view('templates/layout', $data);		
+//		$this->load->view('templates/footer');
 	}
 	
 	public function login()
