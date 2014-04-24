@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 14, 2014 at 01:27 PM
+-- Generation Time: Apr 24, 2014 at 03:44 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-7
 
@@ -35,11 +35,6 @@ CREATE TABLE IF NOT EXISTS `fk_ad_adidy` (
   KEY `IDX_B632477B58E031F3` (`fk_ad_id_kp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `fk_ad_adidy`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -54,11 +49,6 @@ CREATE TABLE IF NOT EXISTS `fk_dist_district` (
   PRIMARY KEY (`fk_dist_id`),
   KEY `IDX_71E5C148D3EEA993` (`fk_dist_reg_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `fk_dist_district`
---
-
 
 -- --------------------------------------------------------
 
@@ -75,11 +65,6 @@ CREATE TABLE IF NOT EXISTS `fk_fir_firaisana` (
   KEY `IDX_A376A45099EEF487` (`fk_fir_fiv_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `fk_fir_firaisana`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -94,11 +79,6 @@ CREATE TABLE IF NOT EXISTS `fk_fiv_fivondronana` (
   PRIMARY KEY (`fk_fiv_id`),
   KEY `IDX_F856FA6CB70B2BE` (`fk_fiv_dist_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `fk_fiv_fivondronana`
---
-
 
 -- --------------------------------------------------------
 
@@ -115,11 +95,6 @@ CREATE TABLE IF NOT EXISTS `fk_fkt_fokotany` (
   KEY `IDX_D11F24FFFE1542D1` (`fk_fkt_fir_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `fk_fkt_fokotany`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -133,12 +108,7 @@ CREATE TABLE IF NOT EXISTS `fk_fkt_user` (
   `fk_us_last_login` datetime DEFAULT NULL,
   `fk_us_last_logout` datetime DEFAULT NULL,
   PRIMARY KEY (`fk_us_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `fk_fkt_user`
---
-
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -165,11 +135,6 @@ CREATE TABLE IF NOT EXISTS `fk_kara_pokotany` (
   KEY `IDX_D363D7F5A196879D` (`fk_kp_fkt_andehanana`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `fk_kara_pokotany`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -187,15 +152,11 @@ CREATE TABLE IF NOT EXISTS `fk_olona` (
   `fk_ol_cin` varchar(25) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fk_ol_date_cin` datetime DEFAULT NULL,
   `fk_ol_asa` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fk_ol_sex` int(11) NOT NULL,
   PRIMARY KEY (`fk_ol_id`),
   KEY `IDX_EF1DE7B5F3D248F1` (`fk_ol_kp_id`),
   KEY `IDX_EF1DE7B52EE2E201` (`fk_ol_andr_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `fk_olona`
---
-
 
 -- --------------------------------------------------------
 
@@ -208,11 +169,6 @@ CREATE TABLE IF NOT EXISTS `fk_ol_andraikitra` (
   `fk_andr_anarana` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`fk_andr_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `fk_ol_andraikitra`
---
-
 
 -- --------------------------------------------------------
 
@@ -229,11 +185,6 @@ CREATE TABLE IF NOT EXISTS `fk_photo` (
   KEY `IDX_D55AA76D88B25560` (`fk_photo_fkt_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `fk_photo`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -246,11 +197,6 @@ CREATE TABLE IF NOT EXISTS `fk_reg_region` (
   `fk_reg_slogan` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`fk_reg_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `fk_reg_region`
---
-
 
 -- --------------------------------------------------------
 
@@ -266,11 +212,6 @@ CREATE TABLE IF NOT EXISTS `fk_ro_role` (
   KEY `IDX_237893B391FC2C8` (`fk_ro_parent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `fk_ro_role`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -285,11 +226,6 @@ CREATE TABLE IF NOT EXISTS `fk_user_role` (
   KEY `IDX_4CB11133D60322AC` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `fk_user_role`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -301,14 +237,6 @@ CREATE TABLE IF NOT EXISTS `gdn_attribute` (
   `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `gdn_attribute`
---
-
-INSERT INTO `gdn_attribute` (`id`, `name`) VALUES
-(1, 'ORM'),
-(2, 'DBAL');
 
 --
 -- Constraints for dumped tables

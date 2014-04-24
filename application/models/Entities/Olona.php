@@ -57,6 +57,12 @@ class Olona
 	protected $cin;
 	
 	/**
+     * @ORM\Column(type="integer", name="fk_ol_sex")
+     * @var int
+     */
+	protected $sex;
+	
+	/**
      * @ORM\Column(type="datetime", name="fk_ol_date_cin", nullable=true)
      * @var datetime
      */
@@ -149,6 +155,17 @@ class Olona
 	public function setCin($cin)
 	{
 		$this->cin = $cin;
+		return $this;
+	}
+	
+	public function getSex()
+	{
+		return $this->sex;
+	}
+	
+	public function setSex($sex)
+	{
+		$this->sex = $sex;
 		return $this;
 	}
 	

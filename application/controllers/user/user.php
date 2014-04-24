@@ -33,19 +33,30 @@ class User extends CI_Controller
 
 		$this->load->library('form_validation');
 		
-		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|max_length[12]|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|md5|xss_clean|callback_user_check');
+		$this->form_validation->set_rules('login-username', 'Username', 'trim|required|min_length[4]|max_length[12]|xss_clean');
+		$this->form_validation->set_rules('login-password', 'Password', 'trim|required|min_length[6]|md5|xss_clean|callback_user_check');
 		
 		if ($this->form_validation->run() == FALSE) {
 			$this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');
-			$this->load->view('templates/header', $data);
-			$this->load->view('user/login');		
-			$this->load->view('templates/footer');
+			$login_form = $this->load->view('user/login', array(), true); 
+			$register_form = $this->load->view('user/register', array(), true);
+			$res['form'] = $login_form . $register_form;
+			$res['success'] = false;
+			$json_decode = json_encode($res, JSON_HEX_TAG | JSON_HEX_QUOT);
+			echo $json_decode;
 		} else {
-			redirect('home', 'refresh');			
-		}
-		
-		
+			echo json_encode(array('success' => true));						
+		}	
+	}
+	
+	public function loadLoginForm()
+	{
+		$this->load->library('form_validation');
+		$login_form = $this->load->view('user/login', array(), true);
+		$register_form = $this->load->view('user/register', array(), true);
+		$res['form'] = $login_form . $register_form;
+		$json_decode = json_encode($res, JSON_HEX_TAG | JSON_HEX_QUOT);
+		echo $json_decode;
 	}
 	
 	public function register()
@@ -61,18 +72,19 @@ class User extends CI_Controller
 		$this->form_validation->set_rules('passwordVerify', 'Password Confirmation', 'trim|required|matches[password]|');
 		
 		if ($this->form_validation->run() == FALSE) {
-			$this->load->view('templates/header', $data);
-			$this->load->view('user/register');
-			$this->load->view('templates/footer');
+			$login_form = $this->load->view('user/login', array(), true); 
+			$register_form = $this->load->view('user/register', array(), true);
+			$res['form'] = $login_form . $register_form;
+			$res['success'] = false;
+			$json_decode = json_encode($res, JSON_HEX_TAG | JSON_HEX_QUOT);
+			echo $json_decode;
 		} else {
 			$user = new Entities\User();
 			$user->setUsername(set_value('username'));
 			$user->setPassword(set_value('password'));
 			$this->em->persist($user);
 			$this->em->flush();
-			$this->load->view('templates/header', $data);
-			$this->load->view('user/register');
-			$this->load->view('templates/footer');
+			echo json_encode(array('success' => true));
 			
 		}
 		
@@ -149,7 +161,7 @@ class User extends CI_Controller
 	
 	public function user_check($password)
 	{
-		$username = $this->input->post('username');
+		$username = $this->input->post('login-username');
 		$users = $this->em->getRepository('Entities\User')->findByUsernameAndPassword($username, $password);
 		if ($users) {
 			$sess_array = array();

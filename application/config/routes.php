@@ -41,7 +41,13 @@
 //$route['default_controller'] = "welcome";
 //$route['404_override'] = '';
 
+$route['localite/(district|region|fivondronana|firaisana|fokotany)/add'] = 'localite/localite/add/$1';
+$route['fokotany/add/(karatra|andraikitra|olona)'] = 'fokotany/fokotany/add/$1';
+
+
+$route['user/load/login'] = 'user/user/loadLoginForm';
 $route['user/(.+)$'] = 'user/user/$1';
+
 $route['attributes'] = 'attributes';
 $route['default_controller'] = 'pages/view';
 $route['(:any)'] = 'pages/view/$1';
