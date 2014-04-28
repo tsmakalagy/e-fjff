@@ -35,6 +35,7 @@
 var timeoutReference, pwdTimeout;
 var url = "<?php echo site_url('user/validation_check');?>";
 var url_register = "<?php echo site_url('user/register');?>"; 
+// PLUGIN INPUT VALIDATION
 (function($) {
 	var privateFunction = function() {
 		// code here
@@ -56,8 +57,8 @@ var url_register = "<?php echo site_url('user/register');?>";
 				if(typeof(settings) == 'undefined') {
  
 					var defaults = {
-						url: url,
-					    btnRegister: '.btn-register',
+						url: url, // Ajax url for validating input
+					    btnRegister: '.btn-register', // Class of register button
 					    query: '',
 						onSomeEvent: function() {}
 					}
@@ -191,14 +192,14 @@ $(document).ready(function() {
 		
 	});
 
-	$("form#registerForm").submit(function(e) {
+	$("form#registerForm").submit(function(e) { // WHEN SUBMITTING FORM (click of button submit)
 		var $this = $(this);
 		e.preventDefault();
 		$('.btn-register').button('loading');
 		$.ajax({
         	type: "POST",
             url: url_register,
-            data: $("form#registerForm").serialize(),
+            data: $("form#registerForm").serialize(), // GETTING FORM VALUES
             dataType: "json",
 			beforeSend: function() {    
     					
@@ -208,11 +209,11 @@ $(document).ready(function() {
                 	$('#loginModal').modal().find('.modal-dialog').html(res.form);
                 	$('.modal-login').hide();
                 	$('.modal-register').show();    
-                } else {
+                } else { // WHEN REGISTRATION DONE DISPLAY SUCCESS MESSAGE
                     var success_message = '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
                     success_message += 'Thank you for registering.</div>';
                 	$this.prepend(success_message);
-                	window.setTimeout(function() {
+                	window.setTimeout(function() { // DISPLAY LOGIN MODAL
                 		$('.modal-register').fadeOut('slow', function() {
                 			$('.modal-login').fadeIn('slow', function() {});
                 		});
