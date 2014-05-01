@@ -1,0 +1,35 @@
+AddDefaultCharset UTF-8
+
+RewriteEngine On
+
+RewriteBase /e-fokonolona/
+
+php_value upload_max_filesize '10M'
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_URI} !\.css$
+RewriteCond %{REQUEST_URI} !\.jpg$
+RewriteCond %{REQUEST_URI} !\.png$
+RewriteCond %{REQUEST_URI} !\.gif$
+RewriteCond %{REQUEST_URI} !\.JPG$
+RewriteCond %{REQUEST_URI} !\.PNG$
+RewriteCond %{REQUEST_URI} !\.GIF$
+RewriteCond %{REQUEST_URI} !\.js$
+RewriteCond %{REQUEST_URI} !\.doc$
+RewriteCond %{REQUEST_URI} !\.xls$
+RewriteCond %{REQUEST_URI} !\.pdf$
+RewriteCond %{REQUEST_URI} !\.swf$
+RewriteCond %{REQUEST_URI} !\.xml$
+RewriteCond %{REQUEST_URI} !\.txt$
+RewriteCond %{REQUEST_URI} !\.htm$
+RewriteCond %{REQUEST_URI} !\.html$
+RewriteCond %{REQUEST_URI} !\.ico$
+RewriteCond %{REQUEST_URI} !\.php$
+RewriteCond %{REQUEST_URI} !index\.php
+
+#RewriteRule ^(.*)$ /index.php?$1 [L]
+RewriteRule (.*) index.php/$1 [L]
+
+
+

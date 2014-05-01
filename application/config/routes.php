@@ -40,8 +40,9 @@
 
 //$route['default_controller'] = "welcome";
 //$route['404_override'] = '';
-
+$route['localite/(district|region|fivondronana|firaisana|fokotany)/save'] = 'localite/localite/save/$1';
 $route['localite/(district|region|fivondronana|firaisana|fokotany)/add'] = 'localite/localite/add/$1';
+$route['localite/(district|region|fivondronana|firaisana|fokotany)/list'] = 'localite/localite/listlocal/$1';
 $route['fokotany/add/(karatra|andraikitra|olona)'] = 'fokotany/fokotany/add/$1';
 
 

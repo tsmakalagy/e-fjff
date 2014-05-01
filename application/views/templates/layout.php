@@ -41,7 +41,7 @@
               		<ul class="dropdown-menu" aria-labelledby="district">
 		                <li><a href="<?php echo site_url('localite/district/add');?>">Add district</a></li>
 		                <li class="divider"></li>
-		                <li><a href="#">List district</a></li>
+		                <li><a href="<?php echo site_url('localite/district/list');?>">List district</a></li>
 		        	</ul><!-- / ul.dropdown-menu -->
             	</li><!-- / li.dropdown -->
 	            <li class="dropdown">
