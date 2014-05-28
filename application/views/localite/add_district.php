@@ -7,14 +7,25 @@
 				<h3 class="panel-title">District</h3>
 			</div>
 			<div class="panel-body">
-				<form class="form col-md-12 center-block" id="districtForm" method="post" action="">
+				<form class="form col-md-12 center-block" id="districtForm" method="post" action="<?php echo site_url("localite/district/save"); ?>">
 					<div class="form-group">
+                    <?php echo validation_errors(); ?>
+                    <?php if(isset($return)){?>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            Insertion success
+                        </div>
+                    <?php } ?>
 						<select class="form-control input-lg region-select" name="region">
-						  <option selected="selected">Select region</option>
-						  <option>2</option>
-						  <option>3</option>
-						  <option>4</option>
-						  <option>5</option>
+                          <?php 
+                          if(isset($region) && count($region)>0){
+                          foreach($region as $item){  
+                            ?>
+                                <option value="<?php echo $item->getId(); ?>"><?php echo $item->getAnarana(); ?></option>
+                          <?php 
+                            }
+                          } ?>
+						 
 						</select>
 					</div>
 					<div class="form-group">
@@ -32,8 +43,3 @@
 	</div>
 </div>
 <script src="<?php echo base_url('assets/js/select2.min.js');?>"></script>
-<script type="text/javascript">
-$(function() {
-	$(".region-select").select2({minimumResultsForSearch: 10});
-});
-</script>
