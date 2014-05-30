@@ -21,6 +21,12 @@ class User
 	protected $id;
 	
 	/**
+	 * @ORM\Column(type="string", length=512, name="fk_us_name", nullable=true)
+	 * @var string
+	 */
+	protected $name;
+	
+	/**
 	 * @ORM\Column(type="string", length=128, name="fk_us_username")
 	 * @var string
 	 */
@@ -67,6 +73,17 @@ class User
 	public function setId($id)
 	{
 		$this->id = $id;
+		return $this;
+	}
+	
+	public function getName()
+	{
+		return $this->name;
+	}
+	
+	public function setName($name)
+	{
+		$this->name = $name;
 		return $this;
 	}
 	

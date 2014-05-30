@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 24, 2014 at 03:44 PM
+-- Generation Time: May 30, 2014 at 06:33 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-7
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `fk_ad_adidy` (
   `fk_ad_desc` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`fk_ad_id`),
   KEY `IDX_B632477B58E031F3` (`fk_ad_id_kp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `fk_dist_district` (
   `fk_dist_slogan` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`fk_dist_id`),
   KEY `IDX_71E5C148D3EEA993` (`fk_dist_reg_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `fk_fir_firaisana` (
   `fk_fir_slogan` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`fk_fir_id`),
   KEY `IDX_A376A45099EEF487` (`fk_fir_fiv_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `fk_fiv_fivondronana` (
   `fk_fiv_slogan` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`fk_fiv_id`),
   KEY `IDX_F856FA6CB70B2BE` (`fk_fiv_dist_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `fk_fkt_fokotany` (
   `fk_fkt_slogan` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`fk_fkt_id`),
   KEY `IDX_D11F24FFFE1542D1` (`fk_fkt_fir_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -107,8 +107,9 @@ CREATE TABLE IF NOT EXISTS `fk_fkt_user` (
   `fk_us_password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `fk_us_last_login` datetime DEFAULT NULL,
   `fk_us_last_logout` datetime DEFAULT NULL,
+  `fk_us_name` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`fk_us_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -133,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `fk_kara_pokotany` (
   KEY `IDX_D363D7F56DB9557B` (`fk_kp_fkt_id`),
   KEY `IDX_D363D7F51079EA49` (`fk_kp_fkt_niaviana`),
   KEY `IDX_D363D7F5A196879D` (`fk_kp_fkt_andehanana`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -156,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `fk_olona` (
   PRIMARY KEY (`fk_ol_id`),
   KEY `IDX_EF1DE7B5F3D248F1` (`fk_ol_kp_id`),
   KEY `IDX_EF1DE7B52EE2E201` (`fk_ol_andr_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -168,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `fk_ol_andraikitra` (
   `fk_andr_id` int(11) NOT NULL AUTO_INCREMENT,
   `fk_andr_anarana` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`fk_andr_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -183,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `fk_photo` (
   `fk_photo_chemin` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`fk_photo_id`),
   KEY `IDX_D55AA76D88B25560` (`fk_photo_fkt_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -196,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `fk_reg_region` (
   `fk_reg_anarana` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `fk_reg_slogan` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`fk_reg_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -210,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `fk_ro_role` (
   `fk_ro_libelle` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`fk_ro_id`),
   KEY `IDX_237893B391FC2C8` (`fk_ro_parent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -225,18 +226,6 @@ CREATE TABLE IF NOT EXISTS `fk_user_role` (
   KEY `IDX_4CB11133A76ED395` (`user_id`),
   KEY `IDX_4CB11133D60322AC` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gdn_attribute`
---
-
-CREATE TABLE IF NOT EXISTS `gdn_attribute` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Constraints for dumped tables
