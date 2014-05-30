@@ -2,7 +2,7 @@ AddDefaultCharset UTF-8
 
 RewriteEngine On
 
-RewriteBase /e-fokonolona/
+RewriteBase /
 
 php_value upload_max_filesize '10M'
 RewriteCond %{REQUEST_FILENAME} !-f

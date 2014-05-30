@@ -24,3 +24,7 @@ span.loading-username, span.check-password, span.check-password-verify {
     border-bottom: 1px solid #DDDDDD;
     margin-bottom: 15px;
 }
+
+.efk-login li a:hover, .efk-login li a:focus {
+	text-decoration: none !important;
+}

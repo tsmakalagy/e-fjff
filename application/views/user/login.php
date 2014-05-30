@@ -25,36 +25,36 @@
 <script type="text/javascript">
 <!--
 var urlLogin = "<?php echo site_url('user/login');?>";
-var urlHome = "<?php echo site_url('home');?>"; 
-$(function() {
-	$("form#loginForm").submit(function(e) {
+var urlHome = "<?php echo site_url('/');?>"; 
+jQuery(function() {
+	jQuery("form#loginForm").submit(function(e) {
 		e.preventDefault();
-		$('.btn-login').button('loading');
-		$.ajax({
+		jQuery('.btn-login').button('loading');
+		jQuery.ajax({
         	type: "POST",
             url: urlLogin,
-            data: $("form#loginForm").serialize(),
+            data: jQuery("form#loginForm").serialize(),
             dataType: "json",
 			beforeSend: function() {    
     					
     		},
             success: function(res) {
                 if (res.success == false) {
-                	$('#loginModal').modal().find('.modal-dialog').html(res.form);    
+                	jQuery('#loginModal').modal().find('.modal-dialog').html(res.form);    
                 } else {
-                	$(location).attr('href',urlHome); 
+                	jQuery(location).attr('href',urlHome); 
                 }
     		}
         });
         return false;
 	});
 	window.setTimeout(function() {
-		$('.alert').fadeOut("slow");
+		jQuery('.alert').fadeOut("slow");
 	}, 50000);
-	$(document).on('click', '.register', function(e) {
+	jQuery(document).on('click', '.register', function(e) {
 		e.preventDefault();
-		$('.modal-login').fadeOut('slow', function() {
-			$('.modal-register').fadeIn('slow', function() {});
+		jQuery('.modal-login').fadeOut('slow', function() {
+			jQuery('.modal-register').fadeIn('slow', function() {});
 		});
 	});
 });

@@ -1,7 +1,13 @@
 <?php
 session_start();
-class Pages extends CI_Controller
+class Pages extends GSM_Controller
 {
+	
+	public function __construct()
+	{
+		parent::__construct();
+        $this->setLayoutView("layout_main");
+	}
 	
 	public function view($page = 'home')
 	{	
@@ -13,9 +19,12 @@ class Pages extends CI_Controller
 		$data['title'] = ucfirst($page); // Capitalize the first letter
 		$data['content'] = $this->load->view('pages/'.$page, $data, true);
 		
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/layout', $data);
-		$this->load->view('templates/footer');
+		$this->setData($data);
+        $this->setContentView('pages/' . $page);
+		
+//		$this->load->view('templates/header', $data);
+//		$this->load->view('templates/layout', $data);
+//		$this->load->view('templates/footer');
 	
 	}
 }

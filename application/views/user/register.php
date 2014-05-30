@@ -38,30 +38,30 @@ var url_register = "<?php echo site_url('user/register');?>";
 
 
 
-$(document).ready(function() {
-	$('.go-back-login').click(function(e) {
+jQuery(document).ready(function() {
+	jQuery('.go-back-login').click(function(e) {
 		e.preventDefault();
-		$('.modal-register').fadeOut('slow', function() {
-			$('.modal-login').fadeIn('slow', function() {});
+		jQuery('.modal-register').fadeOut('slow', function() {
+			jQuery('.modal-login').fadeIn('slow', function() {});
 		});
 	});
-	$('.btn-register').addClass('disabled');
-	$('input[name="username"]').validateInput({
+	jQuery('.btn-register').addClass('disabled');
+	jQuery('input[name="username"]').validateInput({
 		name: 'username',
 		loadingClass: '.loading-username',
         url: url
 	});
-	$('input[name="password"]').validateInput({
+	jQuery('input[name="password"]').validateInput({
 		name: 'password',
 		loadingClass: '.check-password',
         url: url
 	});	
 
 
-	$('input[name="password"]').change(function(e) {
-		var password = $(this).val();
-		$('input[name="passwordVerify"]').validateInput("destroy");
-		$('input[name="passwordVerify"]').validateInput("init", {
+	jQuery('input[name="password"]').change(function(e) {
+		var password = jQuery(this).val();
+		jQuery('input[name="passwordVerify"]').validateInput("destroy");
+		jQuery('input[name="passwordVerify"]').validateInput("init", {
 			name: 'passwordVerify',
 			loadingClass: '.check-password-verify',
 			query: '&password='+password,
@@ -71,30 +71,30 @@ $(document).ready(function() {
 		
 	});
 
-	$("form#registerForm").submit(function(e) {
-		var $this = $(this);
+	jQuery("form#registerForm").submit(function(e) {
+		var $this = jQuery(this);
 		e.preventDefault();
-		$('.btn-register').button('loading');
-		$.ajax({
+		jQuery('.btn-register').button('loading');
+		jQuery.ajax({
         	type: "POST",
             url: url_register,
-            data: $("form#registerForm").serialize(),
+            data: jQuery("form#registerForm").serialize(),
             dataType: "json",
 			beforeSend: function() {    
     					
     		},
             success: function(res) {
     			if (res.success == false) {
-                	$('#loginModal').modal().find('.modal-dialog').html(res.form);
-                	$('.modal-login').hide();
-                	$('.modal-register').show();    
+                	jQuery('#loginModal').modal().find('.modal-dialog').html(res.form);
+                	jQuery('.modal-login').hide();
+                	jQuery('.modal-register').show();    
                 } else {
                     var success_message = '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
                     success_message += 'Thank you for registering.</div>';
                 	$this.prepend(success_message);
                 	window.setTimeout(function() {
-                		$('.modal-register').fadeOut('slow', function() {
-                			$('.modal-login').fadeIn('slow', function() {});
+                		jQuery('.modal-register').fadeOut('slow', function() {
+                			jQuery('.modal-login').fadeIn('slow', function() {});
                 		});
                 	}, 5000);                	
                 }
