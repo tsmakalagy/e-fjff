@@ -8,28 +8,46 @@ class User extends GSM_Controller
 	{
 		parent::__construct();
 		$this->load->library('doctrine');
+        //$this->load->model('service_applicatif/user_applicatif','sau');
 		$this->em = $this->doctrine->em;
-		$this->setLayoutView("layout_user");
 	}
 
+	public function index()
+	{
+//		$attributeRepository = $this->em->getRepository('Entities\Attribute');
+//		$attributes = $attributeRepository->findAll();
+//		
+//		$data['attributes'] = $attributes;		
+//		$data['title'] = 'Attribute archive';
+//		$data['content'] = $this->load->view('attributes/index', $data, true);
+//		
+//		$this->load->view('templates/header', $data);
+//		$this->load->view('templates/layout', $data);		
+//		$this->load->view('templates/footer');
+	}
 	
 	public function login()
 	{
-		$data['title'] = 'Login';
+		$data['title'] = 'Login - e-Fokonolona';
 		
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->library('form_validation');
 		
 		$this->form_validation->set_rules('login-username', 'Username', 'trim|required|min_length[4]|max_length[12]|xss_clean');
-		$this->form_validation->set_rules('login-password', 'Password', 'trim|required|min_length[6]|xss_clean|callback_user_check');
+		$this->form_validation->set_rules('login-password', 'Password', 'trim|required|min_length[6]|md5|xss_clean|callback_user_check');
 		
 		if ($this->form_validation->run() == FALSE) {
 			$this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');
-			
+			$login_form = $this->load->view('user/login', array(), true); 
+			$register_form = $this->load->view('user/register', array(), true);
+			$res['form'] = $login_form . $register_form;
+			$res['success'] = false;
+			$json_decode = json_encode($res, JSON_HEX_TAG | JSON_HEX_QUOT);
+			echo $json_decode;
+		} else {
+			echo json_encode(array('success' => true));						
 		}	
-		$this->setData($data);
-        $this->setContentView('user/login');
 	}
 	
 	public function loadLoginForm()
