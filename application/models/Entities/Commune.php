@@ -6,41 +6,40 @@ use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fk_fir_firaisana")
+ * @ORM\Table(name="commune")
  * @author raiza
  *
  */
-class Firaisana
+class Commune
 {
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="integer", name="fk_fir_id")
-	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @ORM\Column(type="integer", name="id")
 	 * @var int
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length=128, name="fk_fir_anarana")
+	 * @ORM\Column(type="string", length=256, name="name")
 	 * @var string
 	 */
-	protected $anarana;
+	protected $name;
 	
 	/**
-	 * @ORM\Column(type="string", length=256, nullable=true, name="fk_fir_slogan")
+	 * @ORM\Column(type="string", length=256, nullable=true, name="slogan")
 	 * @var string
 	 */
 	protected $slogan;
 	
 	/**
-     * @ORM\ManyToOne(targetEntity="Fivondronana", inversedBy="firaisanas")
-     * @ORM\JoinColumn(name="fk_fir_fiv_id", referencedColumnName="fk_fiv_id")
-     * @var Entities\Fivondronana
+     * @ORM\ManyToOne(targetEntity="District", inversedBy="communes")
+     * @ORM\JoinColumn(name="id_district", referencedColumnName="id")
+     * @var Entities\District
      */
-	protected $fivondronana;
+	protected $district;
 	
 	/**
-     * @ORM\OneToMany(targetEntity="Fokotany", mappedBy="firaisana")
+     * @ORM\OneToMany(targetEntity="Fokotany", mappedBy="commune")
      * @var \Doctrine\Common\Collections\Collection
      */
 	protected $fokotanies;
@@ -61,14 +60,14 @@ class Firaisana
 		return $this;
 	}
 	
-	public function getAnarana()
+	public function getName()
 	{
-		return $this->anarana;
+		return $this->name;
 	}
 	
-	public function setAnarana($anarana)
+	public function setName($name)
 	{
-		$this->anarana = $anarana;
+		$this->name = $name;
 		return $this;
 	}
 	
@@ -83,14 +82,14 @@ class Firaisana
 		return $this;
 	}
 	
-	public function getFivondronana()
+	public function getDistrict()
 	{
-		return $this->fivondronana;
+		return $this->district;
 	}
 	
-	public function setFivondronana($fivondronana)
+	public function setDistrict($district)
 	{
-		$this->fivondronana = $fivondronana;
+		$this->district = $district;
 		return $this;
 	}
 	

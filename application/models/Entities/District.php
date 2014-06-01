@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fk_dist_district")
+ * @ORM\Table(name="district")
  * @author raiza
  *
  */
@@ -14,40 +14,39 @@ class District
 {
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="integer", name="fk_dist_id")
-	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @ORM\Column(type="integer", name="id")
 	 * @var int
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length=128, name="fk_dist_anarana")
+	 * @ORM\Column(type="string", length=256, name="name")
 	 * @var string
 	 */
-	protected $anarana;
+	protected $name;
 	
 	/**
-	 * @ORM\Column(type="string", length=256, nullable=true, name="fk_dist_slogan")
+	 * @ORM\Column(type="string", length=256, nullable=true, name="slogan")
 	 * @var string
 	 */
 	protected $slogan;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Region", inversedBy="districts")
-     * @ORM\JoinColumn(name="fk_dist_reg_id", referencedColumnName="fk_reg_id")
+     * @ORM\JoinColumn(name="id_region", referencedColumnName="id")
      * @var Entities\Region
      */
 	protected $region;
 	
 	/**
-     * @ORM\OneToMany(targetEntity="Fivondronana", mappedBy="district")
+     * @ORM\OneToMany(targetEntity="Commune", mappedBy="district")
      * @var \Doctrine\Common\Collections\Collection
      */
-	protected $fivondronanas;
+	protected $communes;
 	
 	public function __construct()
     {
-    	$this->fivondronanas = new Collection();
+    	$this->communes = new Collection();
     }
 	
 	public function getId()
@@ -61,14 +60,14 @@ class District
 		return $this;
 	}
 	
-	public function getAnarana()
+	public function getName()
 	{
-		return $this->anarana;
+		return $this->name;
 	}
 	
-	public function setAnarana($anarana)
+	public function setName($name)
 	{
-		$this->anarana = $anarana;
+		$this->name = $name;
 		return $this;
 	}
 	
@@ -94,30 +93,30 @@ class District
 		return $this;
 	}
 	
-	public function getFivondronanas()
+	public function getCommunes()
     {
-    	return $this->fivondronanas;
+    	return $this->communes;
     }
     
-    public function addFivondronana(Fivondronana $fivondronana)
+    public function addCommune(Commune $commune)
     {
-    	$fivondronana->addPost($this);
-    	$this->fivondronanas[] = $fivondronana;
+    	$commune->addPost($this);
+    	$this->communes[] = $commune;
     	return $this;
     }
     
-	public function addFivondronanas(Collection $fivondronanas)
+	public function addCommunes(Collection $communes)
     {
-        foreach ($fivondronanas as $fivondronana) {
-            $this->fivondronanas->add($fivondronana);
+        foreach ($communes as $commune) {
+            $this->communes->add($commune);
         }
         return $this;
     }
 
-    public function removeFivondronanas(Collection $fivondronanas)
+    public function removeCommunes(Collection $communes)
     {
-        foreach ($fivondronanas as $fivondronana) {
-            $this->fivondronanas->removeElement($fivondronana);
+        foreach ($communes as $commune) {
+            $this->communes->removeElement($commune);
         }
         return $this;
     }

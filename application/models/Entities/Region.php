@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fk_reg_region")
+ * @ORM\Table(name="region")
  * @author raiza
  *
  */
@@ -14,20 +14,19 @@ class Region
 {
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="integer", name="fk_reg_id")
-	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @ORM\Column(type="integer", name="id")
 	 * @var int
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length=128, name="fk_reg_anarana")
+	 * @ORM\Column(type="string", length=128, name="name")
 	 * @var string
 	 */
-	protected $anarana;
+	protected $name;
 	
 	/**
-	 * @ORM\Column(type="string", length=256, nullable=true, name="fk_reg_slogan")
+	 * @ORM\Column(type="string", length=256, nullable=true, name="slogan")
 	 * @var string
 	 */
 	protected $slogan;
@@ -54,14 +53,14 @@ class Region
 		return $this;
 	}
 	
-	public function getAnarana()
+	public function getName()
 	{
-		return $this->anarana;
+		return $this->name;
 	}
 	
-	public function setAnarana($anarana)
+	public function setName($name)
 	{
-		$this->anarana = $anarana;
+		$this->name = $name;
 		return $this;
 	}
 	

@@ -27,16 +27,40 @@ class User
 	protected $name;
 	
 	/**
-	 * @ORM\Column(type="string", length=128, name="fk_us_username")
+	 * @ORM\Column(type="string", length=128, name="fk_us_username", nullable=true)
 	 * @var string
 	 */
 	protected $username;
 	
 	/**
-	 * @ORM\Column(type="string", length=128, name="fk_us_password")
+	 * @ORM\Column(type="string", length=128, name="fk_us_email")
+	 * @var string
+	 */
+	protected $email;
+	
+	/**
+	 * @ORM\Column(type="string", length=200, name="fk_us_password")
 	 * @var string
 	 */
 	protected $password;
+	
+	/**
+	 * @ORM\Column(type="string", length=32, name="fk_us_reset_code", nullable=true)
+	 * @var string
+	 */
+	protected $resetCode;
+	
+	/**
+	 * @ORM\Column(type="integer", name="fk_us_reset_time", nullable=true)
+	 * @var integer
+	 */
+	protected $resetTime;
+	
+	/**
+	 * @ORM\Column(type="string", length=255, name="fk_us_remember_code", nullable=true)
+	 * @var string
+	 */
+	protected $rememberCode;
 	
 	/**
      * @ORM\Column(type="datetime", name="fk_us_last_login", nullable=true)
@@ -98,6 +122,17 @@ class User
 		return $this;
 	}
 	
+	public function getEmail()
+	{
+		return $this->email;
+	}
+	
+	public function setEmail($email)
+	{
+		$this->email = $email;
+		return $this;
+	}
+	
 	public function getPassword()
 	{
 		return $this->password;
@@ -106,6 +141,39 @@ class User
 	public function setPassword($password)
 	{
 		$this->password = $password;
+		return $this;
+	}
+	
+	public function getResetCode()
+	{
+		return $this->resetCode;
+	}
+	
+	public function setResetCode($resetCode)
+	{
+		$this->resetCode = $resetCode;
+		return $this;
+	}
+	
+	public function getResetTime()
+	{
+		return $this->resetTime;
+	}
+	
+	public function setResetTime($resetTime)
+	{
+		$this->resetTime = $resetTime;
+		return $this;
+	}
+	
+	public function getRememberCode()
+	{
+		return $this->rememberCode;
+	}
+	
+	public function setRememberCode($rememberCode)
+	{
+		$this->rememberCode = $rememberCode;
 		return $this;
 	}
 	

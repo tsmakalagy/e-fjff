@@ -18,11 +18,11 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/fullwidth.css');?>" media="screen" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/settings.css');?>" media="screen" />
 	
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/magnific-popup.css" media="screen');?>">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/owl.carousel.css" media="screen');?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/owl.theme.css" media="screen');?>">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/jquery.bxslider.css" media="screen');?>">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/font-awesome.css" media="screen');?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/magnific-popup.css');?>" media="screen">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/owl.carousel.css');?>" media="screen">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/owl.theme.css');?>" media="screen">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/jquery.bxslider.css');?>" media="screen">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/font-awesome.css');?>" media="screen">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/style.css');?>" media="screen">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/convertible/css/responsive.css');?>" media="screen">
 	<link rel="stylesheet" href="<?php echo base_url('assets/css/style.css');?>">

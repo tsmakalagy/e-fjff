@@ -23,7 +23,7 @@ class Localite extends GSM_Controller
 		$this->load->library('form_validation');
 		//$data['content'] = $this->load->view('localite/add_' . $type, $data, true);
 		if($type=="district"){
-		  $data['region']=$this->la->findListRegionSA(0);
+		  $data['region']=$this->la->findListRegion(0);
 		}
 		$this->setData($data);
         $this->setContentView('localite/add_' . $type);
@@ -102,7 +102,7 @@ class Localite extends GSM_Controller
         
         $data['title'] = ucfirst($type) . ' - e-Fokonolona';
         if ($type == 'district') {
-            $data['region']=$this->la->findListRegionSA(0);
+            $data['region']=$this->la->findListRegion(0);
             $data['district']= $this->la->findListDistrict(0,0);
         }
         $this->setData($data);

@@ -33,7 +33,7 @@ class Photo
     
     /**
      * @ORM\ManyToOne(targetEntity="Fokotany")
-     * @ORM\JoinColumn(name="fk_photo_fkt_id", referencedColumnName="fk_fkt_id")
+     * @ORM\JoinColumn(name="fk_photo_fkt_id", referencedColumnName="id")
      * @var Entities\Fokotany
      **/
     protected $fokotany;

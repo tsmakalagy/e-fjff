@@ -65,21 +65,21 @@ class Karapokotany
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Fokotany", inversedBy="karapokotanies")
-     * @ORM\JoinColumn(name="fk_kp_fkt_id", referencedColumnName="fk_fkt_id")
+     * @ORM\JoinColumn(name="fk_kp_fkt_id", referencedColumnName="id")
      * @var Entities\Fokotany
      */
 	protected $fokotany;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Fokotany")
-     * @ORM\JoinColumn(name="fk_kp_fkt_niaviana", referencedColumnName="fk_fkt_id")
+     * @ORM\JoinColumn(name="fk_kp_fkt_niaviana", referencedColumnName="id")
      * @var Entities\Fokotany
      **/
 	protected $niaviana;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Fokotany")
-     * @ORM\JoinColumn(name="fk_kp_fkt_andehanana", referencedColumnName="fk_fkt_id")
+     * @ORM\JoinColumn(name="fk_kp_fkt_andehanana", referencedColumnName="id")
      * @var Entities\Fokotany
      **/
 	protected $andehanana;

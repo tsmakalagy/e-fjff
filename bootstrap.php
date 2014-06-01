@@ -43,7 +43,7 @@ $connectionOptions = array(
     'user' =>     'mysqluser',
     'password' => 'mysqluser',
     'host' =>     'localhost',
-    'dbname' =>   'fokonolona'
+    'dbname' =>   'e-fokonolona'
 );
 
 // Create EntityManager

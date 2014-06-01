@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fk_fkt_fokotany")
+ * @ORM\Table(name="fokotany")
  * @author raiza
  *
  */
@@ -14,30 +14,29 @@ class Fokotany
 {
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="integer", name="fk_fkt_id")
-	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @ORM\Column(type="integer", name="id")
 	 * @var int
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length=128, name="fk_fkt_anarana")
+	 * @ORM\Column(type="string", length=256, name="name")
 	 * @var string
 	 */
-	protected $anarana;
+	protected $name;
 	
 	/**
-	 * @ORM\Column(type="string", length=256, nullable=true, name="fk_fkt_slogan")
+	 * @ORM\Column(type="string", length=256, nullable=true, name="slogan")
 	 * @var string
 	 */
 	protected $slogan;
 	
 	/**
-     * @ORM\ManyToOne(targetEntity="Firaisana", inversedBy="fokotanies")
-     * @ORM\JoinColumn(name="fk_fkt_fir_id", referencedColumnName="fk_fir_id")
-     * @var Entities\Firaisana
+     * @ORM\ManyToOne(targetEntity="Commune", inversedBy="fokotanies")
+     * @ORM\JoinColumn(name="id_commune", referencedColumnName="id")
+     * @var Entities\Commune
      */
-	protected $firaisana;
+	protected $commune;
 	
 	/**
      * @ORM\OneToMany(targetEntity="Karapokotany", mappedBy="fokotany")
@@ -61,14 +60,14 @@ class Fokotany
 		return $this;
 	}
 	
-	public function getAnarana()
+	public function getName()
 	{
-		return $this->anarana;
+		return $this->name;
 	}
 	
-	public function setAnarana($anarana)
+	public function setName($name)
 	{
-		$this->anarana = $anarana;
+		$this->name = $name;
 		return $this;
 	}
 	
@@ -83,14 +82,14 @@ class Fokotany
 		return $this;
 	}
 	
-	public function getFiraisana()
+	public function getCommune()
 	{
-		return $this->firaisana;
+		return $this->commune;
 	}
 	
-	public function setFiraisana($firaisana)
+	public function setCommune($commune)
 	{
-		$this->firaisana = $firaisana;
+		$this->commune = $commune;
 		return $this;
 	}
 	
