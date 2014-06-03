@@ -5,8 +5,22 @@ function is_connected() {
 	return $CI->session->userdata('logged_in');
 }
 
-function display_username() {
+function display_name() {
 	$CI =& get_instance();
-	$session_data = $CI->session->userdata('logged_in');
-	return $session_data['username'];
+	$session_data = $CI->session->all_userdata();
+	if (array_key_exists( 'name', $session_data )) {
+		$displayName = $session_data['name'];
+	} else if (array_key_exists( 'username', $session_data )) {
+		$displayName = $session_data['username'];
+	} else if (array_key_exists( 'user_email', $session_data )) {
+		$displayName = $session_data['user_email'];
+		$displayName = substr($displayName, 0, strpos($displayName, '@')); 
+	}
+	return $displayName;
+}
+
+function has_role($roleName) {
+	$CI =& get_instance();
+	$CI->load->library('acl_auth');
+	return $CI->acl_auth->has_role($roleName);
 }

@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 session_start();
 class User extends GSM_Controller 
 {
@@ -10,6 +10,7 @@ class User extends GSM_Controller
 		$this->load->library('doctrine');
 		$this->em = $this->doctrine->em;
 		$this->setLayoutView("layout_user");
+		$this->load->library('acl_auth');
 	}
 
 	
@@ -21,13 +22,24 @@ class User extends GSM_Controller
 
 		$this->load->library('form_validation');
 		
-		$this->form_validation->set_rules('login-username', 'Username', 'trim|required|min_length[4]|max_length[12]|xss_clean');
-		$this->form_validation->set_rules('login-password', 'Password', 'trim|required|min_length[6]|xss_clean|callback_user_check');
+		$this->form_validation->set_rules('identity', 'Identifiant', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('password', 'Mot de passe', 'trim|required|xss_clean');
 		
 		if ($this->form_validation->run() == FALSE) {
-			$this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');
+			$this->form_validation->set_error_delimiters('<div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');
 			
-		}	
+		} else {
+			$identity = set_value('identity');
+			$password = set_value('password');
+			$post = $this->input->post();
+			$remember_me = FALSE;
+			if (array_key_exists('remember_me', $post)) {
+				$remember_me = TRUE;
+			}
+			if ($this->acl_auth->login($identity, $password, $remember_me)) {
+				redirect('/');
+			}
+		}
 		$this->setData($data);
         $this->setContentView('user/login');
 	}
@@ -44,49 +56,41 @@ class User extends GSM_Controller
 	
 	public function register()
 	{
-		$data['title'] = 'Register - e-Fokonolona';
+		$data['title'] = 'Register';
 		
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->library('form_validation');
 		
-		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|max_length[12]|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|md5|xss_clean');
+		$this->form_validation->set_rules('name', 'Name', 'trim|xss_clean');
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|xss_clean');
 		$this->form_validation->set_rules('passwordVerify', 'Password Confirmation', 'trim|required|matches[password]|');
 		
 		if ($this->form_validation->run() == FALSE) {
-			$login_form = $this->load->view('user/login', array(), true); 
-			$register_form = $this->load->view('user/register', array(), true);
-			$res['form'] = $login_form . $register_form;
-			$res['success'] = false;
-			$json_decode = json_encode($res, JSON_HEX_TAG | JSON_HEX_QUOT);
-			echo $json_decode;
+			$this->form_validation->set_error_delimiters('<div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');
 		} else {
-			$user = new Entities\User();
-			$user->setUsername(set_value('username'));
-			$user->setPassword(set_value('password'));
-			$this->em->persist($user);
-			$this->em->flush();
-			echo json_encode(array('success' => true));
+			$post = array();
+			$post['name'] = set_value('name');
+			$post['email'] = set_value('email');
+			$post['password'] = set_value('password');
+			if ($this->acl_auth->register($post)) {
+				redirect('home');
+			}
 			
 		}
+		
+		$this->setData($data);
+        $this->setContentView('user/register');
 		
 				
 	}
 	
 	function logout()
  	{
- 		$session_data = $this->session->userdata('logged_in');
-	    $username = $session_data['username'];
- 		$users = $this->em->getRepository('Entities\User')->findByUsername($username);
- 		foreach ($users as $user) {
- 			$user->setLastLogout(new \DateTime());
- 			$this->em->persist($user);
-			$this->em->flush();
- 		}
-   		$this->session->unset_userdata('logged_in');
-   		session_destroy();
-   		redirect('home', 'refresh');
+ 		if ($this->acl_auth->logout()) {
+			redirect('/');
+		}
  	}
 	
 	public function validation_check()
@@ -155,7 +159,7 @@ class User extends GSM_Controller
 	
 	public function user_check($password)
 	{
-		$username = $this->input->post('login-username');
+		$username = $this->input->post('identity');
 		$users = $this->em->getRepository('Entities\User')->findByUsernameAndPassword($username, $password);
 		if ($users) {
 			$sess_array = array();

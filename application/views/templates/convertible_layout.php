@@ -11,7 +11,7 @@
 							<?php if (is_connected()): ?>
 							<li><a class="my-tooltip" href="<?php echo site_url('user/logout');?>" data-toggle="tooltip" data-placement="bottom" title="Logout" ><i class="fa fa-power-off"></i></a></li>			          		
 			          		<?php else: ?>         	
-			            	<li><a href="#" class="login my-tooltip" data-toggle="tooltip" data-placement="bottom" title="Login"><i class="fa fa-sign-in"></i></a></li>
+			            	<li><a href="<?php echo site_url('user/login');?>" class="my-tooltip" data-toggle="tooltip" data-placement="bottom" title="Login"><i class="fa fa-sign-in"></i> Se connecter</a></li>
 			            	<?php endif; ?>
 						</ul>
 					</div>
@@ -27,13 +27,13 @@
 					</div>
 					<div class="navbar-collapse collapse">
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="active" href="<?php echo site_url('/'); ?>">Fandraisana</a></li>
+							<li><a class="<?php echo isset($home_active) ? $home_active : ''; ?>" href="<?php echo site_url('/'); ?>">Fandraisana</a></li>
 							<li><a href="#">Serasera</a></li>
 							<li><a href="#">Tsena</a></li>
 							<li><a href="#">Momba anay</a></li>
 							<li><a href="#">Hifandray</a></li>
-							<?php if (is_connected()): ?>
-							<li><a href="#">Admin</a></li>
+							<?php if (is_connected() && has_role('admin')): ?>
+							<li><a href="<?php echo site_url('admin'); ?>">Admin</a></li>
 							<?php endif; ?>
 						</ul>
 					</div>
@@ -163,23 +163,8 @@
 </div>
 
 <script type="text/javascript">
-var urlLoadLoginForm = "<?php echo site_url('user/load/login');?>"; 
 jQuery(function() {
-	jQuery(document).on('click', '.login', function(e) {
-		e.preventDefault();
-		jQuery.ajax({
-        	type: "GET",
-            url: urlLoadLoginForm,
-            dataType: "json",
-			beforeSend: function() {    
-    					
-    		},
-            success: function(res) {
-    			jQuery('#loginModal').modal().find('.modal-dialog').html(res.form);
-    			
-    		}
-        });
-	});
+	
 	jQuery('.my-tooltip').tooltip();
 	
 });

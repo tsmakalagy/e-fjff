@@ -11,7 +11,7 @@ $config['reset_subject'] 	= '';
 $config['reset_template'] 	= '';
 
 //Own 401 Page - define here
-$config['401_override'] 	= '';
+$config['401_override'] 	= 'not_authorized';
 
 //Own Login Page?
 $config['401_login_page'] 	= '';

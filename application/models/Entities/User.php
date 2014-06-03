@@ -206,7 +206,6 @@ class User
     
     public function addRole(Role $role)
     {
-    	$role->addPost($this);
     	$this->roles[] = $role;
     	return $this;
     }
@@ -225,6 +224,19 @@ class User
             $this->roles->removeElement($role);
         }
         return $this;
+    }
+    
+    public function hasRole($roleName)
+    {
+    	$roles = $this->getRoles();
+    	if (isset($roles)) {
+    		foreach ($roles as $r) {
+    			if ($roleName === $r->getLibelle()) {
+    				return true;
+    			}
+    		}
+    	}
+    	return false;
     }
 	
 }

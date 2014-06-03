@@ -49,9 +49,12 @@ $route['fokotany/add/(karatra|andraikitra|olona)'] = 'fokotany/fokotany/add/$1';
 $route['user/load/login'] = 'user/user/loadLoginForm';
 $route['user/(.+)$'] = 'user/user/$1';
 
-$route['attributes'] = 'attributes';
 $route['default_controller'] = 'pages/view';
 $route['(:any)'] = 'pages/view/$1';
+
+$route['not_authorized'] = 'pages/not_authorized';
+
+$route['admin'] = 'admin/admin/index';
 
 
 /* End of file routes.php */

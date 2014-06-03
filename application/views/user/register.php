@@ -1,11 +1,38 @@
 <script type="text/javascript" src="<?php echo base_url()."assets/js/util/jquery.validate.js" ?>"></script>
-  <div class="modal-content modal-register" style="display:none;">
+<div class="form-box" id="login-box">
+	<div class="header">Cr&eacute;er un nouveau compte</div>
+	<form action="" method="post">
+		<div class="body bg-gray">
+			<?php echo validation_errors(); ?>
+			<div class="form-group">
+				<input type="text" name="name" class="form-control" placeholder="Nom"/>
+			</div>
+			<div class="form-group">
+				<input type="text" name="email" class="form-control" placeholder="Email"/>
+			</div>
+			<div class="form-group">
+				<input type="password" name="password" class="form-control" placeholder="Mot de passe"/>
+			</div>
+			<div class="form-group">
+				<input type="password" name="passwordVerify" class="form-control" placeholder="R&eacute;peter mot de passe"/>
+			</div>
+		</div>
+		<div class="footer">
+			<button type="submit" class="btn bg-olive btn-block">Enregistrer</button>
+			<a href="<?php echo site_url('user/login'); ?>" class="text-center">J'ai d&eacute;j&agrave; un compte</a>
+		</div>
+	</form>
+</div> 
+  
+  
+  
+  <!--<div class="modal-content modal-register" style="display:none;">
       <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h1 class="text-center">Register</h1>
       </div>
       <div class="modal-body">
-      <?php echo validation_errors(); ?>
+      <?php //echo validation_errors(); ?>
           <form class="form col-md-12 center-block" id="registerForm" method="post" action="">
             <div class="form-group">
               <input type="text" name="username" class="form-control input-lg register-input" placeholder="Username" autocomplete="off">
@@ -31,7 +58,7 @@
       </div>
   </div>
 
-<script type="text/javascript">
+--><script type="text/javascript">
 var timeoutReference, pwdTimeout;
 var url = "<?php echo site_url('user/validation_check');?>";
 var url_register = "<?php echo site_url('user/register');?>"; 

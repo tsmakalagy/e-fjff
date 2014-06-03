@@ -10,7 +10,15 @@ class UserRepository extends EntityRepository
 		$sql = 'SELECT u FROM Entities\User u WHERE u.username = ?1';
 		$query = $this->_em->createQuery($sql);
 		$query->setParameter(1, $username);
-		return $query->getResult();		
+		return $query->getOneOrNullResult();		
+	}
+	
+	public function findByEmail($email)
+	{
+		$sql = 'SELECT u FROM Entities\User u WHERE u.email = ?1';
+		$query = $this->_em->createQuery($sql);
+		$query->setParameter(1, $email);
+		return $query->getOneOrNullResult();		
 	}
 	
 	public function findByUserNameAndPassword($username, $password)
@@ -19,8 +27,9 @@ class UserRepository extends EntityRepository
 		$query = $this->_em->createQuery($sql);
 		$query->setParameter(1, $username);
 		$query->setParameter(2, $password);
-		return $query->getResult();
+		return $query->getOneOrNullResult();
 	}
+	
 	
 	
 }

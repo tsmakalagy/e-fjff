@@ -42,11 +42,15 @@ class Acl_auth
 
 	public function __construct()
 	{
+		
+		$this->load->library('doctrine');
+		$this->em = $this->doctrine->em;
+		
 		$this->load->config('acl_auth', TRUE);
 		$this->_config = $this->config->item('acl_auth');
 		$this->load->library( array( 'email', 'session', 'phpass' ) );
 		$this->load->helper('cookie');
-		$this->load->model( $this->_config['user_model'], 'user_model' );
+//		$this->load->model( $this->_config['user_model'], 'user_model' );
 		$this->lang->load('acl_auth');
 		if( ! $this->logged_in() && get_cookie('identity') && get_cookie('remember_code') )
 		{
@@ -83,31 +87,56 @@ class Acl_auth
 			$this->set_error( 'register_failed' );
 			return false;
 		}
-
-		$insert = array();
-
-		foreach( $data as $field => $value )
-		{
-			if( $field == $this->_config['password_field'] )
-			{
-				$value = $this->phpass->hash( $value );
-			}
-			if( $this->user_model->field_exists( $field ) )
-			{
-				$insert[$field] = $value;
-			}
-		}
-
-		if( $id = $this->user_model->insert( $insert ) )
-		{
+		
+		$name = isset($data['name']) ? $data['name'] : '';
+		$email = $data['email'];
+		$password = $this->phpass->hash( $data['password'] );
+		
+		$role = $this->em->getRepository('Entities\Role')->find(2); // simple utilisateur
+		
+		
+		$user = new Entities\User();
+		$user->setName($name);
+		$user->setEmail($email);
+		$user->setPassword($password);
+		$user->addRole($role);
+		$this->em->persist($user);
+		$this->em->flush();
+		
+		$userId = $user->getId(); 
+		if ($userId) {
 			$this->login( $data['email'], $data['password'], TRUE );
 			return true;
-		}
-		else
-		{
+		} else {
 			$this->set_error('register_failed');
 			return false;
 		}
+		
+
+//		$insert = array();
+//
+//		foreach( $data as $field => $value )
+//		{
+//			if( $field == $this->_config['password_field'] )
+//			{
+//				$value = $this->phpass->hash( $value );
+//			}
+//			if( $this->user_model->field_exists( $field ) )
+//			{
+//				$insert[$field] = $value;
+//			}
+//		}
+//
+//		if( $id = $this->user_model->insert( $insert ) )
+//		{
+//			$this->login( $data['email'], $data['password'], TRUE );
+//			return true;
+//		}
+//		else
+//		{
+//			$this->set_error('register_failed');
+//			return false;
+//		}
 	}
 
 	/**
@@ -120,31 +149,34 @@ class Acl_auth
 	 **/
 	public function login( $identity, $password, $remember = FALSE, $session_data = array() )
 	{
-		$user = $this->user_model->get_user( $identity );
+		$user = $this->em->getRepository('Entities\User')->findByEmail($identity);
 
-		if( ! $user OR ! $this->phpass->check( $password, $user->password ) )
+		if( ! $user OR ! $this->phpass->check( $password, $user->getPassword() ) )
 		{
 			$this->set_error( 'login_failed' );
 			return false;
 		}
 
 		$session = array(
-			'user_id'	=> $user->id
+			'user_id'	=> $user->getId()
 			,'logged_in'=> TRUE
-			,'user_'.$this->_config['identity_field'] => $user->{$this->_config['identity_field']}
+			,'user_'.$this->_config['identity_field'] => $user->getEmail()
 		);
 
 		foreach( $session_data as $key )
 		{
 			$session['user_'.$key] = ( $user->$key ) ? $user->$key : NULL;
 		}
+		
+		$user->setLastLogin(new \DateTime());
 
 		$this->session->set_userdata( $session );
 
 		if( $remember )
 		{
 			$remember_code = $this->phpass->hash(uniqid());
-			$this->user_model->update( $user->id, array('remember_code' => $remember_code) );
+//			$this->user_model->update( $user->id, array('remember_code' => $remember_code) );
+			$user->setRememberCode($remember_code);			
 			$expire = (60*60*24*365*2);
 			set_cookie(array(
 			    'name'   => 'identity',
@@ -158,6 +190,9 @@ class Acl_auth
 			    'expire' => $expire
 			));
 		}
+		$this->em->persist($user);
+		$this->em->flush();
+		
 		return true;
 	}
 
@@ -165,13 +200,14 @@ class Acl_auth
 	{
 		$identity = get_cookie('identity');
 		$code 	  = get_cookie('remember_code');
-		$user = $this->user_model->get_by( array($this->_config['identity_field'] => $identity) );
-		if( $user && $user->remember_code === $code )
+//		$user = $this->user_model->get_by( array($this->_config['identity_field'] => $identity) );
+		$user = $this->em->getRepository('Entities\User')->findByEmail($identity);
+		if( $user && $user->getRememberCode() === $code )
 		{
 			$session = array(
-				'user_id'	=> $user->id
+				'user_id'	=> $user->getId()
 				,'logged_in'=> TRUE
-				,'user_'.$this->_config['identity_field'] => $user->{$this->_config['identity_field']}
+				,'user_'.$this->_config['identity_field'] => $user->getEmail()
 			);
 			$this->session->set_userdata($session);
 		}
@@ -185,6 +221,12 @@ class Acl_auth
 	 **/
 	public function logout()
 	{
+		$user_id = $this->session->userdata('user_id');
+		$user = $this->em->getRepository('Entities\User')->find($user_id);
+		$user->setLastLogout(new \DateTime());
+		$this->em->persist($user);
+		$this->em->flush();
+		
 		$this->session->sess_destroy();
 		delete_cookie('identity');
 		delete_cookie('remember_code');
@@ -343,17 +385,19 @@ class Acl_auth
 	 * Checks if a user has a role
 	 *
 	 * @access public
-	 * @param int
+	 * @param string
 	 * @param string
 	 * @return bool
 	 **/
-	public function has_role( $role, $user_id = NULL )
+	public function has_role( $roleName, $user_id = NULL )
 	{
 		if( is_null( $user_id ) )
 		{
 			$user_id = $this->session->userdata('user_id');
 		}
-		return (bool) $this->user_model->has_role( $user_id, $role );
+		$user = $this->em->getRepository('Entities\User')->find($user_id);
+//		return (bool) $this->user_model->has_role( $user_id, $role_id );
+		return $user->hasRole($roleName);
 	}
 
 	/**
