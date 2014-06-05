@@ -2,9 +2,10 @@
 <section class="content-header">
 	<h1>
 		Andraikitra
+		<small><?php echo $section_title; ?></small>
 	</h1>
 	<ol class="breadcrumb">
-		<li><a href="#"><i class="fa fa-dashboard"></i> Accueil</a></li>
+		<li><a href="<?php echo site_url('admin'); ?>"><i class="fa fa-dashboard"></i> Accueil</a></li>
 		<li class="active">Andraikitra</li>
 	</ol>
 </section>
@@ -17,41 +18,30 @@
 			<!-- general form elements -->
 			<div class="box box-primary">
 				<div class="box-header">
-					<h3 class="box-title">Ajout andraikitra</h3>
+					<h3 class="box-title"><?php echo $section_title; ?></h3>
 				</div><!-- /.box-header -->
 				<!-- form start -->
 				<form role="form" method="post" action="">
 					<div class="box-body">
+						<?php echo validation_errors(); ?>
+						<?php if (isset($success) && strlen($success)) {?>
+							<div class="alert-user alert alert-success alert-dismissable">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								<?php echo $success; ?>
+							</div>
+						<?php }?>
+						
 						<div class="form-group">
 							<label for="anarana">Anarana</label>
-							<input type="text" class="form-control" name="anarana" placeholder="Anarana">
+							<input type="text" class="form-control" name="anarana" placeholder="Anarana" value="<?php echo set_value('anarana', (isset($anarana)) ? $anarana : ''); ?> ">
 						</div>
 					</div><!-- /.box-body -->
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary">Enregistrer</button>
+						<a href="<?php echo site_url('fokotany/list/andraikitra') ?>" class="btn btn-success pull-right"><i class="fa fa-reply"></i> Retour au liste</a>
 					</div>
 				</form>
 			</div><!-- /.box -->
 		</div><!--/.col (right) -->
 	</div>   <!-- /.row -->
 </section><!-- /.content -->
-
-<!-- <div class="row">
-	<div class="col-md-7 col-md-offset-3">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Andraikitra</h3>
-			</div>
-			<div class="panel-body">
-				<form class="form col-md-12 center-block" id="andraikitraForm" method="post" action="">					
-					<div class="form-group">
-						<input type="text" name="andraikitra" class="form-control input-lg" placeholder="Andraikitra">
-					</div>
-					<div class="form-group">
-						<button class="btn btn-primary btn-lg btn-block btn-login" type="submit" data-loading-text="Loading...">Save</button>              
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>-->

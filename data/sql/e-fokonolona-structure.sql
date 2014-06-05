@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 01, 2014 at 06:05 PM
+-- Generation Time: Jun 05, 2014 at 05:10 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-7
 
@@ -22,6 +22,47 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `birao`
+--
+
+CREATE TABLE IF NOT EXISTS `birao` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fokotany_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_9560F1A8564D0DDB` (`fokotany_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `birao_contact`
+--
+
+CREATE TABLE IF NOT EXISTS `birao_contact` (
+  `birao_id` int(11) NOT NULL,
+  `contact_id` int(11) NOT NULL,
+  PRIMARY KEY (`birao_id`,`contact_id`),
+  UNIQUE KEY `UNIQ_92996D2BE7A1254A` (`contact_id`),
+  KEY `IDX_92996D2BF13F78D9` (`birao_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `birao_member`
+--
+
+CREATE TABLE IF NOT EXISTS `birao_member` (
+  `birao_id` int(11) NOT NULL,
+  `olona_id` int(11) NOT NULL,
+  PRIMARY KEY (`birao_id`,`olona_id`),
+  UNIQUE KEY `UNIQ_30F12C95E5C5B308` (`olona_id`),
+  KEY `IDX_30F12C95F13F78D9` (`birao_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `commune`
 --
 
@@ -33,6 +74,19 @@ CREATE TABLE IF NOT EXISTS `commune` (
   PRIMARY KEY (`id`),
   KEY `IDX_E2E2D1EE611AB812` (`id_district`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact`
+--
+
+CREATE TABLE IF NOT EXISTS `contact` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL,
+  `value` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -83,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `fk_fkt_user` (
   `fk_us_last_login` datetime DEFAULT NULL,
   `fk_us_last_logout` datetime DEFAULT NULL,
   PRIMARY KEY (`fk_us_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -94,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `fk_fkt_user` (
 CREATE TABLE IF NOT EXISTS `fk_kara_pokotany` (
   `fk_kp_id` int(11) NOT NULL AUTO_INCREMENT,
   `fk_kp_lohampianakaviana` int(11) DEFAULT NULL,
-  `fk_kp_fkt_id` int(11) DEFAULT NULL,
+  `birao_id` int(11) DEFAULT NULL,
   `fk_kp_fkt_niaviana` int(11) DEFAULT NULL,
   `fk_kp_fkt_andehanana` int(11) DEFAULT NULL,
   `fk_kp_laharana` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
@@ -105,9 +159,9 @@ CREATE TABLE IF NOT EXISTS `fk_kara_pokotany` (
   `fk_kp_adiresy` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`fk_kp_id`),
   UNIQUE KEY `UNIQ_D363D7F561D700B9` (`fk_kp_lohampianakaviana`),
-  KEY `IDX_D363D7F56DB9557B` (`fk_kp_fkt_id`),
   KEY `IDX_D363D7F51079EA49` (`fk_kp_fkt_niaviana`),
-  KEY `IDX_D363D7F5A196879D` (`fk_kp_fkt_andehanana`)
+  KEY `IDX_D363D7F5A196879D` (`fk_kp_fkt_andehanana`),
+  KEY `IDX_D363D7F5F13F78D9` (`birao_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -143,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `fk_ol_andraikitra` (
   `fk_andr_id` int(11) NOT NULL AUTO_INCREMENT,
   `fk_andr_anarana` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`fk_andr_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -153,11 +207,11 @@ CREATE TABLE IF NOT EXISTS `fk_ol_andraikitra` (
 
 CREATE TABLE IF NOT EXISTS `fk_photo` (
   `fk_photo_id` int(11) NOT NULL AUTO_INCREMENT,
-  `fk_photo_fkt_id` int(11) DEFAULT NULL,
+  `birao_id` int(11) DEFAULT NULL,
   `fk_photo_nom` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `fk_photo_chemin` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`fk_photo_id`),
-  KEY `IDX_D55AA76D88B25560` (`fk_photo_fkt_id`)
+  KEY `IDX_D55AA76DF13F78D9` (`birao_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -172,7 +226,7 @@ CREATE TABLE IF NOT EXISTS `fk_ro_role` (
   `fk_ro_libelle` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`fk_ro_id`),
   KEY `IDX_237893B391FC2C8` (`fk_ro_parent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -221,6 +275,26 @@ CREATE TABLE IF NOT EXISTS `region` (
 --
 
 --
+-- Constraints for table `birao`
+--
+ALTER TABLE `birao`
+  ADD CONSTRAINT `FK_9560F1A8564D0DDB` FOREIGN KEY (`fokotany_id`) REFERENCES `fokotany` (`id`);
+
+--
+-- Constraints for table `birao_contact`
+--
+ALTER TABLE `birao_contact`
+  ADD CONSTRAINT `FK_92996D2BE7A1254A` FOREIGN KEY (`contact_id`) REFERENCES `contact` (`id`),
+  ADD CONSTRAINT `FK_92996D2BF13F78D9` FOREIGN KEY (`birao_id`) REFERENCES `birao` (`id`);
+
+--
+-- Constraints for table `birao_member`
+--
+ALTER TABLE `birao_member`
+  ADD CONSTRAINT `FK_30F12C95E5C5B308` FOREIGN KEY (`olona_id`) REFERENCES `fk_olona` (`fk_ol_id`),
+  ADD CONSTRAINT `FK_30F12C95F13F78D9` FOREIGN KEY (`birao_id`) REFERENCES `birao` (`id`);
+
+--
 -- Constraints for table `commune`
 --
 ALTER TABLE `commune`
@@ -242,10 +316,10 @@ ALTER TABLE `fk_ad_adidy`
 -- Constraints for table `fk_kara_pokotany`
 --
 ALTER TABLE `fk_kara_pokotany`
-  ADD CONSTRAINT `FK_D363D7F5A196879D` FOREIGN KEY (`fk_kp_fkt_andehanana`) REFERENCES `fokotany` (`id`),
   ADD CONSTRAINT `FK_D363D7F51079EA49` FOREIGN KEY (`fk_kp_fkt_niaviana`) REFERENCES `fokotany` (`id`),
   ADD CONSTRAINT `FK_D363D7F561D700B9` FOREIGN KEY (`fk_kp_lohampianakaviana`) REFERENCES `fk_olona` (`fk_ol_id`),
-  ADD CONSTRAINT `FK_D363D7F56DB9557B` FOREIGN KEY (`fk_kp_fkt_id`) REFERENCES `fokotany` (`id`);
+  ADD CONSTRAINT `FK_D363D7F5A196879D` FOREIGN KEY (`fk_kp_fkt_andehanana`) REFERENCES `fokotany` (`id`),
+  ADD CONSTRAINT `FK_D363D7F5F13F78D9` FOREIGN KEY (`birao_id`) REFERENCES `birao` (`id`);
 
 --
 -- Constraints for table `fk_olona`
@@ -258,7 +332,7 @@ ALTER TABLE `fk_olona`
 -- Constraints for table `fk_photo`
 --
 ALTER TABLE `fk_photo`
-  ADD CONSTRAINT `FK_D55AA76D88B25560` FOREIGN KEY (`fk_photo_fkt_id`) REFERENCES `fokotany` (`id`);
+  ADD CONSTRAINT `FK_D55AA76DF13F78D9` FOREIGN KEY (`birao_id`) REFERENCES `birao` (`id`);
 
 --
 -- Constraints for table `fk_ro_role`
@@ -270,8 +344,8 @@ ALTER TABLE `fk_ro_role`
 -- Constraints for table `fk_user_role`
 --
 ALTER TABLE `fk_user_role`
-  ADD CONSTRAINT `FK_4CB11133D60322AC` FOREIGN KEY (`role_id`) REFERENCES `fk_ro_role` (`fk_ro_id`),
-  ADD CONSTRAINT `FK_4CB11133A76ED395` FOREIGN KEY (`user_id`) REFERENCES `fk_fkt_user` (`fk_us_id`);
+  ADD CONSTRAINT `FK_4CB11133A76ED395` FOREIGN KEY (`user_id`) REFERENCES `fk_fkt_user` (`fk_us_id`),
+  ADD CONSTRAINT `FK_4CB11133D60322AC` FOREIGN KEY (`role_id`) REFERENCES `fk_ro_role` (`fk_ro_id`);
 
 --
 -- Constraints for table `fokotany`

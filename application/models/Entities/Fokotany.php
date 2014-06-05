@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Entities\FokotanyRepository")
  * @ORM\Table(name="fokotany")
  * @author raiza
  *
@@ -36,18 +36,7 @@ class Fokotany
      * @ORM\JoinColumn(name="id_commune", referencedColumnName="id")
      * @var Entities\Commune
      */
-	protected $commune;
-	
-	/**
-     * @ORM\OneToMany(targetEntity="Karapokotany", mappedBy="fokotany")
-     * @var \Doctrine\Common\Collections\Collection
-     */
-	protected $karapokotanies;
-	
-	public function __construct()
-    {
-    	$this->karapokotanies = new Collection();
-    }
+	protected $commune;		
 	
 	public function getId()
 	{
@@ -91,33 +80,6 @@ class Fokotany
 	{
 		$this->commune = $commune;
 		return $this;
-	}
+	}	
 	
-	public function getKarapokotanies()
-    {
-    	return $this->karapokotanies;
-    }
-    
-    public function addKarapokotany(Karapokotany $karapokotany)
-    {
-    	$karapokotany->addPost($this);
-    	$this->karapokotanies[] = $karapokotany;
-    	return $this;
-    }
-    
-	public function addKarapokotanies(Collection $karapokotanies)
-    {
-        foreach ($karapokotanies as $karapokotany) {
-            $this->karapokotanies->add($karapokotany);
-        }
-        return $this;
-    }
-
-    public function removeKarapokotanies(Collection $karapokotanies)
-    {
-        foreach ($karapokotanies as $karapokotany) {
-            $this->karapokotanies->removeElement($karapokotany);
-        }
-        return $this;
-    }
 }

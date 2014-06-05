@@ -32,11 +32,11 @@ class Photo
     protected $chemin;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Fokotany")
-     * @ORM\JoinColumn(name="fk_photo_fkt_id", referencedColumnName="id")
-     * @var Entities\Fokotany
+     * @ORM\ManyToOne(targetEntity="Birao")
+     * @ORM\JoinColumn(name="birao_id", referencedColumnName="id")
+     * @var Entities\Birao
      **/
-    protected $fokotany;
+    protected $birao;
     
 	public function getId()
 	{
@@ -71,14 +71,14 @@ class Photo
 		return $this;
 	}
 	
-	public function getFokotany()
+	public function getBirao()
 	{
-		return $this->fokotany;
+		return $this->birao;
 	}
 	
-	public function setFokotany($fokotany)
+	public function setBirao($birao)
 	{
-		$this->fokotany = $fokotany;
+		$this->birao = $birao;
 		return $this;
 	}
 }

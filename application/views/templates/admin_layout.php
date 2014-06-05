@@ -59,10 +59,16 @@
 						<i class="fa fa-dashboard"></i> <span>Tableau de bord</span>
 					</a>
 				</li>
-				<li>
+				<li class="treeview">
 					<a href="#">
-						<i class="fa fa-th"></i> <span>Widgets</span> <small class="badge pull-right bg-green">new</small>
+						<i class="fa fa-building-o"></i>
+						<span>Birao</span>
+						<i class="fa fa-angle-left pull-right"></i>
 					</a>
+					<ul class="treeview-menu">
+						<li><a href="<?php echo site_url('fokotany/add/birao'); ?>"><i class="fa fa-plus"></i> Cr&eacute;er birao</a></li>
+						<li><a href="<?php echo site_url('fokotany/list/birao'); ?>"><i class="fa fa-list"></i> Lister birao</a></li>
+					</ul>
 				</li>
 				<li class="treeview">
 					<a href="#">
@@ -83,7 +89,7 @@
 					</a>
 					<ul class="treeview-menu">
 						<li><a href="<?php echo site_url('fokotany/add/andraikitra'); ?>"><i class="fa fa-plus"></i> Ajouter</a></li>
-						<li><a href="#"><i class="fa fa-list"></i> Lister</a></li>
+						<li><a href="<?php echo site_url('fokotany/list/andraikitra'); ?>"><i class="fa fa-list"></i> Lister</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -96,13 +102,6 @@
 	 	<?php echo $content; ?>
 	 </aside><!-- /.right-side -->
 </div><!-- ./wrapper -->
-
-<!-- jQuery 1.10.2 -->
-<script src="<?php echo base_url('assets/js/jquery-1.10.2.min.js');?>"></script>
-<!-- jQuery UI 1.10.3 -->
-<script src="<?php echo base_url('assets/adminlte/js/jquery-ui-1.10.3.min.js');?>" type="text/javascript"></script>
-<!-- Bootstrap -->
-<script src="<?php echo base_url('assets/adminlte/js/bootstrap.min.js');?>" type="text/javascript"></script>
 
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('assets/adminlte/js/AdminLTE/app.js');?>" type="text/javascript"></script>
