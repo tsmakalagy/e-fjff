@@ -17,7 +17,7 @@ class User_service
 		
 		$name = isset($data['name']) ? $data['name'] : '';
 		$email = $data['email'];
-		$password = $this->phpass->hash( $data['password'] );
+		$password = $CI->phpass->hash( $data['password'] );
 		
 		$user = new Entities\User();
 		$user->setName($name);
