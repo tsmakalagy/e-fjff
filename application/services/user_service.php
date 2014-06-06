@@ -9,7 +9,7 @@ class User_service
 	{
 		$this->CI =& get_instance();
 		$this->CI->load->library( array('doctrine', 'phpass') );
-		$this->em = $CI->doctrine->em;	
+		$this->em = $this->CI->doctrine->em;	
 	}
 	
 	public function register( $data )
