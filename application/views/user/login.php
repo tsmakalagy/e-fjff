@@ -3,8 +3,13 @@
 	<form action="" method="post">
 		<div class="body bg-gray">
 			<?php echo validation_errors(); ?>
+            <?php if (isset($error)) {?>
+                <div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <?php echo $error; ?>
+                </div>
+            <?php } ?>
 			<div class="form-group">
-				<input type="text" name="identity" class="form-control" placeholder="Utilisateur"/>
+				<input type="text" name="identity" class="form-control" placeholder="Email"/>
 			</div>
 			<div class="form-group">
 				<input type="password" name="password" class="form-control" placeholder="Mot de passe"/>

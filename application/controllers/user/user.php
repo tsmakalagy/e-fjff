@@ -38,7 +38,9 @@ class User extends GSM_Controller
 			}
 			if ($this->acl_auth->login($identity, $password, $remember_me)) {
 				redirect('/');
-			}
+			} else {
+                $data['error'] = 'V&eacute;rifier votre email ou mot de passe';
+            }
 		}
 		$this->setData($data);
         $this->setContentView('user/login');
