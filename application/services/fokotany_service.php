@@ -55,6 +55,42 @@ class Fokotany_service
 			if ($birao->getId()) {
 				return true;
 			}
+		} else if ($type == 'karapokotany') {
+			$karapokotany = new Entities\Karapokotany();
+			if (array_key_exists('birao', $data)) {
+				$birao = $this->em->find('Entities\Birao', (int)$data['birao']);
+				if ($birao instanceof Entities\Birao) {
+					$karapokotany->setBirao($birao);	
+				}				
+			}
+			if (array_key_exists('niaviana', $data)) {
+				$niaviana = $this->em->find('Entities\Fokotany', (int)$data['niaviana']);
+				if ($niaviana instanceof Entities\Fokotany) {
+					$karapokotany->setNiaviana($niaviana);	
+				}				
+			}
+			if (array_key_exists('laharana', $data) && strlen($data['laharana'])) {
+				$laharana = $data['laharana'];				
+				$karapokotany->setLaharana($laharana);
+			}
+			if (array_key_exists('nahatongavana', $data) && strlen($data['nahatongavana'])) {
+				$nahatongavana = $data['nahatongavana'];				
+				$karapokotany->setNahatongavana(new \DateTime($nahatongavana));
+			}
+			if (array_key_exists('address', $data) && strlen($data['address'])) {
+				$address = $data['address'];				
+				$karapokotany->setAdiresy($address);
+			}	
+			if (array_key_exists('faritra', $data) && strlen($data['faritra'])) {
+				$faritra = $data['faritra'];				
+				$karapokotany->setFaritra($faritra);
+			}	
+			$karapokotany->setInscription(new \DateTime());
+			$this->em->persist($karapokotany);
+			$this->em->flush();
+			if ($karapokotany->getId()) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -82,6 +118,14 @@ class Fokotany_service
 					$address = $data['address'];
 					$c = $this->em->getRepository('Entities\Contact')->findOneByValue($address);
 					if (!$c instanceof Entities\Contact) {
+						$oldContacts = $birao->getContacts();
+						foreach ($oldContacts as $oc) {
+							$type = $oc->getType();
+							if ($type === 1) {
+								$birao->removeContact($oc);
+								$this->em->remove($oc);
+							}
+						}
 						$contact = new Entities\Contact();
 						$contact->setType(1);
 						$contact->setValue($address);
@@ -95,6 +139,14 @@ class Fokotany_service
 					$phone = $data['phone'];
 					$c = $this->em->getRepository('Entities\Contact')->findOneByValue($phone);
 					if (!$c instanceof Entities\Contact) {
+						$oldContacts = $birao->getContacts();
+						foreach ($oldContacts as $oc) {
+							$type = $oc->getType();
+							if ($type === 2) {
+								$birao->removeContact($oc);
+								$this->em->remove($oc);
+							}
+						}
 						$contact = new Entities\Contact();
 						$contact->setType(2);
 						$contact->setValue($phone);
@@ -109,19 +161,56 @@ class Fokotany_service
 					return true;
 				}
 			}
+		} else if ($type == 'karapokotany') {
+			$karapokotany = $this->em->find('Entities\Karapokotany', (int)$id);
+			if ($karapokotany instanceof Entities\Karapokotany) {
+				
+				if (array_key_exists('birao', $data)) {
+					$birao = $this->em->find('Entities\Birao', (int)$data['birao']);
+					if ($birao instanceof Entities\Birao) {
+						$karapokotany->setBirao($birao);	
+					}				
+				}
+				if (array_key_exists('niaviana', $data)) {
+					$niaviana = $this->em->find('Entities\Fokotany', (int)$data['niaviana']);
+					if ($niaviana instanceof Entities\Fokotany) {
+						$karapokotany->setNiaviana($niaviana);	
+					}				
+				}
+				if (array_key_exists('laharana', $data) && strlen($data['laharana'])) {
+					$laharana = $data['laharana'];				
+					$karapokotany->setLaharana($laharana);
+				}
+				if (array_key_exists('nahatongavana', $data) && strlen($data['nahatongavana'])) {
+					$nahatongavana = $data['nahatongavana'];				
+					$karapokotany->setNahatongavana(new \DateTime($nahatongavana));
+				}
+				if (array_key_exists('address', $data) && strlen($data['address'])) {
+					$address = $data['address'];				
+					$karapokotany->setAdiresy($address);
+				}	
+				if (array_key_exists('faritra', $data) && strlen($data['faritra'])) {
+					$faritra = $data['faritra'];				
+					$karapokotany->setFaritra($faritra);
+				}
+				$this->em->persist($karapokotany);
+				$this->em->flush();
+				if ($karapokotany->getId()) {
+					return true;
+				}
+			}			
 		}
 		return false;
 	}
 	
 	public function delete($id, $type = 'olona')
 	{
-		if ($type == 'andraikitra') {
-			$andraikitra = $this->em->find('Entities\Andraikitra', (int)$id);
-			if ($andraikitra instanceof Entities\Andraikitra) {
-				$this->em->remove($andraikitra);
-				$this->em->flush();	
-				return true;
-			}
+		$entityClass = 'Entities\\' . ucfirst($type);
+		$entity = $this->em->find($entityClass, (int)$id);
+		if ($entity instanceof $entityClass) {
+			$this->em->remove($entity);
+			$this->em->flush();
+			return true;
 		}
 		return false;
 	}
@@ -156,6 +245,23 @@ class Fokotany_service
 				}
 				return $res;
 			}
+		} else if ($type == 'karapokotany') {
+			$karapokotany = $this->em->find('Entities\Karapokotany', (int)$id);
+			$res = array();
+			if ($karapokotany instanceof Entities\Karapokotany) {
+				$res['id'] = $karapokotany->getId();
+				$res['birao'] = array('id' => $karapokotany->getBirao()->getId(), 'name' => $karapokotany->getBirao()->getFokotany()->getName());
+				$res['niaviana'] = array(
+					'id' => $karapokotany->getNiaviana()->getId(), 
+					'name' => $karapokotany->getNiaviana()->getName(),
+					'district' => $karapokotany->getNiaviana()->getCommune()->getDistrict()->getName()
+				);
+				$res['laharana'] = $karapokotany->getLaharana();
+				$res['faritra'] = $karapokotany->getFaritra();
+				$res['nahatongavana'] = $karapokotany->getNahatongavana()->format('d/m/Y');
+				$res['adiresy'] = $karapokotany->getAdiresy();
+				return $res;
+			}
 		}
 		return false;
 	}
@@ -165,7 +271,7 @@ class Fokotany_service
 		$return = array();
 		
 		if ($type == 'birao') {
-			$sql = 'SELECT b FROM Entities\Birao b';
+			$sql = 'SELECT b FROM Entities\Birao b ORDER BY b.id ASC';
 			$query = $this->em->createQuery($sql);
 			if ($limit > 0) {
 				$query->setMaxResults($limit);
@@ -192,8 +298,8 @@ class Fokotany_service
 				}
 				array_push($return, $res);
 			}			
-		} else if ($type == 'andraikitra') {
-			$sql = 'SELECT a FROM Entities\Andraikitra a';
+		} else if ($type == 'andraikitra') {			
+			$sql = 'SELECT a FROM Entities\Andraikitra a ORDER BY a.id ASC';
 			$query = $this->em->createQuery($sql);
 			if ($limit > 0) {
 				$query->setMaxResults($limit);
@@ -206,6 +312,34 @@ class Fokotany_service
 				$res = array();
 				$res['id'] = $item->getId();
 				$res['anarana'] = $item->getAnarana();
+				array_push($return, $res);
+			}
+		} else if ($type == 'karapokotany') {
+			$loc = setlocale(LC_TIME, 'fr_FR'); // Locale Francais pour la date
+			$sql = 'SELECT k FROM Entities\Karapokotany k ORDER BY k.inscription ASC';
+			$query = $this->em->createQuery($sql);
+			if ($limit > 0) {
+				$query->setMaxResults($limit);
+			}
+			if ($offset > 0) {
+				$query->setFirstResult($offset);
+			}
+			$karapokotanies = $query->getResult();
+			foreach ($karapokotanies as $item) {
+				$res = array();
+				$res['id'] = $item->getId();
+				$res['birao'] = array('id' => $item->getBirao()->getId(), 'name' => $item->getBirao()->getFokotany()->getName());
+				$res['niaviana'] = array('id' => $item->getNiaviana()->getId(), 'name' => $item->getNiaviana()->getName());
+				$laharana = $item->getLaharana();
+				$res['laharana'] = isset($laharana) ? $laharana : ' - ';
+				$faritra = $item->getFaritra();
+				$res['faritra'] = isset($faritra) ? $faritra : ' - ';
+				$nahatongavana = $item->getNahatongavana();
+				$res['nahatongavana'] = isset($nahatongavana) ? strftime('%d %B %Y', $nahatongavana->getTimeStamp()) : ' - ';
+				$inscription = $item->getInscription();
+				$res['inscription'] = isset($inscription) ? date_format($inscription, 'd-F-Y') : ' - ';
+				$adiresy = $item->getAdiresy();
+				$res['adiresy'] = isset($adiresy) ? $adiresy : ' - ';
 				array_push($return, $res);
 			}
 		}
@@ -221,6 +355,17 @@ class Fokotany_service
  			$district = $item->getCommune()->getDistrict();
  			$districtName = $district->getName();
  			$res = array('id' => $item->getId(), 'fokotany' => $item->getName(), 'district' => $districtName);
+ 			array_push($result, $res);
+ 		}
+ 		return $result;
+	}
+	
+	public function getBiraoStartingBy($query)
+	{
+		$list = $this->em->getRepository('Entities\Birao')->getBiraoStartingBy($query);
+		$result = array();
+ 		foreach ($list as $item) {
+ 			$res = array('id' => $item->getId(), 'fokotany' => $item->getFokotany()->getName());
  			array_push($result, $res);
  		}
  		return $result;

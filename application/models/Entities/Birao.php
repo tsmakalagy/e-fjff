@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Repositories\BiraoRepository")
  * @ORM\Table(name="birao")
  * @author raiza
  *
@@ -106,14 +106,19 @@ class Birao
         return $this;
     }
     
+	public function removeContact(Contact $contact)
+    {
+        $this->contacts->removeElement($contact);
+        return $this;
+    }
+    
 	public function getMembers()
     {
     	return $this->members;
     }
     
-    public function addMember(Member $member)
+    public function addMember(Olona $member)
     {
-    	$member->addPost($this);
     	$this->members[] = $member;
     	return $this;
     }
@@ -141,7 +146,6 @@ class Birao
     
     public function addKarapokotany(Karapokotany $karapokotany)
     {
-    	$karapokotany->addPost($this);
     	$this->karapokotanies[] = $karapokotany;
     	return $this;
     }

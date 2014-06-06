@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
- * @ORM\Entity(repositoryClass="Entities\UserRepository")
+ * @ORM\Entity(repositoryClass="Repositories\UserRepository")
  * @ORM\Table(name="fk_fkt_user")
  * @author raiza
  *

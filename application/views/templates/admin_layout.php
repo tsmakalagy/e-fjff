@@ -68,6 +68,8 @@
 					<ul class="treeview-menu">
 						<li><a href="<?php echo site_url('fokotany/add/birao'); ?>"><i class="fa fa-plus"></i> Cr&eacute;er birao</a></li>
 						<li><a href="<?php echo site_url('fokotany/list/birao'); ?>"><i class="fa fa-list"></i> Lister birao</a></li>
+						<li><a href="<?php echo site_url('fokotany/add/karapokotany'); ?>"><i class="fa fa-plus"></i> Cr&eacute;er karatra</a></li>
+						<li><a href="<?php echo site_url('fokotany/list/karapokotany'); ?>"><i class="fa fa-list"></i> Lister karatra</a></li>
 					</ul>
 				</li>
 				<li class="treeview">

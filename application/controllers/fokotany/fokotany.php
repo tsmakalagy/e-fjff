@@ -24,8 +24,8 @@ class Fokotany extends GSM_Controller
 			} else {
 				$post = array();
 				$post['anarana'] = set_value('anarana');
-				if ($this->fkt->add($post, 'andraikitra')) {
-					$data['success'] = 'Andraikitra a &eacute;t&eacute; cr&eacute;&eacute; avec succ&egrave;s';
+				if ($this->fkt->add($post, $type)) {
+					redirect('fokotany/list/' . $type);	
 				}				
 			}
 		} else if ($type == 'birao') {
@@ -43,8 +43,33 @@ class Fokotany extends GSM_Controller
 				$post['fokotany'] = set_value('fokotany');
 				$post['address'] = set_value('address');				 
 				$post['phone'] = set_value('phone');
-				if ($this->fkt->add($post, 'birao')) {
-					$data['success'] = 'Birao a &eacute;t&eacute; cr&eacute;&eacute; avec succ&egrave;s';
+				if ($this->fkt->add($post, $type)) {
+					redirect('fokotany/list/' . $type);
+				}
+			}
+		} else if ($type == 'karapokotany') {
+			$data['section_title'] = 'Ajouter karapokotany';
+			$this->form_validation->set_rules('birao', 'Birao', 'required');	
+			$this->form_validation->set_rules('niaviana', 'Niaviana', 'required');
+			$this->form_validation->set_rules('laharana', 'Laharana', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('nahatongavana', 'Daty nahatongavana', 'trim|xss_clean');
+			$this->form_validation->set_rules('address', 'Adiresy', 'trim|xss_clean');
+			$faritra = trim($this->input->post('faritra'));
+			if (!empty($faritra)) {
+				$this->form_validation->set_rules('faritra', 'Faritra', 'trim|numeric|xss_clean');	
+			}	
+			if ($this->form_validation->run() == FALSE) {
+				$this->form_validation->set_error_delimiters('<div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');			
+			} else {
+				$post = array();
+				$post['birao'] = set_value('birao');
+				$post['niaviana'] = set_value('niaviana');				 
+				$post['laharana'] = set_value('laharana');
+				$post['nahatongavana'] = set_value('nahatongavana');
+				$post['address'] = set_value('address');
+				$post['faritra'] = set_value('faritra');
+				if ($this->fkt->add($post, $type)) {
+					redirect('fokotany/list/' . $type);
 				}
 			}
 		}
@@ -57,9 +82,11 @@ class Fokotany extends GSM_Controller
 	{
 		$data['title'] = ucfirst($type) . ' - e-Fokonolona';
 		if ($type == 'andraikitra') {
-			$data['andraikitras'] = $this->fkt->lister('andraikitra', 0);
+			$data['andraikitras'] = $this->fkt->lister($type, 0);
 		} else if ($type == 'birao') {			
-			$data['biraos'] = $this->fkt->lister('birao', 0);
+			$data['biraos'] = $this->fkt->lister($type, 0);
+		} else if ($type == 'karapokotany') {			
+			$data['karapokotanies'] = $this->fkt->lister($type, 0);
 		} 
 		$this->setData($data);
         $this->setContentView('fokotany/list_' . $type);
@@ -83,8 +110,8 @@ class Fokotany extends GSM_Controller
 			} else {
 				$post = array();
 				$post['anarana'] = set_value('anarana');
-				if ($this->fkt->edit($id, $post, 'andraikitra')) {
-					$data['success'] = 'Andraikitra a &eacute;t&eacute; modifi&eacute; avec succ&egrave;s';
+				if ($this->fkt->edit($id, $post, $type)) {
+					redirect('fokotany/list/' . $type);
 				}
 			}
 			
@@ -111,8 +138,45 @@ class Fokotany extends GSM_Controller
 				$post['fokotany'] = set_value('fokotany');
 				$post['address'] = set_value('address');				 
 				$post['phone'] = set_value('phone');
-				if ($this->fkt->edit($id, $post, 'birao')) {
-					$data['success'] = 'Birao a &eacute;t&eacute; modifi&eacute; avec succ&egrave;s';
+				if ($this->fkt->edit($id, $post, $type)) {
+					redirect('fokotany/list/' . $type);
+				}
+			}
+		} else if ($type == 'karapokotany') {
+			$data['section_title'] = 'Editer karapokotany';
+			$this->form_validation->set_rules('birao', 'Birao', 'required');	
+			$this->form_validation->set_rules('niaviana', 'Niaviana', 'required');
+			$this->form_validation->set_rules('laharana', 'Laharana', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('nahatongavana', 'Daty nahatongavana', 'trim|xss_clean');
+			$this->form_validation->set_rules('address', 'Adiresy', 'trim|xss_clean');
+			$faritra = trim($this->input->post('faritra'));
+			if (!empty($faritra)) {
+				$this->form_validation->set_rules('faritra', 'Faritra', 'trim|numeric|xss_clean');	
+			}	
+			if ($karapokotany = $this->fkt->findById($id, $type)) {
+				$data['b'] = array();
+				$data['b'] = $karapokotany['birao'];
+				$data['birao'] = $karapokotany['birao']['id'];
+				$data['n'] = array();
+				$data['n'] = $karapokotany['niaviana'];
+				$data['niaviana'] = $karapokotany['niaviana']['id'];
+				$data['laharana'] = $karapokotany['laharana'];
+				$data['nahatongavana'] = $karapokotany['nahatongavana'];
+				$data['address'] = $karapokotany['adiresy'];
+				$data['faritra'] = $karapokotany['faritra'];
+			}
+			if ($this->form_validation->run() == FALSE) {
+				$this->form_validation->set_error_delimiters('<div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');			
+			} else {
+				$post = array();
+				$post['birao'] = set_value('birao');
+				$post['niaviana'] = set_value('niaviana');				 
+				$post['laharana'] = set_value('laharana');
+				$post['nahatongavana'] = set_value('nahatongavana');
+				$post['address'] = set_value('address');
+				$post['faritra'] = set_value('faritra');
+				if ($this->fkt->edit($id, $post, $type)) {
+					redirect('fokotany/list/' . $type);
 				}
 			}
 		}
@@ -125,15 +189,13 @@ class Fokotany extends GSM_Controller
 		$this->load->helper(array('url'));
 		$this->setLayoutView(null);
 		$res = array();
-		if ($type == 'andraikitra') {
-			if ($this->fkt->delete($id, 'andraikitra')) {
-				$res['success'] = true;
-				$res['redirect'] = site_url('fokotany/list/andraikitra');				
-			} else {
-				$res['success'] = false;
-			}			
-			echo json_encode($res);
-		}
+		if ($this->fkt->delete($id, $type)) {
+			$res['success'] = true;
+			$res['redirect'] = site_url('fokotany/list/' . $type);				
+		} else {
+			$res['success'] = false;
+		}			
+		echo json_encode($res);
 		
 	}
 	
@@ -149,6 +211,22 @@ class Fokotany extends GSM_Controller
  			$fokotany = $item['fokotany'];
  			$district = $item['district'];
  			$res = array('id' => $id, 'text' => $fokotany, 'district' => $district);
+ 			array_push($result, $res);
+ 		}
+ 		echo json_encode($result);
+	}
+	
+	public function listBiraoAjax()
+	{
+		$this->setLayoutView(null);
+		$get = $this->input->get();
+		$query = $get['q'];
+		$list = $this->fkt->getBiraoStartingBy($query);
+		$result = array();
+ 		foreach ($list as $item) {
+ 			$id = $item['id'];
+ 			$fokotany = $item['fokotany'];
+ 			$res = array('id' => $id, 'text' => $fokotany);
  			array_push($result, $res);
  		}
  		echo json_encode($result);

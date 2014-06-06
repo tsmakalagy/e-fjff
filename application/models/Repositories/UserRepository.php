@@ -1,10 +1,19 @@
 <?php
-namespace Entities;
+namespace Repositories;
 
 use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository
 {
+	
+	public function findByIdentity($identity, $type = 'email')
+	{
+		$sql = 'SELECT u FROM Entities\User u WHERE u.' . $type . ' = ?1';
+		$query = $this->_em->createQuery($sql);
+		$query->setParameter(1, $identity);
+		return $query->getOneOrNullResult();
+	}
+	
 	public function findByUsername($username)
 	{
 		$sql = 'SELECT u FROM Entities\User u WHERE u.username = ?1';

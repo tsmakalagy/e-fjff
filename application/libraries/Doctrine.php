@@ -23,6 +23,8 @@ class Doctrine {
 //    $entitiesClassLoader = new ClassLoader('models', rtrim(APPPATH, "/" ));
     $entitiesClassLoader = new ClassLoader('Entities', APPPATH. "models");
     $entitiesClassLoader->register();
+    $entitiesClassLoader = new ClassLoader('Repositories', APPPATH. "models");
+    $entitiesClassLoader->register();
     $proxiesClassLoader = new ClassLoader('Proxies', APPPATH.'models/proxies');
     $proxiesClassLoader->register();
 
