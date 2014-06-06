@@ -10,7 +10,7 @@ class Fokotany extends GSM_Controller
 		$this->setLayoutView("layout_admin");
 	}
 	
-	public function add($type = 'olona')
+	public function add($type)
 	{
 		$data['title'] = ucfirst($type) . ' - e-Fokonolona';		
 		$this->load->helper(array('form', 'url'));
@@ -73,12 +73,53 @@ class Fokotany extends GSM_Controller
 				}
 			}
 		}
-			
 		$this->setData($data);
         $this->setContentView('fokotany/add_' . $type);
 	}
 	
-	public function liste($type = 'olona')
+	public function addFokonolona($biraoId)
+	{
+		$data['title'] = 'Olona - e-Fokonolona';
+		$this->load->helper(array('form', 'url'));
+
+		$this->load->library('form_validation');
+		$data['section_title'] = 'Ajouter olona';
+		if (is_numeric($biraoId)) {
+			$data['karapokotanies'] = $this->fkt->listKarapokotanyByBiraoId($biraoId);
+			$data['andraikitras'] = $this->fkt->listAndraikitra();
+		}
+		$this->form_validation->set_rules('karapokotany', 'Karapokotany', 'required');	
+		$this->form_validation->set_rules('andraikitra', 'Andraikitra', 'required');
+		$this->form_validation->set_rules('anarana', 'Anarana', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('fanampiny', 'Fanampiny', 'trim|xss_clean');
+		$this->form_validation->set_rules('nahaterahana', 'Daty nahaterahana', 'trim|xss_clean');
+		$this->form_validation->set_rules('cin', 'Karapanondro', 'trim|xss_clean');
+		$this->form_validation->set_rules('sex', 'Sexe', 'trim|xss_clean');
+		$this->form_validation->set_rules('date_cin', 'Daty karapanondro', 'trim|xss_clean');
+		$this->form_validation->set_rules('asa', 'Asa', 'trim|xss_clean');
+		if ($this->form_validation->run() == FALSE) {
+			$this->form_validation->set_error_delimiters('<div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');			
+		} else {
+			$post = array();
+			$post['karapokotany'] = set_value('karapokotany');
+			$post['andraikitra'] = set_value('andraikitra');				 
+			$post['anarana'] = set_value('anarana');
+			$post['fanampiny'] = set_value('fanampiny');
+			$post['nahaterahana'] = set_value('nahaterahana');
+			$post['cin'] = set_value('cin');
+			$post['sex'] = set_value('sex');
+			$post['date_cin'] = set_value('date_cin');
+			$post['asa'] = set_value('asa');
+			if ($this->fkt->add($post, 'olona')) {
+//				redirect('fokotany/list/' . $type);
+				$data['success'] = 'Fokonolona a &eacute;t&eacute; cr&eacute;&eacute; avec succ&egrave;s';
+			}			
+		}
+		$this->setData($data);
+        $this->setContentView('fokotany/add_olona');
+	}
+	
+	public function liste($type)
 	{
 		$data['title'] = ucfirst($type) . ' - e-Fokonolona';
 		if ($type == 'andraikitra') {
@@ -92,7 +133,7 @@ class Fokotany extends GSM_Controller
         $this->setContentView('fokotany/list_' . $type);
 	}
 	
-	public function edit($type = 'olona', $id)
+	public function edit($type, $id)
 	{
 		$data['title'] = ucfirst($type) . ' - e-Fokonolona';		
 		$this->load->helper(array('form', 'url'));
@@ -184,7 +225,7 @@ class Fokotany extends GSM_Controller
         $this->setContentView('fokotany/add_' . $type);
 	}
 	
-	public function delete($type = 'olona', $id)
+	public function delete($type, $id)
 	{
 		$this->load->helper(array('url'));
 		$this->setLayoutView(null);

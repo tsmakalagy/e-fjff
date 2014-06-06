@@ -43,8 +43,9 @@
 $route['localite/(district|region|fivondronana|firaisana|fokotany)/save'] = 'localite/localite/save/$1';
 $route['localite/(district|region|fivondronana|firaisana|fokotany)/add'] = 'localite/localite/add/$1';
 $route['localite/(district|region|fivondronana|firaisana|fokotany)/list'] = 'localite/localite/listlocal/$1';
-$route['fokotany/add/(karapokotany|andraikitra|olona|birao)'] = 'fokotany/fokotany/add/$1';
-$route['fokotany/list/(karapokotany|andraikitra|olona|birao)'] = 'fokotany/fokotany/liste/$1';
+$route['fokotany/add/(karapokotany|andraikitra|birao)'] = 'fokotany/fokotany/add/$1';
+$route['fokotany/add/olona/birao/(:num)'] = 'fokotany/fokotany/addFokonolona/$1';
+$route['fokotany/list/(karapokotany|andraikitra|birao)'] = 'fokotany/fokotany/liste/$1';
 $route['fokotany/edit/(karapokotany|andraikitra|olona|birao)/(:num)'] = 'fokotany/fokotany/edit/$1/$2';
 $route['fokotany/delete/(karapokotany|andraikitra|olona|birao)/(:num)'] = 'fokotany/fokotany/delete/$1/$2';
 $route['fokotany/ajax'] = 'fokotany/fokotany/listAjax';

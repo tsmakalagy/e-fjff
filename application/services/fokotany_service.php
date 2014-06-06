@@ -11,7 +11,7 @@ class Fokotany_service
 		$this->em = $CI->doctrine->em;	
 	}
 	
-	public function add($data = array(), $type = 'olona')
+	public function add($data = array(), $type)
 	{
 		if ($type == 'andraikitra') {
 			if (array_key_exists('anarana', $data)) {
@@ -91,11 +91,59 @@ class Fokotany_service
 			if ($karapokotany->getId()) {
 				return true;
 			}
+		} else if ($type == 'olona') {
+			$olona = new Entities\Olona();
+			if (array_key_exists('karapokotany', $data)) {
+				$karapokotany = $this->em->find('Entities\Karapokotany', (int)$data['karapokotany']);
+				if ($karapokotany instanceof Entities\Karapokotany) {
+					$olona->setKarapokotany($karapokotany);	
+				}				
+			}
+			if (array_key_exists('andraikitra', $data)) {
+				$andraikitra = $this->em->find('Entities\Andraikitra', (int)$data['andraikitra']);
+				if ($andraikitra instanceof Entities\Andraikitra) {
+					$olona->setAndraikitra($andraikitra);	
+				}				
+			}
+			if (array_key_exists('anarana', $data) && strlen($data['anarana'])) {
+				$anarana = $data['anarana'];				
+				$olona->setAnarana($anarana);
+			}
+			if (array_key_exists('fanampiny', $data) && strlen($data['fanampiny'])) {
+				$fanampiny = $data['fanampiny'];				
+				$olona->setFanampiny($fanampiny);
+			}
+			if (array_key_exists('nahaterahana', $data) && strlen($data['nahaterahana'])) {
+				$nahaterahana = $data['nahaterahana'];				
+				$olona->setDatenaissance(new \DateTime($nahaterahana));
+			}
+			if (array_key_exists('cin', $data) && strlen($data['cin'])) {
+				$cin = $data['cin'];				
+				$olona->setCin($cin);
+			}	
+			if (array_key_exists('date_cin', $data) && strlen($data['date_cin'])) {
+				$date_cin = $data['date_cin'];				
+				$olona->setDatecin(new \DateTime($date_cin));
+			}
+			if (array_key_exists('sex', $data) && strlen($data['sex'])) {
+				$sex = $data['sex'];				
+				$olona->setSex($sex);
+			}	
+			if (array_key_exists('asa', $data) && strlen($data['asa'])) {
+				$asa = $data['asa'];				
+				$olona->setAsa($asa);
+			}	
+			$olona->setVelona(1);
+			$this->em->persist($olona);
+			$this->em->flush();
+			if ($olona->getId()) {
+				return true;
+			}
 		}
 		return false;
 	}
 	
-	public function edit($id, $data = array(), $type = 'olona')
+	public function edit($id, $data = array(), $type)
 	{
 		if ($type == 'andraikitra') {
 			$andraikitra = $this->em->find('Entities\Andraikitra', (int)$id);
@@ -203,7 +251,7 @@ class Fokotany_service
 		return false;
 	}
 	
-	public function delete($id, $type = 'olona')
+	public function delete($id, $type)
 	{
 		$entityClass = 'Entities\\' . ucfirst($type);
 		$entity = $this->em->find($entityClass, (int)$id);
@@ -215,7 +263,7 @@ class Fokotany_service
 		return false;
 	}
 	
-	public function findById($id, $type = 'olona')
+	public function findById($id, $type)
 	{
 		if ($type == 'andraikitra') {
 			$andraikitra = $this->em->find('Entities\Andraikitra', (int)$id);
@@ -266,7 +314,7 @@ class Fokotany_service
 		return false;
 	}
 	
-	public function lister($type = 'olona', $limit = 10, $offset = 0)
+	public function lister($type, $limit = 10, $offset = 0)
 	{
 		$return = array();
 		
@@ -369,5 +417,18 @@ class Fokotany_service
  			array_push($result, $res);
  		}
  		return $result;
+	}
+	
+	public function listKarapokotanyByBiraoId($biraoId)
+	{
+		$sql = 'SELECT k FROM Entities\Karapokotany k WHERE k.birao = ?1';
+		$query = $this->em->createQuery($sql);
+		$query->setParameter(1, $biraoId);
+		return $query->getResult();		
+	}
+	
+	public function listAndraikitra()
+	{
+		return $this->em->getRepository('Entities\Andraikitra')->findAll();
 	}
 }

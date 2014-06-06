@@ -79,8 +79,8 @@
 						<i class="fa fa-angle-left pull-right"></i>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="#"><i class="fa fa-plus"></i> Ajouter</a></li>
-						<li><a href="#"><i class="fa fa-list"></i> Lister</a></li>
+						<li><a href="<?php echo site_url('fokotany/add/olona/birao/5'); ?>"><i class="fa fa-plus"></i> Ajouter</a></li>
+						<li><a href="<?php echo site_url('fokotany/list/olona/birao/5'); ?>"><i class="fa fa-list"></i> Lister</a></li>
 					</ul>
 				</li>
 				<li class="treeview">
