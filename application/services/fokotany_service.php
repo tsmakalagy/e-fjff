@@ -315,7 +315,7 @@ class Fokotany_service
 				array_push($return, $res);
 			}
 		} else if ($type == 'karapokotany') {
-			$loc = setlocale(LC_TIME, 'fr_FR'); // Locale Francais pour la date
+			$loc = setlocale(LC_TIME, 'fr_FR.UTF-8'); // Locale Francais pour la date
 			$sql = 'SELECT k FROM Entities\Karapokotany k ORDER BY k.inscription ASC';
 			$query = $this->em->createQuery($sql);
 			if ($limit > 0) {
