@@ -33,7 +33,7 @@
 								<?php echo $success; ?>
 							</div>
 						<?php }?>
-						<?php if (is_array($b) && is_array($n)) {?>
+						<?php if (isset($b) && isset($n)) {?>
 							<input type="hidden" class="birao_name" value="<?php echo $b['name'] ?>"/>
 							<input type="hidden" class="niaviana_name" value="<?php echo $n['name'] ?>"/>
 							<input type="hidden" class="niaviana_district" value="<?php echo $n['district'] ?>"/>
