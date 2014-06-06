@@ -3,11 +3,12 @@
 class User_service
 {
 	protected $em = null;
+	protected $CI = null;
 	
 	public function __construct()
 	{
-		$CI =& get_instance();
-		$CI->load->library( array('doctrine', 'phpass') );
+		$this->CI =& get_instance();
+		$this->CI->load->library( array('doctrine', 'phpass') );
 		$this->em = $CI->doctrine->em;	
 	}
 	
@@ -17,7 +18,7 @@ class User_service
 		
 		$name = isset($data['name']) ? $data['name'] : '';
 		$email = $data['email'];
-		$password = $CI->phpass->hash( $data['password'] );
+		$password = $this->CI->phpass->hash( $data['password'] );
 		
 		$user = new Entities\User();
 		$user->setName($name);
