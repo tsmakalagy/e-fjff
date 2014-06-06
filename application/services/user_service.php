@@ -7,8 +7,7 @@ class User_service
 	public function __construct()
 	{
 		$CI =& get_instance();
-		$CI->load->library('doctrine');
-		$this->load->library( 'phpass' );
+		$CI->load->library( array('doctrine', 'phpass') );
 		$this->em = $CI->doctrine->em;	
 	}
 	
