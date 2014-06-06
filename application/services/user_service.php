@@ -8,6 +8,7 @@ class User_service
 	{
 		$CI =& get_instance();
 		$CI->load->library('doctrine');
+		$this->load->library( 'phpass' );
 		$this->em = $CI->doctrine->em;	
 	}
 	
