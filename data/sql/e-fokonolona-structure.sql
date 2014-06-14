@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 05, 2014 at 05:10 PM
+-- Generation Time: Jun 14, 2014 at 08:37 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-7
 
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `fk_kara_pokotany` (
   KEY `IDX_D363D7F51079EA49` (`fk_kp_fkt_niaviana`),
   KEY `IDX_D363D7F5A196879D` (`fk_kp_fkt_andehanana`),
   KEY `IDX_D363D7F5F13F78D9` (`birao_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -182,10 +182,12 @@ CREATE TABLE IF NOT EXISTS `fk_olona` (
   `fk_ol_sex` int(11) NOT NULL,
   `fk_ol_date_cin` datetime DEFAULT NULL,
   `fk_ol_asa` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `spouse_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`fk_ol_id`),
+  UNIQUE KEY `UNIQ_EF1DE7B58EEC5B5C` (`spouse_id`),
   KEY `IDX_EF1DE7B5F3D248F1` (`fk_ol_kp_id`),
   KEY `IDX_EF1DE7B52EE2E201` (`fk_ol_andr_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -260,6 +262,20 @@ CREATE TABLE IF NOT EXISTS `fokotany` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `parents_children`
+--
+
+CREATE TABLE IF NOT EXISTS `parents_children` (
+  `parent_id` int(11) NOT NULL,
+  `child_id` int(11) NOT NULL,
+  PRIMARY KEY (`parent_id`,`child_id`),
+  KEY `IDX_2B7D386A727ACA70` (`parent_id`),
+  KEY `IDX_2B7D386ADD62C21B` (`child_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `region`
 --
 
@@ -326,6 +342,7 @@ ALTER TABLE `fk_kara_pokotany`
 --
 ALTER TABLE `fk_olona`
   ADD CONSTRAINT `FK_EF1DE7B52EE2E201` FOREIGN KEY (`fk_ol_andr_id`) REFERENCES `fk_ol_andraikitra` (`fk_andr_id`),
+  ADD CONSTRAINT `FK_EF1DE7B58EEC5B5C` FOREIGN KEY (`spouse_id`) REFERENCES `fk_olona` (`fk_ol_id`),
   ADD CONSTRAINT `FK_EF1DE7B5F3D248F1` FOREIGN KEY (`fk_ol_kp_id`) REFERENCES `fk_kara_pokotany` (`fk_kp_id`);
 
 --
@@ -352,3 +369,10 @@ ALTER TABLE `fk_user_role`
 --
 ALTER TABLE `fokotany`
   ADD CONSTRAINT `FK_8E64C313C7F789E` FOREIGN KEY (`id_commune`) REFERENCES `commune` (`id`);
+
+--
+-- Constraints for table `parents_children`
+--
+ALTER TABLE `parents_children`
+  ADD CONSTRAINT `FK_2B7D386A727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `fk_olona` (`fk_ol_id`),
+  ADD CONSTRAINT `FK_2B7D386ADD62C21B` FOREIGN KEY (`child_id`) REFERENCES `fk_olona` (`fk_ol_id`);
