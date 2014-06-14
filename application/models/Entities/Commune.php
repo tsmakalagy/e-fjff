@@ -100,7 +100,6 @@ class Commune
     
     public function addFokotany(Fokotany $fokotany)
     {
-    	$fokotany->addPost($this);
     	$this->fokotanies[] = $fokotany;
     	return $this;
     }

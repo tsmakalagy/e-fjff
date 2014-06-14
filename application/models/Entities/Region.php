@@ -82,7 +82,6 @@ class Region
     
     public function addDistrict(District $district)
     {
-    	$district->addPost($this);
     	$this->districts[] = $district;
     	return $this;
     }

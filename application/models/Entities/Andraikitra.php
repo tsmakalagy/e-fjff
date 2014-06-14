@@ -66,7 +66,6 @@ class Andraikitra
     
     public function addOlona(Olona $olona)
     {
-    	$olona->addPost($this);
     	$this->olonas[] = $olona;
     	return $this;
     }

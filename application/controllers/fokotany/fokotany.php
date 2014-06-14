@@ -88,29 +88,61 @@ class Fokotany extends GSM_Controller
 			$data['karapokotanies'] = $this->fkt->listKarapokotanyByBiraoId($biraoId);
 			$data['andraikitras'] = $this->fkt->listAndraikitra();
 		}
-		$this->form_validation->set_rules('karapokotany', 'Karapokotany', 'required');	
-		$this->form_validation->set_rules('andraikitra', 'Andraikitra', 'required');
-		$this->form_validation->set_rules('anarana', 'Anarana', 'trim|required|xss_clean');
+		$post = $this->input->post();
+		
+		$this->form_validation->set_rules('anarana', 'Anarana', 'trim|xss_clean');
 		$this->form_validation->set_rules('fanampiny', 'Fanampiny', 'trim|xss_clean');
-		$this->form_validation->set_rules('nahaterahana', 'Daty nahaterahana', 'trim|xss_clean');
 		$this->form_validation->set_rules('cin', 'Karapanondro', 'trim|xss_clean');
-		$this->form_validation->set_rules('sex', 'Sexe', 'trim|xss_clean');
-		$this->form_validation->set_rules('date_cin', 'Daty karapanondro', 'trim|xss_clean');
 		$this->form_validation->set_rules('asa', 'Asa', 'trim|xss_clean');
+		
+		$vady = isset($post['vady']) ? $post['vady'] : '';
+		$zanaka = isset($post['zanaka']) ? $post['zanaka'] : '';
+		$isany = isset($post['isany']) ? $post['isany'] : 0;
+		$isVady = false;
+		$isZanaka = false;
+		if (strlen($vady) && $vady == 1) {
+			$isVady = true;
+			$this->form_validation->set_rules('vady-anarana', 'Anarana', 'trim|xss_clean');
+			$this->form_validation->set_rules('vady-fanampiny', 'Fanampiny', 'trim|xss_clean');
+			$this->form_validation->set_rules('vady-cin', 'Karapanondro', 'trim|xss_clean');
+			$this->form_validation->set_rules('vady-asa', 'Asa', 'trim|xss_clean');
+		}
+		
+		if (strlen($zanaka) && $zanaka == 1 && $isany) {
+			$isZanaka = true;
+			for ($i = 0; $i < $isany; $i++) {
+				$this->form_validation->set_rules('zanaka-anarana-' . $i, 'Anarana', 'trim|xss_clean');
+				$this->form_validation->set_rules('zanaka-fanampiny-' . $i, 'Fanampiny', 'trim|xss_clean');
+				$this->form_validation->set_rules('zanaka-cin-' . $i, 'Karapanondro', 'trim|xss_clean');
+				$this->form_validation->set_rules('zanaka-asa-' . $i, 'Asa', 'trim|xss_clean');
+			}
+		}
+		
+		
 		if ($this->form_validation->run() == FALSE) {
 			$this->form_validation->set_error_delimiters('<div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');			
-		} else {
-			$post = array();
-			$post['karapokotany'] = set_value('karapokotany');
-			$post['andraikitra'] = set_value('andraikitra');				 
+		} else {			 
 			$post['anarana'] = set_value('anarana');
 			$post['fanampiny'] = set_value('fanampiny');
-			$post['nahaterahana'] = set_value('nahaterahana');
 			$post['cin'] = set_value('cin');
-			$post['sex'] = set_value('sex');
-			$post['date_cin'] = set_value('date_cin');
 			$post['asa'] = set_value('asa');
-			if ($this->fkt->add($post, 'olona')) {
+			if ($isVady) {
+				$post['vady'] = true;
+				$post['vady-anarana'] = set_value('vady-anarana');
+				$post['vady-fanampiny'] = set_value('vady-fanampiny');
+				$post['vady-cin'] = set_value('vady-cin');
+				$post['vady-asa'] = set_value('vady-asa');
+			}
+			if ($isZanaka) {
+				$post['zanaka'] = true;
+				for ($i = 0; $i < $isany; $i++) {
+					$post['zanaka-anarana-' . $i] = set_value('zanaka-anarana-' . $i);
+					$post['zanaka-fanampiny-' . $i] = set_value('zanaka-fanampiny-' . $i);
+					$post['zanaka-cin-' . $i] = set_value('zanaka-cin-' . $i);
+					$post['zanaka-asa-' . $i] = set_value('zanaka-asa-' . $i);
+				}
+			}
+			if ($this->fkt->addFokonolona($post)) {
 //				redirect('fokotany/list/' . $type);
 				$data['success'] = 'Fokonolona a &eacute;t&eacute; cr&eacute;&eacute; avec succ&egrave;s';
 			}			

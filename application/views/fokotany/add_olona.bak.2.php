@@ -35,7 +35,7 @@
 								<?php echo $success; ?>
 							</div>
 						<?php }?>	
-						<div id="olona-form">					
+						<div class="main-form">					
 							<div class="form-group">
 								<label for="karapokotany">Karapokotany</label>
 								<select name="karapokotany" id="karapokotany" class="form-control select-karapokotany">
@@ -131,11 +131,58 @@
 								<input type="text" class="form-control" name="isany">
 							</div>	
 						</div><!-- /.main-form -->
-						
+						<div class="vady-form" style="display:none;">
+							<div class="form-group">
+								<label for="vady-andraikitra">Andraikitra</label>
+								<select name="vady-andraikitra" class="form-control select-andraikitra">
+									<option></option>
+									<?php if (isset($andraikitras) && count($andraikitras)) {
+										foreach ($andraikitras as $item) {?>
+											<option value="<?php echo $item->getId(); ?>"><?php echo $item->getAnarana(); ?></option>
+										<?php }
+									}?>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="vady-anarana">Anarana</label>
+								<input type="text" class="form-control" name="vady-anarana">
+							</div>
+							<div class="form-group">
+								<label for="vady-fanampiny">Fanampiny</label>
+								<input type="text" class="form-control" name="vady-fanampiny">
+							</div>						
+							<div class="form-group">
+								<label for="vady-nahaterahana">Daty nahaterahana</label>
+								<input type="text" class="form-control datepicker" name="vady-nahaterahana">
+							</div>
+							<div class="form-group">
+								<label for="vady-sex">Sexe</label>
+								<label class="radio-inline">
+									<input type="radio" class="form-control minimal" value="1" name="vady-sex"/>
+									Lehilahy
+	                            </label>
+	                            <label class="radio-inline">
+									<input type="radio" class="form-control minimal" value="2" name="vady-sex"/>
+									Vehivavy
+	                            </label>
+							</div>
+							<div class="form-group">
+								<label for="vady-cin">Karapanondro</label>
+								<input type="text" class="form-control" name="vady-cin"  data-inputmask="'mask': ['999-999-999-999']" data-mask/>
+							</div>
+							<div class="form-group">
+								<label for="vady-date_cin">Nomena t@</label>
+								<input type="text" class="form-control datepicker" name="vady-date_cin">
+							</div>
+							<div class="form-group">
+								<label for="vady-asa">Asa</label>
+								<input type="text" class="form-control select-asa" name="vady-asa">
+							</div>	
+						</div><!-- /.vady-form -->
 					</div><!-- /.box-body -->
 					<div class="box-footer">
 						<button type="subselect2mit" class="btn btn-primary btn-previous" style="display:none;">Pr&eacute;c&eacute;dent</button>						
-						<button type="submit" class="btn btn-success pull-right btn-next">Enregistrer</button>
+						<button type="subselect2mit" class="btn btn-success pull-right btn-next">Enregistrer</button>
 						<div class="clearfix"></div>
 					</div>
 				</form>
@@ -162,184 +209,234 @@ if (isset($andraikitras) && count($andraikitras)) {
 }?>
 var andraikitras = <?php echo json_encode($listAndraikitras); ?>
 
-$(document).ready(function() {
-	var selectKarapokotany = $(".select-karapokotany").select2({minimumResultsForSearch: 10, placeholder: 'Selectionner karapokotany'});
-	var selectAndraikitra = $(".select-andraikitra").select2({minimumResultsForSearch: 10, placeholder: 'Selectionner andraikitra'});
+jQuery(document).ready(function() {
+	var selectKarapokotany = jQuery(".select-karapokotany").select2({minimumResultsForSearch: 10, placeholder: 'Selectionner karapokotany'});
+	var selectAndraikitra = jQuery(".select-andraikitra").select2({minimumResultsForSearch: 10, placeholder: 'Selectionner andraikitra'});
 
-	$('.datepicker').datepicker();
+	jQuery('.datepicker').datepicker();
 
 	var next = $('.btn-next');
 	var previous = $('.btn-previous');
 
-	var isVady, isZanaka, previousTarget, nextTarget, previousForm, 
-		numberZanaka, selectVAndraikitra, selectZAndraikitra = {},
-		shown, toShowNext, toHideNext, toShowPrev, toHidePrev;
+	var isVady, isZanaka, numberZanaka, selectZAndraikitra = {};
 
-	$('input[type="radio"].minimal').on('ifChecked', function(event){
-    	$(this).valid();
+	jQuery('input[type="radio"].minimal').on('ifChecked', function(event){
+    	jQuery(this).valid();
 	});
 	
 	
     $('body').on('ifChecked', 'input[name="vady"].minimal, input[name="zanaka"].minimal', function(event){
-    	var vadyCheckbox = $('input[name="vady"]:checked').val();
-		var zanakaCheckbox = $('input[name="zanaka"]:checked').val();
-
-		if (vadyCheckbox == 1) {
-			isVady = true;
-		} else {
-			isVady = false;
-		}
-
-		if (zanakaCheckbox == 1) {
-			isZanaka = true;
-		} else {
-			isZanaka = false;
-		}
+    	isVady = $('input[name="vady"]:checked').val();
+		isZanaka = $('input[name="zanaka"]:checked').val();
     	
-    	if (isZanaka) {
+    	if (isZanaka == 1) {
             $('.childnumber').removeClass('hide');
             
         } else {
         	$('.childnumber').addClass('hide');
         }
-    	shown = "#olona-form";
-        if (isZanaka || isVady) {            
-        	next.removeClass('btn-success').addClass('btn-warning').html('Suivant');        	
-        	if (isZanaka && !isVady) {		
-        		next.data("show", "#zanaka-form-0");	
-        	} else {
-        		next.data("show", "#vady-form");
-        	}
-        	next.data("hide", "#olona-form");
+        if ((isZanaka == 1) || (isVady == 1)) {
+            
+        	next.removeClass('btn-success').addClass('btn-warning').html('Suivant');
         } else {
         	next.addClass('btn-success').removeClass('btn-warning').html('Enregistrer');
-        	next.removeData("show");
-        	next.removeData("hide");
+        	//previous.fadeOut('slow');
         }
-        
-    });
-
-    previous.click(function() {
-    	toShowNext = next.data("show");
-    	toHideNext = next.data("hide");
-    	toShowPrev = previous.data("show");
-    	toHidePrev = previous.data("hide");
-    	
-      	$(toHidePrev).fadeOut('slow');
-      	$(toShowPrev).fadeIn('slow', function() {
-      		toShowNext = toHidePrev;
-          	toHideNext = toShowPrev;
-          	next.data("show", toShowNext);
-  			next.data("hide", toHideNext);
-  			toHidePrev = toShowPrev;
-      		if (toShowPrev.indexOf('olona') == 1) { // First step
-          		$('.box-title').html('Ajouter olona');
-          		previous.fadeOut('slow');
-          	} else if (toShowPrev.indexOf('vady') == 1) {
-        		$('.box-title').html('Ajouter vady');
-        		toShowPrev = "#olona-form";
-        	} else if (toShowPrev.indexOf('zanaka') == 1) {
-        		var id = parseInt(toShowPrev.slice(13)); 
-        		var nextId = id + 1;
-        		$('.box-title').html('Ajouter zanaka-' + nextId);
-        		if (id == 0) {
-            		if (isVady) {
-        				toShowPrev = "#vady-form";
-            		} else {
-            			toShowPrev = "#olona-form";
-            		}
-        		} else {
-            		var prevId = id - 1;
-        			toShowPrev = "#zanaka-form-" + prevId;
-        		}
-        	}   
-  			previous.data("show", toShowPrev);
-  			previous.data("hide", toHidePrev);
-  			
-        });
-      	
-      	
-    	if (isZanaka || isVady) {            
-        	next.removeClass('btn-success').addClass('btn-warning').html('Suivant');
-		}
-    	
-    	return false;
+        if (isVady == 1) {
+            next.addClass('step-vady');
+        } else {
+        	next.removeClass('step-vady');
+        }
+        if (isZanaka == 1) {
+        	next.addClass('step-zanaka').attr('id', 'zanaka-0');
+        } else {
+        	next.removeClass('step-zanaka').removeAttr('id');
+        }
     });
 
     next.click(function() {       
         if ($('#validation-form').valid()) {
-            if (typeof next.data("show") == "undefined" && typeof next.data("hide") == "undefined") { // No more step from main
-                
-            } else {
-            	previous.fadeIn('slow'); // Show previous button
-            	toShowNext = next.data("show");
-            	toHideNext = next.data("hide");
-            	if (isZanaka) {
-          			numberZanaka = parseInt($('input[name="isany"]').val());  
-            	}
-            	if (toShowNext == "#vady-form") { // The target is the spouse subform
-            		var subform = createSubForm(true);
-            		if ($('.box-body').has(toShowNext).length) {
-            			removeRule(true);
-                		$(toShowNext).remove();
-            		}
-                  	$('.box-body').append($(subform));                    	               	
-                  	$(toHideNext).fadeOut('slow'); // hide main form
-                  	$(toShowNext).fadeIn('slow', function() {
-                  		addRule(true);     
-                  		toShowPrev = toHideNext;
-              			toHidePrev = toShowNext;
-              			previous.data("show", toShowPrev);
-              			previous.data("hide", toHidePrev);             		
-                  		if (isZanaka) {              			
-                  			toHideNext = toShowNext;
-                  			toShowNext = "#zanaka-form-0";
-                  			next.data("show", toShowNext);
-                  			next.data("hide", toHideNext);               		
-                  		} else {
-                  			next.addClass('btn-success').removeClass('btn-warning').html('Enregistrer');
-                        	next.removeData("show");
-                        	next.removeData("hide");
-                  		}	
-                  	});
-            	} else { // The target is child subform
-                	if (toHideNext == "#olona-form") {
-                    	previous.fadeIn('slow');
+        	if (isZanaka == 1) { // adding zanaka subform to .box-body
+            	numberZanaka = parseInt($('input[name="isany"]').val());
+            	if (numberZanaka > 0) {
+                	for (var i = 0; i < numberZanaka; i++) {
+                    	if ($('.zanaka-form-'+i).length > 0) {
+                    		$('.zanaka-form-'+i).remove();
+                    	}
+                		var subform = createSubForm(i);
+                        $('.box-body').append($(subform));
+
+                        $("input[type='radio']").iCheck({
+                            radioClass: 'iradio_minimal'
+                        });
+                        
+                        $('input[type="radio"].minimal').on('ifChecked', function(event){
+                            var that = this;
+                        	$(that).valid();
+                    	});
+                        selectZAndraikitra[i] = jQuery(".select-zanaka-andraikitra-"+i).select2({minimumResultsForSearch: 10, placeholder: 'Selectionner andraikitra'});
+                        selectZAndraikitra[i].change(function(){
+                            $(this).valid();
+                        });
                 	}
-                	var id = parseInt(toShowNext.slice(13));     	
-                	if (id < numberZanaka) {
-                		var nextId = id + 1;
-                		var subform = createSubForm(false, id);
-                		if ($('.box-body').has(toShowNext).length) {
-                    		removeRule(false, id);
-                    		$(toShowNext).remove();
+            		
+            	}
+        	}
+        	if ($(this).hasClass('step-vady')) { // add vady info
+            	previous.fadeIn('slow');
+            	previous.addClass('step-main');
+            	$('.box-title').html('Ajouter vady');
+            	if (isZanaka != 1) {
+            		next.addClass('btn-success').removeClass('btn-warning').removeClass('step-vady').addClass('btn-save').html('Enregistrer');
+            	} else {
+            		next.removeClass('btn-success').removeClass('btn-save').addClass('btn-warning').html('Suivant');
+            	}
+                $('.main-form').fadeOut('slow'); // hide main form
+                $('.vady-form').fadeIn('slow', function() {
+                	$('select[name="vady-andraikitra"]').rules("add", {
+                    	required: true,
+                    	messages: {
+                    	    required: "Inona no andraikiny?"
                 		}
-                      	$('.box-body').append($(subform));                    	               	
-                      	$(toHideNext).fadeOut('slow'); // hide previous form
-                      	$(toShowNext).fadeIn('slow', function() {
-                      		addRule(false, id);
-							toShowPrev = toHideNext;
-                  			toHidePrev = toShowNext;
-                  			previous.data("show", toShowPrev);
-                  			previous.data("hide", toHidePrev);
-                  			toHideNext = toShowNext;
-                  			toShowNext = "#zanaka-form-" + nextId;
-                  			next.data("show", toShowNext);
-                  			next.data("hide", toHideNext); 
-                      		if (id == numberZanaka - 1) {
-                      			next.addClass('btn-success').removeClass('btn-warning').html('Enregistrer');
-                      			next.removeData("show");
-                            	next.removeData("hide"); 		
-                      		}
-                      	});
-                	}
-            	}
-            	return false;
-            }            
+                    });
+                	$('input[name="vady-anarana"]').rules("add", {
+                    	required: true,
+                    	minlength: 5,
+                    	messages: {
+	                		required: "Iza no anarany?",
+	        				minlength: "Litera 5 fara-fahakeliny"
+                		}
+                    });
+                	$('input[name="vady-sex"]').rules("add", {
+                    	required: true,
+                    	messages: {
+                			required: "Lahy sa vavy?"
+                		}
+                    });
+                	$('input[name="vady-nahaterahana"]').rules("add", {
+                    	date: true,
+                    	messages: {
+                			date: "Daty mm/dd/yyyy"
+                		}
+                    });
+                	$('input[name="vady-date_cin"]').rules("add", {
+                    	date: true,
+                    	messages: {
+                			date: "Daty mm/dd/yyyy"
+                		}
+                    });
+                });                
+                
+            } else if ($(this).hasClass('step-zanaka')) {
+                if (numberZanaka > 0) {
+                	previous.fadeIn('slow');
+                	previous.addClass('step-main');
+                    var step = parseInt($(this).attr('id').slice(7));
+                    var suiv = step + 1;
+                    $('.box-title').html('Ajouter zanaka ' + suiv);
+                    if (step == numberZanaka - 1) {
+                    	next.addClass('btn-success').removeClass('btn-warning').removeClass('step-zanaka').addClass('btn-save').html('Enregistrer');
+                    } else {
+                    	next.attr('id', 'zanaka-'+suiv);
+                    }    
+                    if (step > 0) {
+                        var prev = step - 1;
+                    	$('.zanaka-form-'+prev).fadeOut('slow');   
+                        previous.removeClass('step-main').addClass('step-zanaka').attr('id', 'zanaka-'+prev);                 	
+                    } else {
+                        if ($('.vady-form').css('display') == 'block') {
+                        	previous.removeClass('step-main').addClass('step-vady');
+                        	$('.vady-form').fadeOut('slow');
+                        } else {
+                        	$('.main-form').fadeOut('slow');
+                        }
+                    	
+                    }                	
+                	
+                    $('.zanaka-form-'+step).fadeIn('slow', function() {
+                    	$('select[name="zanaka-andraikitra-'+step+'"]').rules("add", {
+                        	required: true,
+                        	messages: {
+                        	    required: "Inona no andraikiny?"
+                    		}
+                        });
+                    	$('input[name="zanaka-anarana-'+step+'"]').rules("add", {
+                        	required: true,
+                        	minlength: 5,
+                        	messages: {
+                        		required: "Iza no anarany?",
+                    			minlength: "Litera 5 fara-fahakeliny"
+                    		}
+                        });
+                    	$('input[name="zanaka-sex-'+step+'"]').rules("add", {
+                        	required: true,
+                        	messages: {
+                    			required: "Lahy sa vavy?"
+                    		}
+                        });
+                    	$('input[name="zanaka-nahaterahana-'+step+'"]').rules("add", {
+                        	date: true,
+                        	messages: {
+                    			date: "Daty mm/dd/yyyy"
+                    		}
+                        });
+                    	$('input[name="zanaka-date_cin-'+step+'"]').rules("add", {
+                        	date: true,
+                        	messages: {
+                    			date: "Daty mm/dd/yyyy"
+                    		}
+                        });
+                    });
+                }
+            }
         }
                 
     });
 
+    previous.click(function() {
+    	if ($(this).hasClass('step-main')) { // STEP 0 : go back to main info
+        	previous.removeClass('step-main');
+        	previous.fadeOut('slow');
+        	if (isZanaka == 1) {
+            	next.addClass('step-zanaka').attr('id', 'zanaka-0');
+            } else {
+            	next.removeClass('step-zanaka').removeAttr('id');
+            }
+        	$('.box-title').html('Ajouter olona');
+        	if ((isZanaka == 1) || (isVady == 1)) {
+            	next.removeClass('btn-success').addClass('btn-warning').html('Suivant');
+            } else {
+            	next.addClass('btn-success').removeClass('btn-warning').html('Enregistrer');            	
+            }
+            if (isVady == 1) {
+                next.addClass('step-vady');
+            } else {
+            	next.removeClass('step-vady');
+            }    
+            if ($('.vady-form').css('display') == 'block') {
+            	$('.main-form').fadeIn('slow');
+                $('.vady-form').fadeOut('slow');
+            } else {
+            	$('.main-form').fadeIn('slow');
+            	$('.zanaka-form-0').fadeOut('slow');
+            }	
+            
+            
+        } else if ($(this).hasClass('step-vady')) {
+        	previous.removeClass('step-vady').addClass('step-main');
+        	$('.box-title').html('Ajouter vady');
+        	if (isVady == 1) {
+                next.addClass('step-zanaka');
+            } else {
+            	next.removeClass('step-zanaka');
+            }    	
+        	if (isZanaka == 1) {
+        		next.removeClass('btn-success').removeClass('btn-save').addClass('btn-warning').html('Suivant');
+        	}
+            $('.vady-form').fadeIn('slow');
+            $('.zanaka-form-0').fadeOut('slow');
+        }
+    });
    
     $("[data-mask]").inputmask();
     
@@ -348,21 +445,33 @@ $(document).ready(function() {
 		errorClass: 'help-block',
 		focusInvalid: false,
 		rules: {
-    		karapokotany:'required',
-			andraikitra: 'required',
+    		karapokotany: {
+				required: true
+			},
+			andraikitra: {
+				required: true
+			},
 			anarana: {
 				required: true,
 				minlength: 5
 			},
-			lohany: 'required',
-			sex: 'required',
-			nahaterahana: 'date',
-			date_cin: 'date',
+			lohany: {
+				required: true,
+			},
+			sex: {
+				required: true
+			},
+			nahaterahana: {
+				date: true
+			},
+			date_cin: {
+				date: true
+			},
 			vady: 'required',
 			zanaka: 'required',
 			isany: {
 				required: true,
-				min: 1
+				digits: true
 			}
 		},
 
@@ -397,8 +506,8 @@ $(document).ready(function() {
 			},
 			isany: {
 				required: "Firy ny isany?",
-				min: "Isa mihoatra ny 0"
-			}
+				digits: "Mampidira isa"
+			},
 		},
 
 		invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -416,6 +525,9 @@ $(document).ready(function() {
 
 		errorPlacement: function (error, element) {
 			if(element.is(':checkbox') || element.is(':radio')) {
+				/*var controls = element.closest('.controls');
+				if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+				else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));*/
 				$(element).closest('.form-group').append(error);
 			}
 			else if(element.is('.select2')) {
@@ -428,26 +540,25 @@ $(document).ready(function() {
 		},
 
 		submitHandler: function (form) {
-			form.submit();
 		},
 		invalidHandler: function (form) {
 		}
 	});    
     selectKarapokotany.change(function(){
-        $(this).valid();
+        jQuery(this).valid();
      });
     selectAndraikitra.change(function(){
-        $(this).valid();
+        jQuery(this).valid();
     });
 });
 
-function createSubForm(isVady, number) {
-	var formId, andraikitraName, selectClass,
+function createSubForm(number, isVady) {
+	var formClass, andraikitraName, selectClass,
 	anaranaName, fanampinyName, nahaterahanaName,
 	sexName, cinName, date_cinName, asaName;
 
 	if (isVady) {
-		formId = 'vady-form';
+		formClass = 'vady-form';
 		andraikitraName = 'vady-andraikitra';
 		selectClass = 'select-vady-andraikitra';
 		anaranaName = 'vady-anarana';
@@ -458,7 +569,7 @@ function createSubForm(isVady, number) {
 		date_cinName = 'vady-date_cin';
 		asaName = 'vady-asa';
 	} else {
-		formId = 'zanaka-form-'+number;
+		formClass = 'zanaka-form-'+number;
 		andraikitraName = 'zanaka-andraikitra-'+number;
 		selectClass = 'select-zanaka-andraikitra-'+number;
 		anaranaName = 'zanaka-anarana-'+number;
@@ -470,7 +581,7 @@ function createSubForm(isVady, number) {
 		asaName = 'zanaka-asa-'+number;
 	}
 	
-	var form = '<div id="'+formId+'" style="display:none;"> \
+	var form = '<div class="'+formClass+'" style="display:none;"> \
 		<div class="form-group"> \
 			<label for="'+andraikitraName+'">Andraikitra</label> \
 			<select name="'+andraikitraName+'" class="form-control '+selectClass+'"> \
@@ -518,104 +629,5 @@ function createSubForm(isVady, number) {
 	</div>';	
 	return form;
 }
-
-function addRule(isVady, number) {
-	var selectClass, andraikitraName, anaranaName, nahaterahanaName,
-		sexName, date_cinName, select2Andraikitra;
-
-	if (isVady) {
-		$('.box-title').html('Ajouter vady');
-		selectClass = 'select-vady-andraikitra';
-		andraikitraName = 'vady-andraikitra';
-		anaranaName = 'vady-anarana';
-		nahaterahanaName = 'vady-nahaterahana';
-		sexName = 'vady-sex';
-		date_cinName = 'vady-date_cin';
-	} else {
-		var num = number + 1;
-		$('.box-title').html('Ajouter zanaka-' + num);
-		selectClass = 'select-zanaka-andraikitra-'+number;
-		andraikitraName = 'zanaka-andraikitra-'+number;
-		anaranaName = 'zanaka-anarana-'+number;
-		nahaterahanaName = 'zanaka-nahaterahana-'+number;
-		sexName = 'zanaka-sex-'+number;
-		date_cinName = 'zanaka-date_cin-'+number;
-	}
-	$('select[name="'+andraikitraName+'"]').rules("add", {
-    	required: true,
-    	messages: {
-    	    required: "Inona no andraikiny?"
-		}
-    });
-	$('input[name="'+anaranaName+'"]').rules("add", {
-    	required: true,
-    	minlength: 5,
-    	messages: {
-    		required: "Iza no anarany?",
-			minlength: "Litera 5 fara-fahakeliny"
-		}
-    });
-	$('input[name="'+sexName+'"]').rules("add", {
-    	required: true,
-    	messages: {
-			required: "Lahy sa vavy?"
-		}
-    });
-	$('input[name="'+nahaterahanaName+'"]').rules("add", {
-    	date: true,
-    	messages: {
-			date: "Daty mm/dd/yyyy"
-		}
-    });
-	$('input[name="'+date_cinName+'"]').rules("add", {
-    	date: true,
-    	messages: {
-			date: "Daty mm/dd/yyyy"
-		}
-    });
-
-	$("input[type='radio']").iCheck({
-      	radioClass: 'iradio_minimal'
-  	});
-  
-  	$('input[type="radio"].minimal').on('ifChecked', function(event){
-      	var that = this;
-  		$(that).valid();
-	});
-  	select2Andraikitra = $('.'+selectClass).select2({
-  	  	minimumResultsForSearch: 10, 
-  	  	placeholder: 'Selectionner andraikitra'
-  	});
-  	select2Andraikitra.change(function(){
-      	$(this).valid();
-  	});
-  	$("[data-mask]").inputmask();
-  	$('.datepicker').datepicker();
-}
-
-function removeRule(isVady, number) {
-	var andraikitraName, anaranaName, nahaterahanaName,
-		sexName, date_cinName;
-
-	if (isVady) {
-		andraikitraName = 'vady-andraikitra';
-		anaranaName = 'vady-anarana';
-		nahaterahanaName = 'vady-nahaterahana';
-		sexName = 'vady-sex';
-		date_cinName = 'vady-date_cin';
-	} else {
-		andraikitraName = 'zanaka-andraikitra-'+number;
-		anaranaName = 'zanaka-anarana-'+number;
-		nahaterahanaName = 'zanaka-nahaterahana-'+number;
-		sexName = 'zanaka-sex-'+number;
-		date_cinName = 'zanaka-date_cin-'+number;
-	}
-	$('select[name="'+andraikitraName+'"]').rules("remove");
-	$('input[name="'+anaranaName+'"]').rules("remove");
-	$('input[name="'+sexName+'"]').rules("remove");
-	$('input[name="'+nahaterahanaName+'"]').rules("remove");
-	$('input[name="'+date_cinName+'"]').rules("remove");
-}
-
 //-->
 </script>

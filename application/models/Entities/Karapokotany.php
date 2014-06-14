@@ -140,7 +140,7 @@ class Karapokotany
 		return $this->lohampianakaviana;
 	}
 	
-	public function setLohampianakaviana($lohampianakaviana)
+	public function setLohampianakaviana(Olona $lohampianakaviana)
 	{
 		$this->lohampianakaviana = $lohampianakaviana;
 		return $this;
@@ -230,7 +230,6 @@ class Karapokotany
     
     public function addOlona(Olona $olona)
     {
-    	$olona->addPost($this);
     	$this->olonas[] = $olona;
     	return $this;
     }

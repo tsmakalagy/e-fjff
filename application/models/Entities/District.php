@@ -100,7 +100,6 @@ class District
     
     public function addCommune(Commune $commune)
     {
-    	$commune->addPost($this);
     	$this->communes[] = $commune;
     	return $this;
     }

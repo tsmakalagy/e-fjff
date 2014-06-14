@@ -2,6 +2,7 @@
 namespace Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
  * @ORM\Entity
@@ -80,6 +81,32 @@ class Olona
 	 * @var string
 	 */
 	protected $asa;
+	
+	/**
+     * @ORM\OneToOne(targetEntity="Olona")
+     * @ORM\JoinColumn(name="spouse_id", referencedColumnName="fk_ol_id")
+     **/
+	protected $spouse;
+	
+	/**
+     * @ORM\ManyToMany(targetEntity="Olona", mappedBy="children")
+     */
+	protected $parents;
+	
+	/**
+     * @ORM\ManyToMany(targetEntity="Olona", inversedBy="parents")
+     * @ORM\JoinTable(name="parents_children",
+     *              joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="fk_ol_id")},
+     *              inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="fk_ol_id")}
+     *              )
+     */
+	protected $children;
+	
+	public function __construct()
+    {
+    	$this->parents = new Collection();
+    	$this->children = new Collection();
+    }
 	
 	public function getId()
 	{
@@ -201,4 +228,70 @@ class Olona
 		$this->asa = $asa;
 		return $this;
 	}
+	
+	public function getSpouse()
+	{
+		return $this->spouse;
+	}
+	
+	public function setSpouse(Olona $spouse)
+	{
+		$this->spouse = $spouse;
+		return $this;
+	}
+	
+	public function getParents()
+    {
+    	return $this->parents;
+    }
+    
+    public function addParent(Olona $parent)
+    {
+    	$this->parents[] = $parent;
+    	return $this;
+    }
+    
+	public function addParents(Collection $parents)
+    {
+        foreach ($parents as $parent) {
+            $this->parents->add($parent);
+        }
+        return $this;
+    }
+
+    public function removeParents(Collection $parents)
+    {
+        foreach ($parents as $parent) {
+            $this->parents->removeElement($parent);
+        }
+        return $this;
+    }
+    
+	public function getChildren()
+    {
+    	return $this->children;
+    }
+    
+    public function addChild(Olona $child)
+    {
+    	$child->addParent($this);
+    	$this->children[] = $child;
+    	return $this;
+    }
+    
+	public function addChildren(Collection $children)
+    {
+        foreach ($children as $child) {
+            $this->children->add($child);
+        }
+        return $this;
+    }
+
+    public function removeChildren(Collection $children)
+    {
+        foreach ($children as $child) {
+            $this->children->removeElement($child);
+        }
+        return $this;
+    }
 }
