@@ -106,9 +106,11 @@ CREATE TABLE IF NOT EXISTS `fk_fkt_user` (
   `fk_us_remember_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fk_us_last_login` datetime DEFAULT NULL,
   `fk_us_last_logout` datetime DEFAULT NULL,
+  `birao_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`fk_us_id`),
   UNIQUE KEY `UNIQ_4E18330CB252F8BE` (`fk_us_email`),
-  UNIQUE KEY `UNIQ_4E18330CA0ED8A4B` (`fk_us_username`)
+  UNIQUE KEY `UNIQ_4E18330CA0ED8A4B` (`fk_us_username`),
+  KEY `IDX_4E18330CF13F78D9` (`birao_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -259,6 +261,12 @@ ALTER TABLE `birao_member`
 --
 ALTER TABLE `fk_ad_adidy`
   ADD CONSTRAINT `FK_B632477B58E031F3` FOREIGN KEY (`fk_ad_id_kp`) REFERENCES `fk_kara_pokotany` (`fk_kp_id`);
+
+--
+-- Constraints for table `fk_fkt_user`
+--
+ALTER TABLE `fk_fkt_user`
+  ADD CONSTRAINT `FK_4E18330CF13F78D9` FOREIGN KEY (`birao_id`) REFERENCES `birao` (`id`);
 
 --
 -- Constraints for table `fk_kara_pokotany`

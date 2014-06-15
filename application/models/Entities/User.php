@@ -84,6 +84,13 @@ class User
      */
     protected $roles;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Birao")
+     * @ORM\JoinColumn(name="birao_id", referencedColumnName="id")
+     * @var Entities\Birao
+     */
+    protected $birao;
+    
 	public function __construct()
     {
         $this->roles = new Collection();
@@ -238,5 +245,16 @@ class User
     	}
     	return false;
     }
+    
+	public function getBirao()
+	{
+		return $this->birao;
+	}
+	
+	public function setBirao($birao)
+	{
+		$this->birao = $birao;
+		return $this;
+	}
 	
 }
