@@ -27,13 +27,13 @@ class User
 	protected $name;
 	
 	/**
-	 * @ORM\Column(type="string", length=128, name="fk_us_username", nullable=true)
+	 * @ORM\Column(type="string", length=128, name="fk_us_username", nullable=true, unique=true)
 	 * @var string
 	 */
 	protected $username;
 	
 	/**
-	 * @ORM\Column(type="string", length=128, name="fk_us_email")
+	 * @ORM\Column(type="string", length=128, name="fk_us_email", unique=true)
 	 * @var string
 	 */
 	protected $email;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 14, 2014 at 08:37 PM
+-- Generation Time: Jun 15, 2014 at 04:42 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-7
 
@@ -63,21 +63,6 @@ CREATE TABLE IF NOT EXISTS `birao_member` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `commune`
---
-
-CREATE TABLE IF NOT EXISTS `commune` (
-  `id` int(11) NOT NULL,
-  `id_district` int(11) DEFAULT NULL,
-  `name` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `slogan` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_E2E2D1EE611AB812` (`id_district`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `contact`
 --
 
@@ -87,21 +72,6 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `value` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `district`
---
-
-CREATE TABLE IF NOT EXISTS `district` (
-  `id` int(11) NOT NULL,
-  `id_region` int(11) DEFAULT NULL,
-  `name` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `slogan` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_31C154872955449B` (`id_region`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -136,7 +106,9 @@ CREATE TABLE IF NOT EXISTS `fk_fkt_user` (
   `fk_us_remember_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fk_us_last_login` datetime DEFAULT NULL,
   `fk_us_last_logout` datetime DEFAULT NULL,
-  PRIMARY KEY (`fk_us_id`)
+  PRIMARY KEY (`fk_us_id`),
+  UNIQUE KEY `UNIQ_4E18330CB252F8BE` (`fk_us_email`),
+  UNIQUE KEY `UNIQ_4E18330CA0ED8A4B` (`fk_us_username`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -247,21 +219,6 @@ CREATE TABLE IF NOT EXISTS `fk_user_role` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fokotany`
---
-
-CREATE TABLE IF NOT EXISTS `fokotany` (
-  `id` int(11) NOT NULL,
-  `id_commune` int(11) DEFAULT NULL,
-  `name` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `slogan` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_8E64C313C7F789E` (`id_commune`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `parents_children`
 --
 
@@ -271,19 +228,6 @@ CREATE TABLE IF NOT EXISTS `parents_children` (
   PRIMARY KEY (`parent_id`,`child_id`),
   KEY `IDX_2B7D386A727ACA70` (`parent_id`),
   KEY `IDX_2B7D386ADD62C21B` (`child_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `region`
---
-
-CREATE TABLE IF NOT EXISTS `region` (
-  `id` int(11) NOT NULL,
-  `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `slogan` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -309,18 +253,6 @@ ALTER TABLE `birao_contact`
 ALTER TABLE `birao_member`
   ADD CONSTRAINT `FK_30F12C95E5C5B308` FOREIGN KEY (`olona_id`) REFERENCES `fk_olona` (`fk_ol_id`),
   ADD CONSTRAINT `FK_30F12C95F13F78D9` FOREIGN KEY (`birao_id`) REFERENCES `birao` (`id`);
-
---
--- Constraints for table `commune`
---
-ALTER TABLE `commune`
-  ADD CONSTRAINT `FK_E2E2D1EE611AB812` FOREIGN KEY (`id_district`) REFERENCES `district` (`id`);
-
---
--- Constraints for table `district`
---
-ALTER TABLE `district`
-  ADD CONSTRAINT `FK_31C154872955449B` FOREIGN KEY (`id_region`) REFERENCES `region` (`id`);
 
 --
 -- Constraints for table `fk_ad_adidy`
@@ -363,12 +295,6 @@ ALTER TABLE `fk_ro_role`
 ALTER TABLE `fk_user_role`
   ADD CONSTRAINT `FK_4CB11133A76ED395` FOREIGN KEY (`user_id`) REFERENCES `fk_fkt_user` (`fk_us_id`),
   ADD CONSTRAINT `FK_4CB11133D60322AC` FOREIGN KEY (`role_id`) REFERENCES `fk_ro_role` (`fk_ro_id`);
-
---
--- Constraints for table `fokotany`
---
-ALTER TABLE `fokotany`
-  ADD CONSTRAINT `FK_8E64C313C7F789E` FOREIGN KEY (`id_commune`) REFERENCES `commune` (`id`);
 
 --
 -- Constraints for table `parents_children`

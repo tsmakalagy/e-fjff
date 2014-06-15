@@ -4,11 +4,19 @@
 	<form action="" method="post">
 		<div class="body bg-gray">
 			<?php echo validation_errors(); ?>
+			<?php if (isset($errors) && count($errors)) {
+				foreach ($errors as $err) {?>
+					<div class="alert-user alert alert-danger alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<?php echo $err; ?>
+					</div>
+				<?php }				
+			} ?>
 			<div class="form-group">
-				<input type="text" name="name" class="form-control" placeholder="Nom"/>
+				<input type="text" name="name" class="form-control" placeholder="Nom" value="<?php echo set_value('name'); ?>"/>
 			</div>
 			<div class="form-group">
-				<input type="text" name="email" class="form-control" placeholder="Email"/>
+				<input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo set_value('email'); ?>"/>
 			</div>
 			<div class="form-group">
 				<input type="password" name="password" class="form-control" placeholder="Mot de passe"/>
