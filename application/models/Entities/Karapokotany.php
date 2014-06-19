@@ -85,7 +85,7 @@ class Karapokotany
 	protected $andehanana;
 	
 	/**
-     * @ORM\OneToMany(targetEntity="Olona", mappedBy="karapokotany")
+     * @ORM\OneToMany(targetEntity="Olona", mappedBy="karapokotany", orphanRemoval=true, cascade={"persist", "remove"})
      * @var \Doctrine\Common\Collections\Collection
      */
 	protected $olonas;

@@ -365,6 +365,17 @@ class Fokotany_service
 		$entityClass = 'Entities\\' . ucfirst($type);
 		$entity = $this->em->find($entityClass, (int)$id);
 		if ($entity instanceof $entityClass) {
+			if ($type == 'karapokotany')  {
+				foreach ($entity->getOlonas() as $item) {
+					$this->em->remove($item);
+					$this->em->flush();
+				}
+			} else if ($type == 'birao') {
+				foreach ($entity->getKarapokotanies() as $item) {
+					$this->em->remove($item);
+					$this->em->flush();
+				}
+			}
 			$this->em->remove($entity);
 			$this->em->flush();
 			return true;
