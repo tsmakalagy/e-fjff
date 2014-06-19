@@ -214,6 +214,12 @@ class Acl_auth
 				,'logged_in'=> TRUE
 				,'user_'.$this->_config['identity_field'] => $user->getEmail()
 			);
+			if ($this->has_role('user_fokotany', $user->getId())) {
+				$birao = $user->getBirao();
+				if ($birao instanceof Entities\Birao) {
+					$session['birao_id'] = $birao->getId();
+				}	
+			}
 			$this->session->set_userdata($session);
 		}
 	}

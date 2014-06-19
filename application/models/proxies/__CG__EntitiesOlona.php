@@ -237,6 +237,12 @@ class Olona extends \Entities\Olona implements \Doctrine\ORM\Proxy\Proxy
         return parent::removeChildren($children);
     }
 
+    public function isLohampianakaviana()
+    {
+        $this->__load();
+        return parent::isLohampianakaviana();
+    }
+
 
     public function __sleep()
     {

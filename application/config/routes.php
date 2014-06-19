@@ -51,7 +51,7 @@ $route['fokotany/delete/(karapokotany|andraikitra|olona|birao)/(:num)'] = 'fokot
 $route['fokotany/ajax'] = 'fokotany/fokotany/listAjax';
 $route['fokotany/birao/ajax'] = 'fokotany/fokotany/listBiraoAjax';
 $route['fokotany/karapokotany/ajax/(:num)'] = 'fokotany/fokotany/listKarapokotanyByBiraoId/$1';
-
+$route['fokotany/detail/karapokotany/(:num)'] = 'fokotany/fokotany/detailKarapokotanyAjax/$1';
 $route['admin/user/add'] = 'user/user/register/admin';
 $route['user/load/login'] = 'user/user/loadLoginForm';
 $route['user/(.+)$'] = 'user/user/$1';

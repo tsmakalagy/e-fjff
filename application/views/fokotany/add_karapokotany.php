@@ -34,6 +34,7 @@
 							</div>
 						<?php }?>
 						<?php if (isset($b) && isset($n)) {?>
+							<input type="hidden" class="birao_id" value="<?php echo $birao ?>"/>
 							<input type="hidden" class="birao_name" value="<?php echo $b['name'] ?>"/>
 							<input type="hidden" class="niaviana_name" value="<?php echo $n['name'] ?>"/>
 							<input type="hidden" class="niaviana_district" value="<?php echo $n['district'] ?>"/>
@@ -88,7 +89,7 @@ var fokotany_url = "<?php echo site_url('fokotany/ajax'); ?>";
 function format(item) { return item.text; };
 function formatFokotany(item) { return item.text + ' - <strong>' + item.district + '</strong>'; };
 
-jQuery(document).ready(function() {
+$(document).ready(function() {
 	var birao_opts = {};	
 	
 	birao_opts = {
@@ -96,14 +97,11 @@ jQuery(document).ready(function() {
 		allowClear: true, 
 		placeholder: 'Selectionner birao'
 	};
-	if (jQuery('.birao_name').length > 0) {
-		birao_opts.initSelection = function (element, callback) {
-	    	var data = {id: element.val(), text: jQuery('.birao_name').val()};
-	    	callback(data);
-		}; 
+	var selectBirao = $(".select-birao").data("s3opts", birao_opts).select2(birao_opts);
+	if ($('.birao_name').length > 0) {
+		var data = {id: $('.birao_id').val(), text: $('.birao_name').val()};
+		$(".select-birao").select2("data", data);
 	} 
-	var selectBirao = jQuery(".select-birao").data("s3opts", birao_opts).select2(birao_opts);
-
 	var fokotany_opts = {};
 	
 	fokotany_opts = {
@@ -125,14 +123,14 @@ jQuery(document).ready(function() {
 		formatSelection: formatFokotany,
 		formatResult: formatFokotany
 	};
-	if (jQuery('.niaviana_name').length > 0 && jQuery('.niaviana_district').length > 0) {
+	if ($('.niaviana_name').length > 0 && $('.niaviana_district').length > 0) {
 		fokotany_opts.initSelection = function (element, callback) {
-	    	var data = {id: element.val(), text: jQuery('.niaviana_name').val(), district: jQuery('.niaviana_district').val()};
+	    	var data = {id: element.val(), text: $('.niaviana_name').val(), district: $('.niaviana_district').val()};
 	    	callback(data);
 		}; 
 	} 
-	jQuery(".select-niaviana").data("s3opts", fokotany_opts).select2(fokotany_opts);
-	jQuery('.datepicker').datepicker();
+	$(".select-niaviana").data("s3opts", fokotany_opts).select2(fokotany_opts);
+	$('.datepicker').datepicker();
 });
 //-->
 </script>

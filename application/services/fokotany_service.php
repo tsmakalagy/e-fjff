@@ -473,13 +473,23 @@ class Fokotany_service
 			}
 		} else if ($type == 'karapokotany') {
 			$loc = setlocale(LC_TIME, 'fr_FR.UTF-8'); // Locale Francais pour la date
-			$sql = 'SELECT k FROM Entities\Karapokotany k ORDER BY k.inscription ASC';
+			$biraoId = get_session_value('birao_id');
+			if (is_numeric($biraoId)) {
+				$sql = 'SELECT k FROM Entities\Karapokotany k WHERE k.birao = ?1 ORDER BY k.inscription ASC';
+				
+			} else {
+				$sql = 'SELECT k FROM Entities\Karapokotany k ORDER BY k.inscription ASC';
+			}
+			
 			$query = $this->em->createQuery($sql);
 			if ($limit > 0) {
 				$query->setMaxResults($limit);
 			}
 			if ($offset > 0) {
 				$query->setFirstResult($offset);
+			}
+			if (is_numeric($biraoId)) {
+				$query->setParameter(1, $biraoId);
 			}
 			$karapokotanies = $query->getResult();
 			foreach ($karapokotanies as $item) {
@@ -501,13 +511,22 @@ class Fokotany_service
 			}
 		} else if ($type == 'olona') {
 			$loc = setlocale(LC_TIME, 'fr_FR.UTF-8'); // Locale Francais pour la date
-			$sql = 'SELECT o FROM Entities\Olona o JOIN o.karapokotany k ORDER BY k.id ASC';
+			$biraoId = get_session_value('birao_id');
+			if (is_numeric($biraoId)) {
+				$sql = 'SELECT o FROM Entities\Olona o JOIN o.karapokotany k WHERE k.birao = ?1 ORDER BY k.id ASC';
+				
+			} else {
+				$sql = 'SELECT o FROM Entities\Olona o JOIN o.karapokotany k ORDER BY k.id ASC';
+			}
 			$query = $this->em->createQuery($sql);
 			if ($limit > 0) {
 				$query->setMaxResults($limit);
 			}
 			if ($offset > 0) {
 				$query->setFirstResult($offset);
+			}
+			if (is_numeric($biraoId)) {
+				$query->setParameter(1, $biraoId);
 			}
 			$olonas = $query->getResult();
 			foreach ($olonas as $item) {
@@ -527,6 +546,7 @@ class Fokotany_service
 				$res['datecin'] = isset($dateCin) ? strftime('%d %B %Y', $dateCin->getTimeStamp()) : '';
 				$res['andraikitra'] = $item->getAndraikitra()->getAnarana();
 				$res['asa'] = $item->getAsa();
+				$res['adress'] = $item->getKarapokotany()->getAdiresy();
 				$parents = $item->getParents();
 				if (isset($parents) && count($parents)) {
 					foreach ($parents as $parent) {
@@ -551,6 +571,55 @@ class Fokotany_service
 				$res['sex'] = ($sex == 1) ? 'Lahy' : 'Vavy';
 				array_push($return, $res);
 			}
+		}
+		return $return;
+	}
+	
+	public function detailKarapokotany($karatraId)
+	{
+		$sql = 'SELECT o FROM Entities\Olona o WHERE o.karapokotany = ?1 ORDER BY o.datecin DESC';
+		$query = $this->em->createQuery($sql);
+		$query->setParameter(1, $karatraId);
+		$olonas = $query->getResult();
+		$return = array();
+		foreach ($olonas as $item) {
+			$res = array();
+			$res['id'] = $item->getId();
+			$res['name'] = strtoupper(strtolower($item->getAnarana())) . ' ' . ucfirst(strtolower($item->getFanampiny()));
+			$datenaissance = $item->getDatenaissance();
+			$now = new \DateTime();
+			if ($datenaissance instanceof \DateTime) {
+				$interval = $now->diff($datenaissance);
+				$res['age'] = $interval->y;	
+			} else {
+				$res['age'] = '-';
+			}
+			$res['cin'] = $item->getCin();
+			$dateCin = $item->getDatecin();
+			$res['datecin'] = isset($dateCin) ? strftime('%d %B %Y', $dateCin->getTimeStamp()) : '';
+			$res['andraikitra'] = $item->getAndraikitra()->getAnarana();
+			$res['asa'] = $item->getAsa();
+			$res['adress'] = $item->getKarapokotany()->getAdiresy();
+			$parents = $item->getParents();
+			$children = $item->getChildren();
+			$spouse = $item->getSpouse();
+			if (isset($parents) && count($parents)) {
+				$res['type'] = 'Zanaka';
+			} else if (isset($children) || isset($spouse)) {
+				if ($item->getSex() == 1) {
+					$res['type'] = 'Ray';	
+				} else {
+					$res['type'] = 'Reny';
+				}
+				
+			}
+			if ($item->isLohampianakaviana()) {
+				$res['is_lohany'] = true;
+			}
+			$res['karapokotany'] = $item->getKarapokotany()->getId();
+			$sex = $item->getSex();				
+			$res['sex'] = ($sex == 1) ? 'Lahy' : 'Vavy';
+			array_push($return, $res);
 		}
 		return $return;
 	}

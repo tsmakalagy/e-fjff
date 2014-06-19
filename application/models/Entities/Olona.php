@@ -294,4 +294,9 @@ class Olona
         }
         return $this;
     }
+    
+    public function isLohampianakaviana()
+    {
+    	return ($this == $this->karapokotany->getLohampianakaviana());
+    }
 }

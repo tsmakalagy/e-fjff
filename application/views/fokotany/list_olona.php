@@ -57,9 +57,9 @@
 										data-asa="<?php echo isset($item['asa']) ? $item['asa'] : ''; ?>"
 										data-dad="<?php echo isset($item['dad']) ? $item['dad'] : ''; ?>"
 										data-mom="<?php echo isset($item['mom']) ? $item['mom'] : ''; ?>"
+										data-adress="<?php echo isset($item['adress']) ? $item['adress'] : ''; ?>"
 										>
-										<i class="fa fa-eye"></i></a>
-									<a class="btn btn-sm btn-primary my-tooltip" data-toggle="tooltip" data-placement="bottom" href="<?php echo site_url('fokotany/edit/olona/' . $item['id']); ?>" title="&Eacute;diter"><i class="fa fa-edit"></i></a> 
+										<i class="fa fa-eye"></i></a>									
 									<a class="btn btn-sm btn-warning and_delete my-tooltip" data-toggle="tooltip" data-placement="bottom" href="#" title="Supprimer"><i class="fa fa-trash-o"></i></a>
 								</td>
 							</tr>		
@@ -76,10 +76,17 @@
 		</div><!--/.col (right) -->
 	</div>   <!-- /.row -->
 </section><!-- /.content -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">  
+<div class="modal-dialog">    
+
+      
+</div><!-- /.modal-dialog --> 
+</div><!-- /.modal -->
 <script src="<?php echo base_url('assets/adminlte/js/plugins/datatables/jquery.dataTables.js');?>" type="text/javascript"></script>
 <script src="<?php echo base_url('assets/adminlte/js/plugins/datatables/dataTables.bootstrap.js');?>" type="text/javascript"></script>
 <script src="<?php echo base_url('assets/js/bootbox.min.js');?>"></script>
 <script type="text/javascript">
+var deleteUrl = "<?php echo site_url('fokotany/delete/olona');?>";
 	$(function() {
 		var oTable = $("#table-olona").dataTable({
 			"bLengthChange": false,
@@ -104,6 +111,7 @@
 			var andraikitra = $(this).data("andraikitra");
 			var dad = $(this).data("dad");
 			var mom = $(this).data("mom");
+			var adress = $(this).data("adress");
 			
 			var content = "<dl class='dl-horizontal'>";
 			content += "<dt>Anarana</dt>";
@@ -136,6 +144,10 @@
 				content += "<dt>Reny</dt>";
 				content += "<dd>"+mom+"</dd>";
 			}
+			if (adress.length > 0) {
+				content += "<dt>Adiresy</dt>";
+				content += "<dd>"+adress+"</dd>";
+			}
 			content += "</dl>";
 			bootbox.dialog({
 				message: content,
@@ -152,6 +164,52 @@
 			});
 			return false;
 		});
-		
+		$('.and_delete').click(function(e) {
+			var tr = $(this).parents('tr');
+			var message = "&Ecirc;tes-vous s&ucirc;r de vouloir supprimer?";
+			var id = tr.attr('id').slice(4);
+			bootbox.dialog({
+				message: message,
+			  	title: "Confirmation de suppression",
+			  	buttons: {
+			    	success: {
+			      		label: "Non",
+			      		className: "btn-primary",
+			      		callback: function() {
+			        		
+			      		}
+			    	},
+			    	main: {
+			      		label: "Oui",
+			      		className: "btn-danger",
+			      		callback: function() {
+				    		$.ajax({
+				            	type: "POST",
+				                url: deleteUrl + '/' + id,
+				                dataType: "json",
+				    			beforeSend: function() {    
+				        			$('.box-body').after('<div class="overlay"></div><div class="loading-img"></div>');		
+				        		},
+				                success: function(res) {
+					                $('.overlay').remove();
+					                $('.loading-img').remove();
+				        			if (res.success == true) {
+					        			if (tr.siblings().length == 1) {
+						        			tr.html('<td colspan="6">Pas de olona.</td>');
+					        			} else {					        			
+				                    		tr.remove();
+					        			}
+				                    } else {
+				                    	       	
+				                    }
+				        			
+				        		}
+				            });
+			      		}
+			    	}
+			  	}
+			});
+			return false;
+		});		
     });
 </script>

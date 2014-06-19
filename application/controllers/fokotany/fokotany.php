@@ -346,9 +346,18 @@ class Fokotany extends GSM_Controller
  			$res = array('id' => $id, 'text' => $laharana);
  			array_push($result, $res);
  		}
- 		echo json_encode($result);
-		
-		
+ 		echo json_encode($result);	
+	}
+	
+	public function detailKarapokotanyAjax($karatraId)
+	{
+		$list = $this->fkt->detailKarapokotany($karatraId);
+		$karatra = $this->fkt->findById($karatraId, 'karapokotany');
+		$this->setLayoutView(null);
+		$result = array();
+		$detail_karatra = $this->load->view('fokotany/detail_karatra', array('data' => $list, 'karatra' => $karatra), true);
+ 		$json_decode = json_encode($detail_karatra, JSON_HEX_TAG | JSON_HEX_QUOT);
+		echo $json_decode;
 	}
 
 }
