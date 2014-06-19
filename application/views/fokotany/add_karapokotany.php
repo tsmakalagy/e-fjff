@@ -38,21 +38,29 @@
 							<input type="hidden" class="niaviana_name" value="<?php echo $n['name'] ?>"/>
 							<input type="hidden" class="niaviana_district" value="<?php echo $n['district'] ?>"/>
 						<?php } ?>
+						<?php if (isset($biraos) && count($biraos)) {?>
 						<div class="form-group">
 							<label for="birao">Birao</label>
-							<input type="text" class="form-control select-birao" name="birao" placeholder="Birao" value="<?php echo set_value('birao', (isset($birao)) ? $birao : ''); ?> ">
+							<select name="birao" class="form-control select-birao">
+								<option></option>
+									<?php		
+									foreach ($biraos as $item) {?>
+										<option value="<?php echo $item['id']; ?>"><?php echo $item['fokotany']; ?></option>
+									<?php }?>									
+							</select>							
 						</div>
+						<?php }?>						
 						<div class="form-group">
 							<label for="niaviana">Fokotany niaviana</label>
-							<input type="text" class="form-control select-niaviana" name="niaviana" placeholder="Niaviana" value="<?php echo set_value('niaviana', (isset($niaviana)) ? $niaviana : ''); ?> ">
+							<input type="text" class="form-control select-niaviana" name="niaviana" placeholder="Selectionner niaviana" value="<?php echo set_value('niaviana', (isset($niaviana)) ? $niaviana : ''); ?>">
 						</div>
 						<div class="form-group">
 							<label for="laharana">Laharana</label>
-							<input type="text" class="form-control" name="laharana" placeholder="Laharana" value="<?php echo set_value('laharana', (isset($laharana)) ? $laharana : ''); ?> ">
+							<input type="text" class="form-control" name="laharana" placeholder="Laharana" value="<?php echo set_value('laharana', (isset($laharana)) ? $laharana : ''); ?>">
 						</div>
 						<div class="form-group">
 							<label for="faritra">Faritra</label>
-							<input type="text" class="form-control" name="faritra" placeholder="Faritra" value="<?php echo set_value('faritra', (isset($faritra)) ? $faritra : ''); ?> ">
+							<input type="text" class="form-control" name="faritra" placeholder="Faritra" value="<?php echo set_value('faritra', (isset($faritra)) ? $faritra : ''); ?>">
 						</div>
 						<div class="form-group">
 							<label for="nahatongavana">Daty nahatongavana</label>
@@ -81,26 +89,12 @@ function format(item) { return item.text; };
 function formatFokotany(item) { return item.text + ' - <strong>' + item.district + '</strong>'; };
 
 jQuery(document).ready(function() {
-	var birao_opts = {};
+	var birao_opts = {};	
 	
 	birao_opts = {
-		placeholder: "Rechercher birao",
-		minimumInputLength: 2,
-		ajax: {
-			url: birao_url,
-			dataType: 'json',
-			quietMillis: 100,
-			data: function (term, page) {
-				return {
-					q: term, // search term
-				};
-			},
-			results: function (data, page) { 
-				return {results: data};
-			}
-		},
-		formatSelection: format,
-		formatResult: format
+		minimumResultsForSearch: 10,
+		allowClear: true, 
+		placeholder: 'Selectionner birao'
 	};
 	if (jQuery('.birao_name').length > 0) {
 		birao_opts.initSelection = function (element, callback) {
@@ -108,7 +102,7 @@ jQuery(document).ready(function() {
 	    	callback(data);
 		}; 
 	} 
-	jQuery(".select-birao").data("s3opts", birao_opts).select2(birao_opts);
+	var selectBirao = jQuery(".select-birao").data("s3opts", birao_opts).select2(birao_opts);
 
 	var fokotany_opts = {};
 	

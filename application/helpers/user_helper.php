@@ -5,6 +5,15 @@ function is_connected() {
 	return $CI->session->userdata('logged_in');
 }
 
+function get_session_value($key) {
+	$CI =& get_instance();
+	$session_data = $CI->session->all_userdata();
+	if (array_key_exists( $key, $session_data )) {
+		return $session_data[$key];
+	}
+	return false;	
+}
+
 function display_name() {
 	$CI =& get_instance();
 	$session_data = $CI->session->all_userdata();

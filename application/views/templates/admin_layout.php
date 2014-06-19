@@ -66,8 +66,10 @@
 						<i class="fa fa-angle-left pull-right"></i>
 					</a>
 					<ul class="treeview-menu">
+						<?php if (has_role('admin')) { ?>
 						<li><a href="<?php echo site_url('fokotany/add/birao'); ?>"><i class="fa fa-plus"></i> Cr&eacute;er birao</a></li>
 						<li><a href="<?php echo site_url('fokotany/list/birao'); ?>"><i class="fa fa-list"></i> Lister birao</a></li>
+						<?php } ?>
 						<li><a href="<?php echo site_url('fokotany/add/karapokotany'); ?>"><i class="fa fa-plus"></i> Cr&eacute;er karatra</a></li>
 						<li><a href="<?php echo site_url('fokotany/list/karapokotany'); ?>"><i class="fa fa-list"></i> Lister karatra</a></li>
 					</ul>
@@ -79,10 +81,11 @@
 						<i class="fa fa-angle-left pull-right"></i>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="<?php echo site_url('fokotany/add/olona/birao/5'); ?>"><i class="fa fa-plus"></i> Ajouter</a></li>
-						<li><a href="<?php echo site_url('fokotany/list/olona/birao/5'); ?>"><i class="fa fa-list"></i> Lister</a></li>
+						<li><a href="<?php echo site_url('fokotany/add/olona'); ?>"><i class="fa fa-plus"></i> Ajouter</a></li>
+						<li><a href="<?php echo site_url('fokotany/list/olona'); ?>"><i class="fa fa-list"></i> Lister</a></li>
 					</ul>
 				</li>
+				<?php if (has_role('admin')) { ?>
 				<li class="treeview">
 					<a href="#">
 						<i class="fa fa-laptop"></i>
@@ -94,6 +97,20 @@
 						<li><a href="<?php echo site_url('fokotany/list/andraikitra'); ?>"><i class="fa fa-list"></i> Lister</a></li>
 					</ul>
 				</li>
+				<?php } ?>
+				<?php if (has_role('admin')) { ?>
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-user"></i>
+						<span>User</span>
+						<i class="fa fa-angle-left pull-right"></i>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="<?php echo site_url('admin/user/add'); ?>"><i class="fa fa-plus"></i> Ajouter</a></li>
+						<li><a href="#"><i class="fa fa-list"></i> Lister</a></li>
+					</ul>
+				</li>
+				<?php } ?>
 			</ul>
 		</section>
 		<!-- /.sidebar -->

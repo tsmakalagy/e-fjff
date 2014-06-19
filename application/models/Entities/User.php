@@ -235,12 +235,16 @@ class User
     
     public function hasRole($roleName)
     {
-    	$roles = $this->getRoles();
-    	if (isset($roles)) {
-    		foreach ($roles as $r) {
-    			if ($roleName === $r->getLibelle()) {
-    				return true;
-    			}
+    	$user_roles = $this->getRoles();
+    	if (isset($user_roles)) {
+    		foreach ($user_roles as $role) {
+    			do {
+	    			if ($roleName === $role->getLibelle()) {    				
+	    				return true;
+	    			} else {
+	    				$role = $role->getParent();	
+	    			}    				
+    			} while ($role != null);
     		}
     	}
     	return false;

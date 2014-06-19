@@ -32,7 +32,7 @@
 							<li><a href="#">Tsena</a></li>
 							<li><a href="#">Momba anay</a></li>
 							<li><a href="#">Hifandray</a></li>
-							<?php if (is_connected() && has_role('admin')): ?>
+							<?php if (is_connected() && has_role('user_fokotany')): ?>
 							<li><a href="<?php echo site_url('admin'); ?>">Admin</a></li>
 							<?php endif; ?>
 						</ul>

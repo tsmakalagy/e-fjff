@@ -1,7 +1,8 @@
-<script type="text/javascript" src="<?php echo base_url()."assets/js/util/jquery.validate.js" ?>"></script>
+<link rel="stylesheet" href="<?php echo base_url('assets/select2/css/select2.css');?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/select2/css/select2-bootstrap.css');?>">
 <div class="form-box" id="login-box">
 	<div class="header">Cr&eacute;er un nouveau compte</div>
-	<form action="" method="post">
+	<form action="" method="post" id="validation-form">
 		<div class="body bg-gray">
 			<?php echo validation_errors(); ?>
 			<?php if (isset($errors) && count($errors)) {
@@ -24,120 +25,109 @@
 			<div class="form-group">
 				<input type="password" name="passwordVerify" class="form-control" placeholder="R&eacute;peter mot de passe"/>
 			</div>
+			<?php if (isset($roles) && count($roles)) {?>
+			<div class="form-group">
+				<select name="role" class="form-control select-role">
+					<option></option>
+					<?php foreach ($roles as $item) {?>
+					<option value="<?php echo $item->getId(); ?>"><?php echo $item->getLibelle(); ?></option>
+					<?php }?>
+				</select>
+			</div>
+			<?php } ?>
+			<?php if (isset($biraos) && count($biraos)) {?>
+			<div class="form-group hide birao">
+				<select name="birao" class="form-control select-birao">
+					<option></option>
+					<?php foreach ($biraos as $item) {?>
+					<option value="<?php echo $item['id']; ?>"><?php echo $item['fokotany']; ?></option>
+					<?php }?>
+				</select>
+			</div>
+			<?php } ?>
 		</div>
-		<div class="footer">
-			<button type="submit" class="btn bg-olive btn-block">Enregistrer</button>
-			<a href="<?php echo site_url('user/login'); ?>" class="text-center">J'ai d&eacute;j&agrave; un compte</a>
+		<div class="footer bg-gray">
+			<button type="submit" class="btn btn-success btn-block">Enregistrer</button>
+			<?php if (!isset($hide_login)) {?>
+				<a href="<?php echo site_url('user/login'); ?>" class="text-center">J'ai d&eacute;j&agrave; un compte</a>
+			<?php }?>			
 		</div>
 	</form>
 </div> 
-  
-  
-  
-  <!--<div class="modal-content modal-register" style="display:none;">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h1 class="text-center">Register</h1>
-      </div>
-      <div class="modal-body">
-      <?php //echo validation_errors(); ?>
-          <form class="form col-md-12 center-block" id="registerForm" method="post" action="">
-            <div class="form-group">
-              <input type="text" name="username" class="form-control input-lg register-input" placeholder="Username" autocomplete="off">
-              <span class="pull-right loading-username"></span>
-            </div>
-            <div class="form-group">
-              <input type="password" name="password" class="form-control input-lg" placeholder="Password">
-              <span class="pull-right check-password"></span>
-            </div>
-            <div class="form-group">
-              <input type="password" name="passwordVerify" class="form-control input-lg register-input" placeholder="Re-type password">
-              <span class="pull-right check-password-verify"></span>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-primary btn-lg btn-block btn-register" data-loading-text="Loading...">Register</button>              
-            </div>
-          </form>
-      </div>
-      <div class="modal-footer">
-          <div class="col-md-12">
-          <button class="btn btn-danger go-back-login" >Login</button>
-		  </div>	
-      </div>
-  </div>
+<script src="<?php echo base_url('assets/select2/js/select2.min.js');?>"></script>
+<script src="<?php echo base_url('assets/js/jquery.validate.min.js');?>"></script>
+<script type="text/javascript">
 
---><script type="text/javascript">
-var timeoutReference, pwdTimeout;
-var url = "<?php echo site_url('user/validation_check');?>";
-var url_register = "<?php echo site_url('user/register');?>"; 
-
-
-
-jQuery(document).ready(function() {
-	jQuery('.go-back-login').click(function(e) {
-		e.preventDefault();
-		jQuery('.modal-register').fadeOut('slow', function() {
-			jQuery('.modal-login').fadeIn('slow', function() {});
-		});
-	});
-	jQuery('.btn-register').addClass('disabled');
-	jQuery('input[name="username"]').validateInput({
-		name: 'username',
-		loadingClass: '.loading-username',
-        url: url
-	});
-	jQuery('input[name="password"]').validateInput({
-		name: 'password',
-		loadingClass: '.check-password',
-        url: url
+$(document).ready(function() {
+	var selectRole = $(".select-role").select2({
+		minimumResultsForSearch: 10, 
+		placeholder: 'Sélectionner role',
+		allowClear: true
+	}).on('change', function(event){
+		if(event.target == this){
+			var roleId = event.val;
+			if (roleId == 3) { // user_fokotany
+				$('.birao').removeClass('hide');	
+			} else {
+				$('.birao').addClass('hide');
+				$(".select-birao").select2("val", "");
+			}
+		}
 	});	
+	var selectBirao = $(".select-birao").select2({
+		minimumResultsForSearch: 10, 
+		placeholder: 'Sélectionner birao'
+	});		
+	$('#validation-form').validate({
+		errorElement: 'span',
+		errorClass: 'help-block',
+		focusInvalid: false,
+		rules: {
+    		role:'required',
+			birao: 'required'
+		},
 
+		messages: {
+			birao: {
+				required: "Misafidiana birao"
+			},
+			role: {
+				required: "Misafidiana andraikitra"
+			}
+		},
+		highlight: function (e) {
+			$(e).closest('.form-group').addClass('has-error');
+		},
 
-	jQuery('input[name="password"]').change(function(e) {
-		var password = jQuery(this).val();
-		jQuery('input[name="passwordVerify"]').validateInput("destroy");
-		jQuery('input[name="passwordVerify"]').validateInput("init", {
-			name: 'passwordVerify',
-			loadingClass: '.check-password-verify',
-			query: '&password='+password,
-            url: url
-			
-		});	
-		
-	});
+		success: function (e) {
+			$(e).closest('.form-group').removeClass('has-error');
+			$(e).remove();
+		},
 
-	jQuery("form#registerForm").submit(function(e) {
-		var $this = jQuery(this);
-		e.preventDefault();
-		jQuery('.btn-register').button('loading');
-		jQuery.ajax({
-        	type: "POST",
-            url: url_register,
-            data: jQuery("form#registerForm").serialize(),
-            dataType: "json",
-			beforeSend: function() {    
-    					
-    		},
-            success: function(res) {
-    			if (res.success == false) {
-                	jQuery('#loginModal').modal().find('.modal-dialog').html(res.form);
-                	jQuery('.modal-login').hide();
-                	jQuery('.modal-register').show();    
-                } else {
-                    var success_message = '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
-                    success_message += 'Thank you for registering.</div>';
-                	$this.prepend(success_message);
-                	window.setTimeout(function() {
-                		jQuery('.modal-register').fadeOut('slow', function() {
-                			jQuery('.modal-login').fadeIn('slow', function() {});
-                		});
-                	}, 5000);                	
-                }
-    			
-    		}
-        });
-        return false;
-	});
-	
+		errorPlacement: function (error, element) {
+			if(element.is(':checkbox') || element.is(':radio')) {
+				$(element).closest('.form-group').append(error);
+			}
+			else if(element.is('.select2')) {
+				error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+			}
+			else if(element.is('.chzn-select')) {
+				error.insertAfter(element.siblings('[class*="chzn-container"]:eq(0)'));
+			}
+			else error.insertAfter(element);
+		},
+
+		submitHandler: function (form) {
+			form.submit();
+		},
+		invalidHandler: function (form) {
+		}
+	});    
+    selectBirao.change(function(){
+        $(this).valid();
+     });
+    selectRole.change(function(){
+        $(this).valid();
+    });
 });
 </script>

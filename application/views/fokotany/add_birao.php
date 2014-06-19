@@ -38,15 +38,15 @@
 						<?php } ?>
 						<div class="form-group">
 							<label for="fokotany">Fokotany</label>
-							<input type="text" class="form-control select-fokotany" name="fokotany" placeholder="Fokotany" value="<?php echo set_value('fokotany', (isset($fokotany)) ? $fokotany : ''); ?> ">
+							<input type="text" class="form-control select-fokotany" name="fokotany" placeholder="Fokotany" value="<?php echo set_value('fokotany', (isset($fokotany)) ? $fokotany : ''); ?>">
 						</div>
 						<div class="form-group">
 							<label for="address">Adiresy</label>
-							<input type="text" class="form-control" name="address" placeholder="Adiresy" value="<?php echo set_value('address', (isset($address)) ? $address : ''); ?> ">
+							<input type="text" class="form-control" name="address" placeholder="Adiresy" value="<?php echo set_value('address', (isset($address)) ? $address : ''); ?>">
 						</div>
 						<div class="form-group">
 							<label for="phone">Finday</label>
-							<input type="text" class="form-control" name="phone" placeholder="Finday" value="<?php echo set_value('phone', (isset($phone)) ? $phone : ''); ?> ">
+							<input type="text" class="form-control" name="phone" placeholder="Finday" value="<?php echo set_value('phone', (isset($phone)) ? $phone : ''); ?>">
 						</div>
 					</div><!-- /.box-body -->
 					<div class="box-footer">

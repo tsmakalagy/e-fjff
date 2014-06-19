@@ -9,7 +9,7 @@ class Admin extends GSM_Controller
 		$this->load->library('doctrine');
 		$this->em = $this->doctrine->em;
 		$this->load->library('acl_auth');
-		$this->acl_auth->restrict_access('admin');
+		$this->acl_auth->restrict_access('user_fokotany');
 		$this->setLayoutView("layout_admin");
 	}
 	

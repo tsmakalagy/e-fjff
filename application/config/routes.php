@@ -44,14 +44,15 @@ $route['localite/(district|region|fivondronana|firaisana|fokotany)/save'] = 'loc
 $route['localite/(district|region|fivondronana|firaisana|fokotany)/add'] = 'localite/localite/add/$1';
 $route['localite/(district|region|fivondronana|firaisana|fokotany)/list'] = 'localite/localite/listlocal/$1';
 $route['fokotany/add/(karapokotany|andraikitra|birao)'] = 'fokotany/fokotany/add/$1';
-$route['fokotany/add/olona/birao/(:num)'] = 'fokotany/fokotany/addFokonolona/$1';
-$route['fokotany/list/(karapokotany|andraikitra|birao)'] = 'fokotany/fokotany/liste/$1';
+$route['fokotany/add/olona'] = 'fokotany/fokotany/addFokonolona';
+$route['fokotany/list/(karapokotany|andraikitra|birao|olona)'] = 'fokotany/fokotany/liste/$1';
 $route['fokotany/edit/(karapokotany|andraikitra|olona|birao)/(:num)'] = 'fokotany/fokotany/edit/$1/$2';
 $route['fokotany/delete/(karapokotany|andraikitra|olona|birao)/(:num)'] = 'fokotany/fokotany/delete/$1/$2';
 $route['fokotany/ajax'] = 'fokotany/fokotany/listAjax';
 $route['fokotany/birao/ajax'] = 'fokotany/fokotany/listBiraoAjax';
+$route['fokotany/karapokotany/ajax/(:num)'] = 'fokotany/fokotany/listKarapokotanyByBiraoId/$1';
 
-
+$route['admin/user/add'] = 'user/user/register/admin';
 $route['user/load/login'] = 'user/user/loadLoginForm';
 $route['user/(.+)$'] = 'user/user/$1';
 

@@ -104,8 +104,7 @@ class Acl_auth
 //		$this->em->flush();
 //		
 //		$userId = $user->getId(); 
-		if ($this->user->register( $data )) {
-			$this->login( $data['email'], $data['password'], TRUE );
+		if ($this->user->register( $data )) {			
 			return true;
 		} else {
 			$this->set_error('register_failed');
@@ -167,6 +166,13 @@ class Acl_auth
 		foreach( $session_data as $key )
 		{
 			$session['user_'.$key] = ( $user->$key ) ? $user->$key : NULL;
+		}		
+		
+		if ($this->has_role('user_fokotany', $user->getId())) {
+			$birao = $user->getBirao();
+			if ($birao instanceof Entities\Birao) {
+				$session['birao_id'] = $birao->getId();
+			}	
 		}
 		
 		$user->setLastLogin(new \DateTime());
@@ -393,7 +399,10 @@ class Acl_auth
 		}
 		$user = $this->user->findById($user_id);
 //		return (bool) $this->user_model->has_role( $user_id, $role_id );
-		return $user->hasRole($roleName);
+		if ($user instanceof Entities\User) {
+			return $user->hasRole($roleName);	
+		}
+		return false;
 	}
 
 	/**

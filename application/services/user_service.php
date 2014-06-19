@@ -14,13 +14,23 @@ class User_service
 	
 	public function register( $data )
 	{
-		$role = $this->em->getRepository('Entities\Role')->find(2); // simple utilisateur
+		
 		
 		$name = isset($data['name']) ? $data['name'] : '';
 		$email = $data['email'];
 		$password = $this->CI->phpass->hash( $data['password'] );
 		
 		$user = new Entities\User();
+		
+		$roleId = isset($data['role']) ? $data['role'] : 2;
+		$role = $this->em->getRepository('Entities\Role')->find($roleId);
+		
+		$biraoId = isset($data['birao']) ? $data['birao'] : '';
+		if (isset($biraoId) && $biraoId) {
+			$birao = $this->em->getRepository('Entities\Birao')->find($biraoId);
+			$user->setBirao($birao);
+		}		
+		
 		$user->setName($name);
 		$user->setEmail($email);
 		$user->setPassword($password);
@@ -68,12 +78,39 @@ class User_service
 	public function logout($id)
 	{
 		$user = $this->findById($id);
-		$user->setLastLogout(new \DateTime());
-		return $this->save($user);
+		if ($user instanceof Entities\User) {
+			$user->setLastLogout(new \DateTime());
+			return $this->save($user);	
+		} else {
+			return false;
+		}		
 	}
 	
 	public function findById($id)
 	{
 		return $this->em->getRepository('Entities\User')->find($id);
+	}
+	
+	public function listRole()
+	{
+		return $this->em->getRepository('Entities\Role')->findAll();
+	}
+	
+	public function getRoleByName($roleName)
+	{
+		return $this->em->getRepository('Entities\Role')->findByLibelle($roleName);
+	}
+	
+	public function getUserRolename($userId)
+	{
+		$user = $this->findById($userId);
+		$return = array();
+		if ($user instanceof Entities\User) {
+			$roles = $user->getRoles();			
+			foreach ($roles as $role) {
+				array_push($return, array('roleId' => $role->getId(), 'roleName' => $role->getLibelle()));
+			}	
+		}
+		return $return;
 	}
 }

@@ -33,7 +33,7 @@
 						
 						<div class="form-group">
 							<label for="anarana">Anarana</label>
-							<input type="text" class="form-control" name="anarana" placeholder="Anarana" value="<?php echo set_value('anarana', (isset($anarana)) ? $anarana : ''); ?> ">
+							<input type="text" class="form-control" name="anarana" placeholder="Anarana" value="<?php echo set_value('anarana', (isset($anarana)) ? $anarana : ''); ?>">
 						</div>
 					</div><!-- /.box-body -->
 					<div class="box-footer">

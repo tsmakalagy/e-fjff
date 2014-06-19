@@ -499,6 +499,58 @@ class Fokotany_service
 				$res['adiresy'] = isset($adiresy) ? $adiresy : ' - ';
 				array_push($return, $res);
 			}
+		} else if ($type == 'olona') {
+			$loc = setlocale(LC_TIME, 'fr_FR.UTF-8'); // Locale Francais pour la date
+			$sql = 'SELECT o FROM Entities\Olona o JOIN o.karapokotany k ORDER BY k.id ASC';
+			$query = $this->em->createQuery($sql);
+			if ($limit > 0) {
+				$query->setMaxResults($limit);
+			}
+			if ($offset > 0) {
+				$query->setFirstResult($offset);
+			}
+			$olonas = $query->getResult();
+			foreach ($olonas as $item) {
+				$res = array();
+				$res['id'] = $item->getId();
+				$res['name'] = strtoupper(strtolower($item->getAnarana())) . ' ' . ucfirst(strtolower($item->getFanampiny()));
+				$datenaissance = $item->getDatenaissance();
+				$now = new \DateTime();
+				if ($datenaissance instanceof \DateTime) {
+					$interval = $now->diff($datenaissance);
+					$res['age'] = $interval->y;	
+				} else {
+					$res['age'] = '-';
+				}
+				$res['cin'] = $item->getCin();
+				$dateCin = $item->getDatecin();
+				$res['datecin'] = isset($dateCin) ? strftime('%d %B %Y', $dateCin->getTimeStamp()) : '';
+				$res['andraikitra'] = $item->getAndraikitra()->getAnarana();
+				$res['asa'] = $item->getAsa();
+				$parents = $item->getParents();
+				if (isset($parents) && count($parents)) {
+					foreach ($parents as $parent) {
+						$parentName = strtoupper(strtolower($parent->getAnarana())) . ' ' . ucfirst(strtolower($parent->getFanampiny()));
+						$parentSex = $parent->getSex();
+						$spouse = $parent->getSpouse();
+						if ($parentSex == 1) {
+							$res['dad'] = $parentName;	
+							if ($spouse instanceof Entities\Olona) {
+								$res['mom'] = strtoupper(strtolower($spouse->getAnarana())) . ' ' . ucfirst(strtolower($spouse->getFanampiny()));
+							}						
+						} else {
+							$res['mom'] = $parentName;
+							if ($spouse instanceof Entities\Olona) {
+								$res['dad'] = strtoupper(strtolower($spouse->getAnarana())) . ' ' . ucfirst(strtolower($spouse->getFanampiny()));
+							}						
+						}
+					}
+				}
+				$res['karapokotany'] = $item->getKarapokotany()->getId();
+				$sex = $item->getSex();				
+				$res['sex'] = ($sex == 1) ? 'Lahy' : 'Vavy';
+				array_push($return, $res);
+			}
 		}
 		return $return;
 	}
@@ -527,6 +579,7 @@ class Fokotany_service
  		}
  		return $result;
 	}
+	
 	
 	public function listKarapokotanyByBiraoId($biraoId)
 	{

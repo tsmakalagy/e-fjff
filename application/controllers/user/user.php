@@ -8,6 +8,8 @@ class User extends GSM_Controller
 	{
 		parent::__construct();
 		$this->setLayoutView("layout_user");
+		$this->load->service('user_service', 'user');
+		$this->load->service('fokotany_service', 'fkt');
 		$this->load->library('acl_auth');
 	}
 
@@ -35,6 +37,9 @@ class User extends GSM_Controller
 				$remember_me = TRUE;
 			}
 			if ($this->acl_auth->login($identity, $password, $remember_me)) {
+				if ($this->acl_auth->has_role('user_fokotany')) {
+					redirect('admin');
+				}
 				redirect('/');
 			} else {
                 $data['error'] = 'V&eacute;rifier votre email ou mot de passe';
@@ -45,34 +50,57 @@ class User extends GSM_Controller
 	}
 	
 	
-	public function register()
+	public function register($user = 'guest')
 	{
 		$data['title'] = 'Register';
+		$isAdmin = false;
+		if ($user == 'admin') {
+			$isAdmin = true;	
+		}		
+		if ($isAdmin) {
+			$this->load->library('acl_auth');
+			$this->acl_auth->restrict_access('admin');
+			$this->setLayoutView("layout_admin");
+		}
 		
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->library('form_validation');
 		
+		$post = $this->input->post();
+		
 		$this->form_validation->set_rules('name', 'Name', 'trim|xss_clean');
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|callback_email_check|xss_clean');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|xss_clean');
-		$this->form_validation->set_rules('passwordVerify', 'Password Confirmation', 'trim|required|matches[password]|');
+		$this->form_validation->set_rules('passwordVerify', 'Password Confirmation', 'required|matches[password]|');
 		
 		if ($this->form_validation->run() == FALSE) {
 			$this->form_validation->set_error_delimiters('<div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');
 		} else {
-			$post = array();
 			$post['name'] = set_value('name');
 			$post['email'] = set_value('email');
 			$post['password'] = set_value('password');
 			if ($this->acl_auth->register($post)) {
-				redirect('home');
+				if ($isAdmin) {
+					
+				} else {
+					if ($this->acl_auth->login( $post['email'], $post['password'], TRUE )) {
+						redirect('/');	
+					} else {
+						$data['errors'] = 'V&eacute;rifier votre email ou mot de passe';
+					}		
+				}
+							
 			} else { 
 				$data['errors'] = $this->acl_auth->errors(); 
 			}
 			
 		}
-		
+		if ($isAdmin) {
+			$data['roles'] = $this->user->listRole();
+			$data['biraos'] = $this->fkt->lister('birao', 0);	
+			$data['hide_login'] = true;
+		}		
 		$this->setData($data);
         $this->setContentView('user/register');
 		
@@ -82,7 +110,7 @@ class User extends GSM_Controller
 	function logout()
  	{
  		if ($this->acl_auth->logout()) {
-			redirect('/');
+			redirect('user/login');
 		}
  	}
 	

@@ -35,18 +35,35 @@
 								<?php echo $success; ?>
 							</div>
 						<?php }?>	
-						<div id="olona-form">					
+						<div id="olona-form">
+							<?php if (isset($biraos) && count($biraos)) {?>
+							<div class="form-group">
+								<label for="birao">Birao</label>
+								<select name="birao" id="birao" class="form-control select-birao">
+									<option></option>
+										<?php		
+										foreach ($biraos as $item) {?>
+											<option value="<?php echo $item['id']; ?>"><?php echo $item['fokotany']; ?></option>
+										<?php }?>									
+								</select>							
+							</div>	
+							<div class="form-group">
+								<label for="karapokotany">Karapokotany</label>
+								<input type="text" class="form-control select-karapokotany-admin" name="karapokotany" placeholder="Selectionner karapokotany">
+							</div>
+							<?php }?>
+							<?php if (isset($karapokotanies) && count($karapokotanies)) {?>				
 							<div class="form-group">
 								<label for="karapokotany">Karapokotany</label>
 								<select name="karapokotany" id="karapokotany" class="form-control select-karapokotany">
 									<option></option>
-									<?php if (isset($karapokotanies) && count($karapokotanies)) {
+										<?php									
 										foreach ($karapokotanies as $item) {?>
 											<option value="<?php echo $item->getId(); ?>"><?php echo $item->getLaharana(); ?></option>
-										<?php }
-									}?>
+										<?php }?>
 								</select>							
 							</div>
+							<?php } ?>
 							<div class="form-group">
 								<label for="andraikitra">Andraikitra</label>
 								<select name="andraikitra" class="form-control select-andraikitra">
@@ -71,15 +88,15 @@
 							</div>
 							<div class="form-group">
 								<label for="anarana">Anarana</label>
-								<input type="text" class="form-control" name="anarana" placeholder="Anarana" value="<?php echo isset($anarana) ? $anarana : ''; ?> ">
+								<input type="text" class="form-control" name="anarana" placeholder="Anarana" value="<?php echo isset($anarana) ? $anarana : ''; ?>">
 							</div>
 							<div class="form-group">
 								<label for="fanampiny">Fanampiny</label>
-								<input type="text" class="form-control" name="fanampiny" placeholder="Fanampiny" value="<?php echo isset($fanampiny) ? $fanampiny : ''; ?> ">
+								<input type="text" class="form-control" name="fanampiny" placeholder="Fanampiny" value="<?php echo isset($fanampiny) ? $fanampiny : ''; ?>">
 							</div>						
 							<div class="form-group">
 								<label for="nahaterahana">Daty nahaterahana</label>
-								<input type="text" class="form-control datepicker" name="nahaterahana" placeholder="Daty nahaterahana" value="<?php echo isset($nahaterahana) ? $nahaterahana : ''; ?> ">
+								<input type="text" class="form-control datepicker" name="nahaterahana" placeholder="Daty nahaterahana" value="<?php echo isset($nahaterahana) ? $nahaterahana : ''; ?>">
 							</div>
 							<div class="form-group">
 								<label for="sex">Sexe</label>
@@ -94,15 +111,15 @@
 							</div>
 							<div class="form-group">
 								<label for="cin">Karapanondro</label>
-								<input type="text" class="form-control" name="cin" value="<?php echo isset($cin) ? $cin : ''; ?> "  data-inputmask="'mask': ['999-999-999-999']" data-mask/>
+								<input type="text" class="form-control" name="cin" value="<?php echo isset($cin) ? $cin : ''; ?>"  data-inputmask="'mask': ['999-999-999-999']" data-mask/>
 							</div>
 							<div class="form-group">
 								<label for="date_cin">Nomena t@</label>
-								<input type="text" class="form-control datepicker" name="date_cin" placeholder="Nomena t@" value="<?php echo isset($date_cin) ? $date_cin : ''; ?> ">
+								<input type="text" class="form-control datepicker" name="date_cin" placeholder="Nomena t@" value="<?php echo isset($date_cin) ? $date_cin : ''; ?>">
 							</div>
 							<div class="form-group">
 								<label for="asa">Asa</label>
-								<input type="text" class="form-control select-asa" name="asa" placeholder="Asa" value="<?php echo isset($asa) ? $asa : ''; ?> ">
+								<input type="text" class="form-control select-asa" name="asa" placeholder="Asa" value="<?php echo isset($asa) ? $asa : ''; ?>">
 							</div>	
 							<div class="form-group">
 								<label for="vady">Manam-bady</label>
@@ -160,11 +177,60 @@ if (isset($andraikitras) && count($andraikitras)) {
 		array_push($listAndraikitras, array('id' => $item->getId(), 'anarana' => $item->getAnarana()));
 	}
 }?>
-var andraikitras = <?php echo json_encode($listAndraikitras); ?>
+var andraikitras = <?php echo json_encode($listAndraikitras); ?>;
+var karapokotany_url = "<?php echo site_url('fokotany/karapokotany/ajax'); ?>";
+function format(item) { return item.text; };
 
 $(document).ready(function() {
-	var selectKarapokotany = $(".select-karapokotany").select2({minimumResultsForSearch: 10, placeholder: 'Selectionner karapokotany'});
-	var selectAndraikitra = $(".select-andraikitra").select2({minimumResultsForSearch: 10, placeholder: 'Selectionner andraikitra'});
+	var selectBirao = $(".select-birao").select2({
+		minimumResultsForSearch: 10,
+		allowClear: true, 
+		placeholder: 'Selectionner birao'
+	});
+	var selectKarapokotany = $(".select-karapokotany").select2({
+		minimumResultsForSearch: 10, 
+		allowClear: true,
+		placeholder: 'Selectionner karapokotany'
+	});
+	var selectAndraikitra = $(".select-andraikitra").select2({
+		minimumResultsForSearch: 10, 
+		allowClear: true,
+		placeholder: 'Selectionner andraikitra'
+	});
+
+
+	var karapokotany_opts = {};
+
+	selectBirao.on('change', function(event){
+		$(this).valid();
+		if(event.target == this){
+			var biraoId = event.val;
+			if (biraoId > 0) {
+				var url = karapokotany_url + "/" + biraoId;
+				var data = {results: []};
+				$.ajax({
+					url: url,
+					dataType: 'json',
+					success: function(res) {
+						data.results = res;
+						karapokotany_opts = {
+							placeholder: "Selectionner karapokotany",
+							allowClear: true,
+							minimumResultsForSearch: 10,
+							query: function(query) {
+								query.callback(data);
+							}
+						};
+						$(".select-karapokotany-admin").data("s3opts", karapokotany_opts).
+							select2(karapokotany_opts).
+							on('change', function() {
+								$(this).valid();
+							});
+					}
+				});	
+			}	
+		}
+	});
 
 	$('.datepicker').datepicker();
 
@@ -348,6 +414,7 @@ $(document).ready(function() {
 		errorClass: 'help-block',
 		focusInvalid: false,
 		rules: {
+			birao: 'required',
     		karapokotany:'required',
 			andraikitra: 'required',
 			anarana: {
@@ -367,6 +434,9 @@ $(document).ready(function() {
 		},
 
 		messages: {
+			birao: {
+				required: "Misafidiana birao"
+			},
 			karapokotany: {
 				required: "Misafidiana karapokotany"
 			},

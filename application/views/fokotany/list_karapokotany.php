@@ -98,7 +98,7 @@ jQuery(document).ready(function() {
 			                    		tr.remove();
 				        			}
 			                    } else {
-			                    	console.log("error");             	
+			                    	       	
 			                    }
 			        			
 			        		}

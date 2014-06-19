@@ -6,7 +6,7 @@ class Fokotany extends GSM_Controller
 		parent::__construct();
 		$this->load->library('acl_auth');
 		$this->load->service('fokotany_service', 'fkt');
-		$this->acl_auth->restrict_access('admin');
+		$this->acl_auth->restrict_access('user_fokotany');
 		$this->setLayoutView("layout_admin");
 	}
 	
@@ -29,7 +29,7 @@ class Fokotany extends GSM_Controller
 				}				
 			}
 		} else if ($type == 'birao') {
-			$data['section_title'] = 'Cr&eacute;er birao';
+			$data['section_title'] = 'Cr&eacute;er birao';			
 			$this->form_validation->set_rules('fokotany', 'Fokotany', 'required');	
 			$this->form_validation->set_rules('address', 'Adiresy', 'trim|xss_clean');
 			$phone = trim($this->input->post('phone'));
@@ -49,9 +49,20 @@ class Fokotany extends GSM_Controller
 			}
 		} else if ($type == 'karapokotany') {
 			$data['section_title'] = 'Ajouter karapokotany';
-			$this->form_validation->set_rules('birao', 'Birao', 'required');	
-			$this->form_validation->set_rules('niaviana', 'Niaviana', 'required');
-			$this->form_validation->set_rules('laharana', 'Laharana', 'trim|required|xss_clean');
+			$biraoId = get_session_value('birao_id');
+			$post = $this->input->post();
+			if (is_numeric($biraoId)) {
+				$b = $this->fkt->findById($biraoId, 'birao');
+				if (isset($b) && count($b)) {
+					$data['section_title'] = $b['fokotany']['name'];
+					$post['birao'] = $b['id'];	
+				}
+				
+			} else {
+				$data['biraos'] = $this->fkt->lister('birao', 0);
+			}
+			
+			$this->form_validation->set_rules('laharana', 'Laharana', 'trim|xss_clean');
 			$this->form_validation->set_rules('nahatongavana', 'Daty nahatongavana', 'trim|xss_clean');
 			$this->form_validation->set_rules('address', 'Adiresy', 'trim|xss_clean');
 			$faritra = trim($this->input->post('faritra'));
@@ -60,10 +71,7 @@ class Fokotany extends GSM_Controller
 			}	
 			if ($this->form_validation->run() == FALSE) {
 				$this->form_validation->set_error_delimiters('<div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');			
-			} else {
-				$post = array();
-				$post['birao'] = set_value('birao');
-				$post['niaviana'] = set_value('niaviana');				 
+			} else {							 
 				$post['laharana'] = set_value('laharana');
 				$post['nahatongavana'] = set_value('nahatongavana');
 				$post['address'] = set_value('address');
@@ -77,18 +85,26 @@ class Fokotany extends GSM_Controller
         $this->setContentView('fokotany/add_' . $type);
 	}
 	
-	public function addFokonolona($biraoId)
+	public function addFokonolona()
 	{
 		$data['title'] = 'Olona - e-Fokonolona';
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->library('form_validation');
 		$data['section_title'] = 'Ajouter olona';
-		if (is_numeric($biraoId)) {
-			$data['karapokotanies'] = $this->fkt->listKarapokotanyByBiraoId($biraoId);
-			$data['andraikitras'] = $this->fkt->listAndraikitra();
-		}
+		$biraoId = get_session_value('birao_id');
 		$post = $this->input->post();
+		if (is_numeric($biraoId)) {
+			$b = $this->fkt->findById($biraoId, 'birao');
+			if (isset($b) && count($b)) {
+				$data['section_title'] = $b['fokotany']['name'];
+			}
+			$data['karapokotanies'] = $this->fkt->listKarapokotanyByBiraoId($biraoId);			
+		} else {
+			$data['biraos'] = $this->fkt->lister('birao', 0);
+		}
+		$data['andraikitras'] = $this->fkt->listAndraikitra();
+		
 		
 		$this->form_validation->set_rules('anarana', 'Anarana', 'trim|xss_clean');
 		$this->form_validation->set_rules('fanampiny', 'Fanampiny', 'trim|xss_clean');
@@ -160,7 +176,9 @@ class Fokotany extends GSM_Controller
 			$data['biraos'] = $this->fkt->lister($type, 0);
 		} else if ($type == 'karapokotany') {			
 			$data['karapokotanies'] = $this->fkt->lister($type, 0);
-		} 
+		} else if ($type == 'olona') {
+			$data['olonas'] = $this->fkt->lister($type, 0);
+		}
 		$this->setData($data);
         $this->setContentView('fokotany/list_' . $type);
 	}
@@ -217,6 +235,19 @@ class Fokotany extends GSM_Controller
 			}
 		} else if ($type == 'karapokotany') {
 			$data['section_title'] = 'Editer karapokotany';
+			$biraoId = get_session_value('birao_id');
+			$post = $this->input->post();
+			if (is_numeric($biraoId)) {
+				$b = $this->fkt->findById($biraoId, 'birao');
+				if (isset($b) && count($b)) {
+					$data['section_title'] = $b['fokotany']['name'];
+					$post['birao'] = $b['id'];	
+				}
+				
+			} else {
+				$data['biraos'] = $this->fkt->lister('birao', 0);
+			}
+			
 			$this->form_validation->set_rules('birao', 'Birao', 'required');	
 			$this->form_validation->set_rules('niaviana', 'Niaviana', 'required');
 			$this->form_validation->set_rules('laharana', 'Laharana', 'trim|required|xss_clean');
@@ -241,7 +272,6 @@ class Fokotany extends GSM_Controller
 			if ($this->form_validation->run() == FALSE) {
 				$this->form_validation->set_error_delimiters('<div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');			
 			} else {
-				$post = array();
 				$post['birao'] = set_value('birao');
 				$post['niaviana'] = set_value('niaviana');				 
 				$post['laharana'] = set_value('laharana');
@@ -303,6 +333,22 @@ class Fokotany extends GSM_Controller
  			array_push($result, $res);
  		}
  		echo json_encode($result);
+	}
+	
+	public function listKarapokotanyByBiraoId($biraoId)
+	{
+		$this->setLayoutView(null);
+		$list = $this->fkt->listKarapokotanyByBiraoId($biraoId);
+		$result = array();
+		foreach ($list as $item) {
+ 			$id = $item->getId();
+ 			$laharana = $item->getLaharana();
+ 			$res = array('id' => $id, 'text' => $laharana);
+ 			array_push($result, $res);
+ 		}
+ 		echo json_encode($result);
+		
+		
 	}
 
 }
