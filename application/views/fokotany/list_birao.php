@@ -1,3 +1,4 @@
+<link href="<?php echo base_url('assets/adminlte/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
@@ -20,9 +21,9 @@
 				<div class="box-header">
 					<h3 class="box-title">Liste birao</h3>
 				</div><!-- /.box-header -->
-				<div class="box-body table-responsive no-padding">
-					<table class="table table-striped">					
-						<tbody>
+				<div class="box-body table-responsive ">
+					<table class="table table-bordered table-striped" id="table-birao">				
+						<thead>
 							<tr>
 								<th style="width: 10px">#</th>
 								<th>Fokotany</th>
@@ -30,6 +31,8 @@
 								<th>Finday</th>
 								<th style="width: 100px">Action</th>
 							</tr>
+						</thead>
+						<tbody>
 							<?php if (isset($biraos) && count($biraos)) {
 								foreach ($biraos as $item) {?>
 							<tr id="row-<?php echo $item['id']; ?>">
@@ -63,14 +66,21 @@
 </section><!-- /.content -->
 <!-- bootbox -->
 <script src="<?php echo base_url('assets/js/bootbox.min.js');?>"></script>
+<script src="<?php echo base_url('assets/adminlte/js/plugins/datatables/jquery.dataTables.js');?>" type="text/javascript"></script>
+<script src="<?php echo base_url('assets/adminlte/js/plugins/datatables/dataTables.bootstrap.js');?>" type="text/javascript"></script>
 <script type="text/javascript">
 var deleteUrl = "<?php echo site_url('fokotany/delete/birao');?>";
-jQuery(document).ready(function() {
-	jQuery('.my-tooltip').tooltip();
-	jQuery('.and_delete').click(function(e) {
-		var tr = jQuery(this).parents('tr');
+$(document).ready(function() {
+	$('.my-tooltip').tooltip();
+	var oTable = $("#table-birao").dataTable({
+		"bLengthChange": false,
+		"bInfo": false,
+		"bProcessing": true
+	});
+	$('.and_delete').click(function(e) {
+		var tr = $(this).parents('tr');
 		var message = "&Ecirc;tes-vous s&ucirc;r de vouloir supprimer ";
-		var name = jQuery(this).parents('tr').find('.and_fokotany').html();
+		var name = $(this).parents('tr').find('.and_fokotany').html();
 		var id = tr.attr('id').slice(4);
 		message += '<strong>' + name + '</strong> ?';
 		bootbox.dialog({
@@ -88,16 +98,16 @@ jQuery(document).ready(function() {
 		      		label: "Oui",
 		      		className: "btn-danger",
 		      		callback: function() {
-			    		jQuery.ajax({
+			    		$.ajax({
 			            	type: "POST",
 			                url: deleteUrl + '/' + id,
 			                dataType: "json",
 			    			beforeSend: function() {    
-			        			jQuery('.box-body').after('<div class="overlay"></div><div class="loading-img"></div>');		
+			        			$('.box-body').after('<div class="overlay"></div><div class="loading-img"></div>');		
 			        		},
 			                success: function(res) {
-				                jQuery('.overlay').remove();
-				                jQuery('.loading-img').remove();
+				                $('.overlay').remove();
+				                $('.loading-img').remove();
 			        			if (res.success == true) {
 				        			if (tr.siblings().length == 1) {
 					        			tr.html('<td colspan="5">Pas de birao.</td>');

@@ -75,7 +75,7 @@ class User
 	protected $lastLogout;
 	
 	/**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\ManyToMany(targetEntity="Role")
      * @ORM\JoinTable(name="fk_user_role",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="fk_us_id")},
@@ -230,6 +230,12 @@ class User
         foreach ($roles as $role) {
             $this->roles->removeElement($role);
         }
+        return $this;
+    }
+    
+	public function removeRole(Role $role)
+    {
+        $this->roles->removeElement($role);        
         return $this;
     }
     

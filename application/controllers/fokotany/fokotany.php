@@ -323,8 +323,13 @@ class Fokotany extends GSM_Controller
 	{
 		$this->setLayoutView(null);
 		$get = $this->input->get();
-		$query = $get['q'];
-		$list = $this->fkt->getBiraoStartingBy($query);
+		if (array_key_exists('q', $get)) {
+			$query = $get['q'];	
+			$list = $this->fkt->getBiraoStartingBy($query);
+		} else {
+			$list = $this->fkt->lister('birao', 0);
+		}	
+		
 		$result = array();
  		foreach ($list as $item) {
  			$id = $item['id'];

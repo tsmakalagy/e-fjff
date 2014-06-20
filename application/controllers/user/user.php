@@ -103,8 +103,66 @@ class User extends GSM_Controller
 		}		
 		$this->setData($data);
         $this->setContentView('user/register');
-		
-				
+	}
+	
+	public function listUser()
+	{
+		$data['title'] = 'Admin - e-Fokonolona';
+		$this->load->library('acl_auth');
+		$this->acl_auth->restrict_access('admin');
+		$this->setLayoutView("layout_admin");
+		$data['users'] = $this->user->listUser();
+		$this->setData($data);
+        $this->setContentView('user/list_user');
+	}
+	
+	public function listRole()
+	{
+		$this->setLayoutView(null);
+		$list = $this->user->listRole();
+		$result = array();
+ 		foreach ($list as $item) {
+ 			$id = $item->getId();
+ 			$roleName = $item->getLibelle();
+ 			$res = array('id' => $id, 'text' => $roleName);
+ 			array_push($result, $res);
+ 		}
+ 		echo json_encode($result);
+	}
+	
+	public function changeRole()
+	{
+		$this->setLayoutView(null);
+		$post = $this->input->post();
+		$return = array();
+		if (array_key_exists('pk', $post) && array_key_exists('value', $post)) {
+			$data = array('userId' => $post['pk'], 'roleId' => $post['value']);
+			if ($this->user->changeRole($data)) {
+				$return['success'] = true;
+			} else {
+				$return['success'] = false;
+			}	
+		}				
+		if ($post['value'] == 3) {
+			$return['isFkt'] = true;
+		}
+		echo json_encode($return);
+	}
+	
+	public function changeBirao()
+	{
+		$this->setLayoutView(null);
+		$post = $this->input->post();
+		$return = array();
+		if (array_key_exists('pk', $post) && array_key_exists('value', $post)) {
+			$data = array('userId' => $post['pk'], 'biraoId' => $post['value']);
+			if ($this->user->changeBirao($data)) {
+				$return['success'] = true;
+			} else {
+				$return['success'] = false;
+			}	
+		}
+		echo json_encode($return);
 	}
 	
 	function logout()

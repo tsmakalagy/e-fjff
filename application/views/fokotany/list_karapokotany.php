@@ -1,3 +1,4 @@
+<link href="<?php echo base_url('assets/adminlte/css/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
@@ -20,10 +21,10 @@
 				<div class="box-header">
 					<h3 class="box-title">Liste karapokotany</h3>
 				</div><!-- /.box-header -->
-				<div class="box-body table-responsive no-padding">
-					<table class="table table-striped">
+				<div class="box-body table-responsive ">
+					<table class="table table-bordered table-striped" id="table-karapokotany">
 					
-						<tbody>
+						<thead>
 							<tr>
 								<th style="width: 10px">#</th>
 								<th>Birao</th>
@@ -32,6 +33,8 @@
 								<th>Adiresy</th>
 								<th style="width: 130px">Action</th>
 							</tr>
+						</thead>
+						<tbody>
 							<?php if (isset($karapokotanies) && count($karapokotanies)) {
 								foreach ($karapokotanies as $item) {?>
 							<tr id="row-<?php echo $item['id']; ?>">
@@ -68,6 +71,11 @@ var detailUrl = "<?php echo site_url('fokotany/detail/karapokotany');?>";
 var deleteUrl = "<?php echo site_url('fokotany/delete/karapokotany');?>";
 $(document).ready(function() {
 	$('.my-tooltip').tooltip();
+	var oTable = $("#table-karapokotany").dataTable({
+		"bLengthChange": false,
+		"bInfo": false,
+		"bProcessing": true
+	});
 	$('.and_delete').click(function(e) {
 		var tr = $(this).parents('tr');
 		var message = "&Ecirc;tes-vous s&ucirc;r de vouloir supprimer?";

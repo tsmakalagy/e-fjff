@@ -55,7 +55,7 @@
 			<!-- sidebar menu: : style can be found in sidebar.less -->
 			<ul class="sidebar-menu">
 				<li class="active">
-					<a href="#">
+					<a href="<?php echo site_url('admin'); ?>">
 						<i class="fa fa-dashboard"></i> <span>Tableau de bord</span>
 					</a>
 				</li>
@@ -107,7 +107,7 @@
 					</a>
 					<ul class="treeview-menu">
 						<li><a href="<?php echo site_url('admin/user/add'); ?>"><i class="fa fa-plus"></i> Ajouter</a></li>
-						<li><a href="#"><i class="fa fa-list"></i> Lister</a></li>
+						<li><a href="<?php echo site_url('admin/user/list'); ?>"><i class="fa fa-list"></i> Lister</a></li>
 					</ul>
 				</li>
 				<?php } ?>

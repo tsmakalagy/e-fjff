@@ -113,4 +113,63 @@ class User_service
 		}
 		return $return;
 	}
+	
+	public function listUser()
+	{
+		$users = $this->em->getRepository('Entities\User')->findAll();
+		$return = array();
+		if (isset($users) && count($users)) {
+			foreach ($users as $user) {
+				$res = array();
+				$res['id'] = $user->getId();
+				$res['name'] = $user->getName();
+				$roles = $user->getRoles();
+				if (isset($roles) && count($roles)) {					
+					foreach ($roles as $role) {
+						$res['role'] = array('id' => $role->getId(), 'name' => $role->getLibelle());
+					}
+				}  
+				$birao = $user->getBirao();
+				if ($birao instanceof Entities\Birao) {
+					$res['birao'] = array('id' => $birao->getId(), 'fokotany' => $birao->getFokotany()->getName());					
+				}
+				array_push($return, $res);
+			}
+		}
+		return $return;
+	}
+	
+	public function changeRole($data)
+	{
+		$userId = (int)$data['userId'];
+		$roleId = (int)$data['roleId'];
+		$user = $this->em->find('Entities\User', $userId);
+		$role = $this->em->find('Entities\Role', $roleId);
+		if ($user instanceof Entities\User && $role instanceof Entities\Role) {
+			$currentRoles = $user->getRoles();
+			foreach ($currentRoles as $item) {
+				$user->removeRole($item);	
+			}			
+			$user->addRole($role);
+			$this->em->persist($user);
+			$this->em->flush();
+			return true;
+		}
+		return false;
+	}
+	
+	public function changeBirao($data)
+	{
+		$userId = (int)$data['userId'];
+		$biraoId = (int)$data['biraoId'];
+		$user = $this->em->find('Entities\User', $userId);
+		$birao = $this->em->find('Entities\Birao', $biraoId);
+		if ($user instanceof Entities\User && $birao instanceof Entities\Birao) {			
+			$user->setBirao($birao);
+			$this->em->persist($user);
+			$this->em->flush();
+			return true;
+		}
+		return false;
+	}
 }
