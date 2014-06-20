@@ -65,11 +65,11 @@
 						</div>
 						<div class="form-group">
 							<label for="nahatongavana">Daty nahatongavana</label>
-							<input type="text" class="form-control datepicker" name="nahatongavana" placeholder="Daty nahatongavana" value="<?php echo set_value('nahatongavana', (isset($nahatongavana)) ? $nahatongavana : ''); ?> ">
+							<input type="text" class="form-control datepicker" name="nahatongavana" placeholder="Daty nahatongavana" value="<?php echo set_value('nahatongavana', (isset($nahatongavana)) ? $nahatongavana : ''); ?>">
 						</div>
 						<div class="form-group">
 							<label for="address">Adiresy</label>
-							<input type="text" class="form-control" name="address" placeholder="Adiresy" value="<?php echo set_value('address', (isset($address)) ? $address : ''); ?> ">
+							<input type="text" class="form-control" name="address" placeholder="Adiresy" value="<?php echo set_value('address', (isset($address)) ? $address : ''); ?>">
 						</div>						
 					</div><!-- /.box-body -->
 					<div class="box-footer">
@@ -139,6 +139,7 @@ $(document).ready(function() {
 		rules: {
 			laharana: 'required',
 			birao: 'required',
+			address: 'required',
 		},
 		messages: {
 			laharana: {
@@ -146,6 +147,9 @@ $(document).ready(function() {
 			},
 			birao: {
 				required: "Misafidiana birao"
+			},
+			address: {
+				required: "Mampidira adiresy"
 			},
 		},
 		highlight: function (e) {
