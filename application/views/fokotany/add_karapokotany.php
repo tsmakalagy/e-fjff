@@ -24,7 +24,7 @@
 					<h3 class="box-title"><?php echo $section_title; ?></h3>
 				</div><!-- /.box-header -->
 				<!-- form start -->
-				<form role="form" method="post" action="">
+				<form role="form" method="post" action="" id="validation-form">
 					<div class="box-body">
 						<?php echo validation_errors(); ?>
 						<?php if (isset($success) && strlen($success)) {?>
@@ -82,6 +82,7 @@
 </section><!-- /.content -->
 <script src="<?php echo base_url('assets/select2/js/select2.min.js');?>"></script>
 <script src="<?php echo base_url('assets/datepicker/js/bootstrap-datepicker.js');?>"></script>
+<script src="<?php echo base_url('assets/js/jquery.validate.min.js');?>"></script>
 <script type="text/javascript">
 <!--
 var birao_url = "<?php echo site_url('fokotany/birao/ajax'); ?>";
@@ -131,6 +132,50 @@ $(document).ready(function() {
 	} 
 	$(".select-niaviana").data("s3opts", fokotany_opts).select2(fokotany_opts);
 	$('.datepicker').datepicker();
+	$('#validation-form').validate({
+		errorElement: 'span',
+		errorClass: 'help-block',
+		focusInvalid: false,
+		rules: {
+			laharana: 'required',
+			birao: 'required',
+		},
+		messages: {
+			laharana: {
+				required: "Mampidira laharana"
+			},
+			birao: {
+				required: "Misafidiana birao"
+			},
+		},
+		highlight: function (e) {
+			$(e).closest('.form-group').addClass('has-error');
+		},
+
+		success: function (e) {
+			$(e).closest('.form-group').removeClass('has-error');
+			$(e).remove();
+		},
+
+		errorPlacement: function (error, element) {
+			if(element.is(':checkbox') || element.is(':radio')) {
+				$(element).closest('.form-group').append(error);
+			}
+			else if(element.is('.select2')) {
+				error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+			}
+			else if(element.is('.chzn-select')) {
+				error.insertAfter(element.siblings('[class*="chzn-container"]:eq(0)'));
+			}
+			else error.insertAfter(element);
+		},
+
+		submitHandler: function (form) {
+			form.submit();
+		},
+		invalidHandler: function (form) {
+		}
+	});
 });
 //-->
 </script>
