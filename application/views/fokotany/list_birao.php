@@ -52,11 +52,7 @@
 								<a class="btn btn-sm btn-warning and_delete my-tooltip" data-toggle="tooltip" data-placement="bottom" href="#" title="Supprimer"><i class="fa fa-trash-o"></i></a></td>
 							</tr>		
 							<?php }
-							} else {?>
-							<tr>
-								<td colspan="5">Pas de birao.</td>
-							</tr>
-							<?php } ?>
+							} ?>
 						</tbody>
 					</table>	
 					

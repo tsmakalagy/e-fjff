@@ -50,11 +50,7 @@
 								</td>
 							</tr>		
 							<?php }
-							} else {?>
-							<tr>
-								<td colspan="6">Pas de karapokotany.</td>
-							</tr>
-							<?php } ?>
+							} ?>
 						</tbody>					
 					</table>	
 					
