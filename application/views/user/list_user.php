@@ -30,6 +30,7 @@
 							<tr>
 								<th style="width: 10px">#</th>
 								<th>Nom</th>
+                                <th>Email</th>
 								<th style="width: 300px">Role</th>
 								<th>Birao</th>
 							</tr>
@@ -46,6 +47,7 @@
 							<tr id="row-<?php echo $item['id']; ?>">
 								<td><?php echo $item['id']; ?>.</td>
 								<td><?php echo $item['name']; ?></td>
+                                <td><?php echo $item['email']; ?></td>
 								<td><a href="#" class="role-user" data-type="select2" data-pk="<?php echo $item['id']; ?>" data-title="Selectionner role" data-value="<?php echo $item['role']['id']; ?>"><?php echo $item['role']['name']; ?></a></td>
 								<?php if ($isBirao) {?>
 									<td class="birao-to-edit"><a href="#" class="birao-user" data-type="select2" data-pk="<?php echo $item['id']; ?>" data-title="Selectionner birao" data-value="<?php echo $biraoId; ?>"><?php echo $biraoName; ?></a></td>

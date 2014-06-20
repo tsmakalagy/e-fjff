@@ -123,6 +123,7 @@ class User_service
 				$res = array();
 				$res['id'] = $user->getId();
 				$res['name'] = $user->getName();
+                $res['email'] = $user->getEmail();
 				$roles = $user->getRoles();
 				if (isset($roles) && count($roles)) {					
 					foreach ($roles as $role) {
