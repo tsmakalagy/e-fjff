@@ -64,11 +64,7 @@
 								</td>
 							</tr>		
 							<?php }
-							} else {?>
-							<tr>
-								<td colspan="6">Pas de olona.</td>
-							</tr>
-							<?php } ?>
+							}  ?>
 						</tbody>					
 					</table>	
 					
