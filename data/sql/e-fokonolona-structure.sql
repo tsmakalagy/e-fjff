@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 15, 2014 at 04:42 PM
+-- Generation Time: Jun 20, 2014 at 04:26 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-7
 
@@ -273,7 +273,7 @@ ALTER TABLE `fk_fkt_user`
 --
 ALTER TABLE `fk_kara_pokotany`
   ADD CONSTRAINT `FK_D363D7F51079EA49` FOREIGN KEY (`fk_kp_fkt_niaviana`) REFERENCES `fokotany` (`id`),
-  ADD CONSTRAINT `FK_D363D7F561D700B9` FOREIGN KEY (`fk_kp_lohampianakaviana`) REFERENCES `fk_olona` (`fk_ol_id`),
+  ADD CONSTRAINT `FK_D363D7F561D700B9` FOREIGN KEY (`fk_kp_lohampianakaviana`) REFERENCES `fk_olona` (`fk_ol_id`) ON DELETE SET NULL,
   ADD CONSTRAINT `FK_D363D7F5A196879D` FOREIGN KEY (`fk_kp_fkt_andehanana`) REFERENCES `fokotany` (`id`),
   ADD CONSTRAINT `FK_D363D7F5F13F78D9` FOREIGN KEY (`birao_id`) REFERENCES `birao` (`id`);
 
@@ -282,8 +282,8 @@ ALTER TABLE `fk_kara_pokotany`
 --
 ALTER TABLE `fk_olona`
   ADD CONSTRAINT `FK_EF1DE7B52EE2E201` FOREIGN KEY (`fk_ol_andr_id`) REFERENCES `fk_ol_andraikitra` (`fk_andr_id`),
-  ADD CONSTRAINT `FK_EF1DE7B58EEC5B5C` FOREIGN KEY (`spouse_id`) REFERENCES `fk_olona` (`fk_ol_id`),
-  ADD CONSTRAINT `FK_EF1DE7B5F3D248F1` FOREIGN KEY (`fk_ol_kp_id`) REFERENCES `fk_kara_pokotany` (`fk_kp_id`);
+  ADD CONSTRAINT `FK_EF1DE7B58EEC5B5C` FOREIGN KEY (`spouse_id`) REFERENCES `fk_olona` (`fk_ol_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_EF1DE7B5F3D248F1` FOREIGN KEY (`fk_ol_kp_id`) REFERENCES `fk_kara_pokotany` (`fk_kp_id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `fk_photo`
@@ -308,5 +308,5 @@ ALTER TABLE `fk_user_role`
 -- Constraints for table `parents_children`
 --
 ALTER TABLE `parents_children`
-  ADD CONSTRAINT `FK_2B7D386A727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `fk_olona` (`fk_ol_id`),
-  ADD CONSTRAINT `FK_2B7D386ADD62C21B` FOREIGN KEY (`child_id`) REFERENCES `fk_olona` (`fk_ol_id`);
+  ADD CONSTRAINT `FK_2B7D386A727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `fk_olona` (`fk_ol_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_2B7D386ADD62C21B` FOREIGN KEY (`child_id`) REFERENCES `fk_olona` (`fk_ol_id`) ON DELETE CASCADE;

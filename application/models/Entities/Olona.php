@@ -46,7 +46,7 @@ class Olona
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Karapokotany", inversedBy="olonas")
-     * @ORM\JoinColumn(name="fk_ol_kp_id", referencedColumnName="fk_kp_id")
+     * @ORM\JoinColumn(name="fk_ol_kp_id", referencedColumnName="fk_kp_id", onDelete="SET NULL")
      * @var Entities\Karapokotany
      */
 	protected $karapokotany;
@@ -84,7 +84,7 @@ class Olona
 	
 	/**
      * @ORM\OneToOne(targetEntity="Olona")
-     * @ORM\JoinColumn(name="spouse_id", referencedColumnName="fk_ol_id")
+     * @ORM\JoinColumn(name="spouse_id", referencedColumnName="fk_ol_id", onDelete="CASCADE")
      **/
 	protected $spouse;
 	
@@ -96,8 +96,8 @@ class Olona
 	/**
      * @ORM\ManyToMany(targetEntity="Olona", inversedBy="parents")
      * @ORM\JoinTable(name="parents_children",
-     *              joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="fk_ol_id")},
-     *              inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="fk_ol_id")}
+     *              joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="fk_ol_id", onDelete="CASCADE")},
+     *              inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="fk_ol_id", onDelete="CASCADE")}
      *              )
      */
 	protected $children;

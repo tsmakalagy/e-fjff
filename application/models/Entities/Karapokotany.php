@@ -34,7 +34,7 @@ class Karapokotany
 	
 	/**
      * @ORM\OneToOne(targetEntity="Olona")
-     * @ORM\JoinColumn(name="fk_kp_lohampianakaviana", referencedColumnName="fk_ol_id")
+     * @ORM\JoinColumn(name="fk_kp_lohampianakaviana", referencedColumnName="fk_ol_id", onDelete="SET NULL")
      * @var Entities\Olona
      **/
 	protected $lohampianakaviana;
