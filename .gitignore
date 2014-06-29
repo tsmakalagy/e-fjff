@@ -10,6 +10,6 @@ application/logs/*
 
 assets/files/*
 .settings/*
-application/models/proxies/*
+application/models/proxies/*.php
 
 user_guide/*
