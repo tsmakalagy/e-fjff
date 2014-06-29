@@ -22,8 +22,7 @@ class Upload extends FJFF_Controller
 	{
 		$this->setLayoutView(null);
 		$this->load->library('LiquenImg');
-		$post = $this->input->post();
-		define('PUBLIC_PATH', FCPATH . '/assets');
+		$post = $this->input->post();		
 		if (array_key_exists('source', $post)) {
 			$source = $post['source'];
 			$uploadPath = '';

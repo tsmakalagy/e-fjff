@@ -40,7 +40,7 @@ class UploadHandler
     function __construct($options = null, $initialize = true, $error_messages = null) {
         $this->options = array(
             'script_url' => $this->get_full_url().'/bid/ajax',
-            'upload_dir' => FCPATH . '/assets/files/',
+            'upload_dir' => PUBLIC_PATH . '/files/',
             'upload_url' => $this->get_full_url().'/assets/files/',
             'user_dirs' => false,
             'mkdir_mode' => 0755,

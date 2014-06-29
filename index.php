@@ -192,6 +192,8 @@ if (defined('ENVIRONMENT'))
 
 		define('APPPATH', BASEPATH.$application_folder.'/');
 	}
+	
+	define('PUBLIC_PATH', FCPATH . '/assets');
 
 /*
  * ------------------------- 
