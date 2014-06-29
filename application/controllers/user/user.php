@@ -1,15 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 session_start();
-class User extends GSM_Controller 
+class User extends FJFF_Controller 
 {
-	private $em = null;
 	
 	public function __construct()
 	{
 		parent::__construct();
 		$this->setLayoutView("layout_user");
 		$this->load->service('user_service', 'user');
-		$this->load->service('fokotany_service', 'fkt');
 		$this->load->library('acl_auth');
 	}
 
@@ -22,7 +20,7 @@ class User extends GSM_Controller
 
 		$this->load->library('form_validation');
 		
-		$this->form_validation->set_rules('identity', 'Identifiant', 'trim|valid_email|required|xss_clean');
+		$this->form_validation->set_rules('identity', 'Identifiant', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('password', 'Mot de passe', 'trim|required|xss_clean');
 		
 		if ($this->form_validation->run() == FALSE) {
@@ -37,12 +35,9 @@ class User extends GSM_Controller
 				$remember_me = TRUE;
 			}
 			if ($this->acl_auth->login($identity, $password, $remember_me)) {
-				if ($this->acl_auth->has_role('user_fokotany')) {
-					redirect('admin');
-				}
 				redirect('/');
 			} else {
-                $data['error'] = 'V&eacute;rifier votre email ou mot de passe';
+                $data['error'] = 'V&eacute;rifier votre identifiant ou mot de passe';
             }
 		}
 		$this->setData($data);
@@ -70,7 +65,7 @@ class User extends GSM_Controller
 		$post = $this->input->post();
 		
 		$this->form_validation->set_rules('name', 'Name', 'trim|xss_clean');
-		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|callback_email_check|xss_clean');
+		$this->form_validation->set_rules('username', 'Username', 'trim|required|callback_username_check|xss_clean');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|xss_clean');
 		$this->form_validation->set_rules('passwordVerify', 'Password Confirmation', 'required|matches[password]|');
 		
@@ -78,16 +73,16 @@ class User extends GSM_Controller
 			$this->form_validation->set_error_delimiters('<div class="alert-user alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>', '</div>');
 		} else {
 			$post['name'] = set_value('name');
-			$post['email'] = set_value('email');
+			$post['username'] = set_value('username');
 			$post['password'] = set_value('password');
 			if ($this->acl_auth->register($post)) {
 				if ($isAdmin) {
 					
 				} else {
-					if ($this->acl_auth->login( $post['email'], $post['password'], TRUE )) {
+					if ($this->acl_auth->login( $post['username'], $post['password'], TRUE )) {
 						redirect('/');	
 					} else {
-						$data['errors'] = 'V&eacute;rifier votre email ou mot de passe';
+						$data['errors'] = 'V&eacute;rifier votre identifiant ou mot de passe';
 					}		
 				}
 							
@@ -173,14 +168,14 @@ class User extends GSM_Controller
  	}
 	
 	/**
-     * Callback qui verifie si email existe deja
+     * Callback qui verifie si identifiant existe deja
      */
-	public function email_check($email)
+	public function username_check($username)
 	{
 		$this->load->service('user_service', 'user');
-		$user = $this->user->findByEmail($email);
+		$user = $this->user->findByUsername($username);
 		if ($user) { // si user existe error
-			$this->form_validation->set_message('email_check', sprintf('L\'adresse mail <strong>"%s"</strong> est d&eacute;j&agrave; utilis&eacute;.', $email));
+			$this->form_validation->set_message('username_check', sprintf('L\'identifiant <strong>"%s"</strong> est d&eacute;j&agrave; utilis&eacute;.', $email));
 			return false;
 		} else {
 			return true;

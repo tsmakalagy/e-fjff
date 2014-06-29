@@ -9,7 +9,7 @@
                 </div>
             <?php } ?>
 			<div class="form-group">
-				<input type="text" name="identity" class="form-control" placeholder="Email" value="<?php echo set_value('identity'); ?>"/>
+				<input type="text" name="identity" class="form-control" placeholder="Utilisateur" value="<?php echo set_value('identity'); ?>"/>
 			</div>
 			<div class="form-group">
 				<input type="password" name="password" class="form-control" placeholder="Mot de passe"/>

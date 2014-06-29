@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$config['identity_field'] 	= 'email';
+$config['identity_field'] 	= 'username';
 $config['password_field'] 	= 'password';
 $config['user_table']	  	= 'users';
 $config['user_model']		= 'user_model';
@@ -14,4 +14,4 @@ $config['reset_template'] 	= '';
 $config['401_override'] 	= 'not_authorized';
 
 //Own Login Page?
-$config['401_login_page'] 	= '';
+$config['401_login_page'] 	= 'user/login';

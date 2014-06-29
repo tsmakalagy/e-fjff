@@ -1,6 +1,6 @@
 <?php
 session_start();
-class Pages extends GSM_Controller
+class Pages extends FJFF_Controller
 {
 	
 	public function __construct()

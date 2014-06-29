@@ -50,7 +50,6 @@ class Acl_auth
 		$this->_config = $this->config->item('acl_auth');
 		$this->load->library( array( 'email', 'session', 'phpass' ) );
 		$this->load->helper('cookie');
-//		$this->load->model( $this->_config['user_model'], 'user_model' );
 		$this->lang->load('acl_auth');
 		if( ! $this->logged_in() && get_cookie('identity') && get_cookie('remember_code') )
 		{
@@ -88,22 +87,6 @@ class Acl_auth
 			return false;
 		}
 		
-//		$name = isset($data['name']) ? $data['name'] : '';
-//		$email = $data['email'];
-//		$password = $this->phpass->hash( $data['password'] );
-//		
-//		$role = $this->em->getRepository('Entities\Role')->find(2); // simple utilisateur
-//		
-//		
-//		$user = new Entities\User();
-//		$user->setName($name);
-//		$user->setEmail($email);
-//		$user->setPassword($password);
-//		$user->addRole($role);
-//		$this->em->persist($user);
-//		$this->em->flush();
-//		
-//		$userId = $user->getId(); 
 		if ($this->user->register( $data )) {			
 			return true;
 		} else {
@@ -111,31 +94,6 @@ class Acl_auth
 			return false;
 		}
 		
-
-//		$insert = array();
-//
-//		foreach( $data as $field => $value )
-//		{
-//			if( $field == $this->_config['password_field'] )
-//			{
-//				$value = $this->phpass->hash( $value );
-//			}
-//			if( $this->user_model->field_exists( $field ) )
-//			{
-//				$insert[$field] = $value;
-//			}
-//		}
-//
-//		if( $id = $this->user_model->insert( $insert ) )
-//		{
-//			$this->login( $data['email'], $data['password'], TRUE );
-//			return true;
-//		}
-//		else
-//		{
-//			$this->set_error('register_failed');
-//			return false;
-//		}
 	}
 
 	/**
@@ -148,8 +106,7 @@ class Acl_auth
 	 **/
 	public function login( $identity, $password, $remember = FALSE, $session_data = array() )
 	{
-//		$user = $this->em->getRepository('Entities\User')->findByEmail($identity);
-		$user = $this->user->findByEmail($identity);
+		$user = $this->user->findByUsername($identity);
 
 		if( ! $user OR ! $this->phpass->check( $password, $user->getPassword() ) )
 		{
@@ -160,7 +117,7 @@ class Acl_auth
 		$session = array(
 			'user_id'	=> $user->getId()
 			,'logged_in'=> TRUE
-			,'user_'.$this->_config['identity_field'] => $user->getEmail()
+			,'user_'.$this->_config['identity_field'] => $user->getUsername()
 		);
 
 		foreach( $session_data as $key )
@@ -168,12 +125,6 @@ class Acl_auth
 			$session['user_'.$key] = ( $user->$key ) ? $user->$key : NULL;
 		}		
 		
-		if ($this->has_role('user_fokotany', $user->getId())) {
-			$birao = $user->getBirao();
-			if ($birao instanceof Entities\Birao) {
-				$session['birao_id'] = $birao->getId();
-			}	
-		}
 		
 		$user->setLastLogin(new \DateTime());
 
@@ -182,7 +133,6 @@ class Acl_auth
 		if( $remember )
 		{
 			$remember_code = $this->phpass->hash(uniqid());
-//			$this->user_model->update( $user->id, array('remember_code' => $remember_code) );
 			$user->setRememberCode($remember_code);			
 			$expire = (60*60*24*365*2);
 			set_cookie(array(
@@ -205,21 +155,14 @@ class Acl_auth
 	{
 		$identity = get_cookie('identity');
 		$code 	  = get_cookie('remember_code');
-//		$user = $this->user_model->get_by( array($this->_config['identity_field'] => $identity) );
-		$user = $this->user->findByEmail($identity);
+		$user = $this->user->findByUsername($identity);
 		if( $user && $user->getRememberCode() === $code )
 		{
 			$session = array(
 				'user_id'	=> $user->getId()
 				,'logged_in'=> TRUE
-				,'user_'.$this->_config['identity_field'] => $user->getEmail()
-			);
-			if ($this->has_role('user_fokotany', $user->getId())) {
-				$birao = $user->getBirao();
-				if ($birao instanceof Entities\Birao) {
-					$session['birao_id'] = $birao->getId();
-				}	
-			}
+				,'user_'.$this->_config['identity_field'] => $user->getUsername()
+			);			
 			$this->session->set_userdata($session);
 		}
 	}
@@ -404,7 +347,6 @@ class Acl_auth
 			$user_id = $this->session->userdata('user_id');
 		}
 		$user = $this->user->findById($user_id);
-//		return (bool) $this->user_model->has_role( $user_id, $role_id );
 		if ($user instanceof Entities\User) {
 			return $user->hasRole($roleName);	
 		}

@@ -17,22 +17,17 @@ class User_service
 		
 		
 		$name = isset($data['name']) ? $data['name'] : '';
-		$email = $data['email'];
+		$username = $data['username'];
 		$password = $this->CI->phpass->hash( $data['password'] );
 		
 		$user = new Entities\User();
 		
 		$roleId = isset($data['role']) ? $data['role'] : 2;
 		$role = $this->em->getRepository('Entities\Role')->find($roleId);
-		
-		$biraoId = isset($data['birao']) ? $data['birao'] : '';
-		if (isset($biraoId) && $biraoId) {
-			$birao = $this->em->getRepository('Entities\Birao')->find($biraoId);
-			$user->setBirao($birao);
-		}		
+			
 		
 		$user->setName($name);
-		$user->setEmail($email);
+		$user->setUsername($username);
 		$user->setPassword($password);
 		$user->addRole($role);
 		$this->em->persist($user);

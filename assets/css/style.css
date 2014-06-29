@@ -203,3 +203,42 @@ span.loading-username, span.check-password, span.check-password-verify {
     max-width: 50%;
     width: 50%;
 }
+
+.form-title {
+	border-bottom: 1px solid #D5E3EF;
+    line-height: 28px;
+    margin-bottom: 16px;
+    margin-top: 18px;
+    padding-bottom: 4px;
+}
+
+.upload-profile-picture {
+	display: block;
+}
+
+.upload-profile-picture > label:hover {
+	cursor: pointer;
+	border-color: #F59942;
+}
+
+.upload-profile-picture > label:before {
+    color: #CCCCCC;
+    content: attr(data-title);
+    padding: 0 8px;
+    display: block;
+}
+
+.upload-profile-picture > label {
+   	border: 1px dashed #AAAAAA;
+    border-radius: 4px 4px 4px 4px;
+    height: 118px;
+    padding-top: 15px;
+    position: relative;
+    text-align: center;
+    transition: all 0.15s ease 0s;
+    display: block;
+}
+
+.upload-profile-picture span {
+    color: #CCCCCC;
+}

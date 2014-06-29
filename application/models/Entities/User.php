@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
  * @ORM\Entity(repositoryClass="Repositories\UserRepository")
- * @ORM\Table(name="fk_fkt_user")
+ * @ORM\Table(name="user")
  * @author raiza
  *
  */
@@ -14,62 +14,62 @@ class User
 {
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="integer", name="fk_us_id")
+	 * @ORM\Column(type="integer", name="id")
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 * @var int
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length=512, name="fk_us_name", nullable=true)
+	 * @ORM\Column(type="string", length=512, name="name", nullable=true)
 	 * @var string
 	 */
 	protected $name;
 	
 	/**
-	 * @ORM\Column(type="string", length=128, name="fk_us_username", nullable=true, unique=true)
+	 * @ORM\Column(type="string", length=128, name="username", nullable=true, unique=true)
 	 * @var string
 	 */
 	protected $username;
 	
 	/**
-	 * @ORM\Column(type="string", length=128, name="fk_us_email", unique=true)
+	 * @ORM\Column(type="string", length=128, name="email", unique=true, nullable=true)
 	 * @var string
 	 */
 	protected $email;
 	
 	/**
-	 * @ORM\Column(type="string", length=200, name="fk_us_password")
+	 * @ORM\Column(type="string", length=200, name="password")
 	 * @var string
 	 */
 	protected $password;
 	
 	/**
-	 * @ORM\Column(type="string", length=32, name="fk_us_reset_code", nullable=true)
+	 * @ORM\Column(type="string", length=32, name="reset_code", nullable=true)
 	 * @var string
 	 */
 	protected $resetCode;
 	
 	/**
-	 * @ORM\Column(type="integer", name="fk_us_reset_time", nullable=true)
+	 * @ORM\Column(type="integer", name="reset_time", nullable=true)
 	 * @var integer
 	 */
 	protected $resetTime;
 	
 	/**
-	 * @ORM\Column(type="string", length=255, name="fk_us_remember_code", nullable=true)
+	 * @ORM\Column(type="string", length=255, name="remember_code", nullable=true)
 	 * @var string
 	 */
 	protected $rememberCode;
 	
 	/**
-     * @ORM\Column(type="datetime", name="fk_us_last_login", nullable=true)
+     * @ORM\Column(type="datetime", name="last_login", nullable=true)
      * @var datetime
      */
 	protected $lastLogin;
 	
 	/**
-     * @ORM\Column(type="datetime", name="fk_us_last_logout", nullable=true)
+     * @ORM\Column(type="datetime", name="last_logout", nullable=true)
      * @var datetime
      */
 	protected $lastLogout;
@@ -77,19 +77,13 @@ class User
 	/**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\ManyToMany(targetEntity="Role")
-     * @ORM\JoinTable(name="fk_user_role",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="fk_us_id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="fk_ro_id")}
+     * @ORM\JoinTable(name="user_role",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
      * )
      */
-    protected $roles;
+    protected $roles;    
     
-    /**
-     * @ORM\ManyToOne(targetEntity="Birao")
-     * @ORM\JoinColumn(name="birao_id", referencedColumnName="id")
-     * @var Entities\Birao
-     */
-    protected $birao;
     
 	public function __construct()
     {
@@ -254,17 +248,6 @@ class User
     		}
     	}
     	return false;
-    }
-    
-	public function getBirao()
-	{
-		return $this->birao;
-	}
-	
-	public function setBirao($birao)
-	{
-		$this->birao = $birao;
-		return $this;
-	}
+    }    
 	
 }

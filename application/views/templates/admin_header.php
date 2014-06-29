@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">	
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-	<title><?php echo $title ?> - e-Fokonolona</title>
+	<title><?php echo $title ?> - e-FJFF</title>
 	<!-- bootstrap 3.0.2 -->
 	<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/css/bootstrap.min.css');?>" media="screen" >
     <!-- font Awesome -->

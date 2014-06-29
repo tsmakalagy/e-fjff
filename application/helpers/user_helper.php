@@ -19,8 +19,8 @@ function display_name() {
 	$session_data = $CI->session->all_userdata();
 	if (array_key_exists( 'name', $session_data )) {
 		$displayName = $session_data['name'];
-	} else if (array_key_exists( 'username', $session_data )) {
-		$displayName = $session_data['username'];
+	} else if (array_key_exists( 'user_username', $session_data )) {
+		$displayName = $session_data['user_username'];
 	} else if (array_key_exists( 'user_email', $session_data )) {
 		$displayName = $session_data['user_email'];
 		$displayName = substr($displayName, 0, strpos($displayName, '@')); 

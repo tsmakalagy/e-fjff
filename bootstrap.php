@@ -40,10 +40,10 @@ $config->setQueryCacheImpl($cache);
 
 $connectionOptions = array(
 	'driver' => 'pdo_mysql',
-    'user' =>     'mysqluser',
-    'password' => 'mysqluser',
+    'user' =>     'root',
+    'password' => '',
     'host' =>     'localhost',
-    'dbname' =>   'e-fokonolona'
+    'dbname' =>   'e-fjff'
 );
 
 // Create EntityManager

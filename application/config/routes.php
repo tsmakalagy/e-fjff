@@ -38,30 +38,12 @@
 |
 */
 
-//$route['default_controller'] = "welcome";
-//$route['404_override'] = '';
-$route['localite/(district|region|fivondronana|firaisana|fokotany)/save'] = 'localite/localite/save/$1';
-$route['localite/(district|region|fivondronana|firaisana|fokotany)/add'] = 'localite/localite/add/$1';
-$route['localite/(district|region|fivondronana|firaisana|fokotany)/list'] = 'localite/localite/listlocal/$1';
-$route['fokotany/add/(karapokotany|andraikitra|birao)'] = 'fokotany/fokotany/add/$1';
-$route['fokotany/add/olona'] = 'fokotany/fokotany/addFokonolona';
-$route['fokotany/list/(karapokotany|andraikitra|birao|olona)'] = 'fokotany/fokotany/liste/$1';
-$route['fokotany/edit/(karapokotany|andraikitra|olona|birao)/(:num)'] = 'fokotany/fokotany/edit/$1/$2';
-$route['fokotany/delete/(karapokotany|andraikitra|olona|birao)/(:num)'] = 'fokotany/fokotany/delete/$1/$2';
-$route['fokotany/ajax'] = 'fokotany/fokotany/listAjax';
-$route['fokotany/birao/ajax'] = 'fokotany/fokotany/listBiraoAjax';
-$route['fokotany/karapokotany/ajax/(:num)'] = 'fokotany/fokotany/listKarapokotanyByBiraoId/$1';
-$route['fokotany/detail/karapokotany/(:num)'] = 'fokotany/fokotany/detailKarapokotanyAjax/$1';
-$route['admin/user/add'] = 'user/user/register/admin';
-$route['admin/user/list'] = 'user/user/listUser';
-$route['admin/role/list'] = 'user/user/listRole';
-$route['admin/role/change'] = 'user/user/changeRole';
-$route['admin/birao/change'] = 'user/user/changeBirao';
-$route['user/load/login'] = 'user/user/loadLoginForm';
 $route['user/(.+)$'] = 'user/user/$1';
 
-$route['default_controller'] = 'pages/view';
-$route['(:any)'] = 'pages/view/$1';
+$route['default_controller'] = 'home';
+$route['pasteur/add'] = 'pasteur/pasteur/add';
+$route['upload'] = 'upload/upload';
+$route['crop'] = 'upload/upload/crop';
 
 $route['not_authorized'] = 'pages/not_authorized';
 

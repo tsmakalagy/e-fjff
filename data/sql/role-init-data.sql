@@ -22,9 +22,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Dumping data for table `fk_ro_role`
 --
-INSERT INTO `fk_ro_role` (`fk_ro_id`, `fk_ro_parent`, `fk_ro_libelle`) VALUES
+INSERT INTO `role` (`id`, `parent`, `libelle`) VALUES
 (1, NULL, 'guest'),
 (2, 1, 'user'),
-(3, 2, 'user_fokotany'),
-(4, 3, 'admin');
+(3, 2, 'admin');
 

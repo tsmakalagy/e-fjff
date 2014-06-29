@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fk_ro_role")
+ * @ORM\Table(name="role")
  * @author raiza
  *
  */
@@ -13,21 +13,21 @@ class Role
 {
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="integer", name="fk_ro_id")
+	 * @ORM\Column(type="integer", name="id")
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 * @var int
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length=25, name="fk_ro_libelle")
+	 * @ORM\Column(type="string", length=25, name="libelle")
 	 * @var string
 	 */
 	protected $libelle;
 	
 	/**
 	 * @ORM\ManyToOne(targetEntity="Role")
-     * @ORM\JoinColumn(name="fk_ro_parent", referencedColumnName="fk_ro_id")
+     * @ORM\JoinColumn(name="parent", referencedColumnName="id")
      * @var Entities\Role
      */
 	protected $parent;

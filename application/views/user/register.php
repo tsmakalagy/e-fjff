@@ -17,7 +17,7 @@
 				<input type="text" name="name" class="form-control" placeholder="Nom" value="<?php echo set_value('name'); ?>"/>
 			</div>
 			<div class="form-group">
-				<input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo set_value('email'); ?>"/>
+				<input type="text" name="username" class="form-control" placeholder="Utilisateur" value="<?php echo set_value('username'); ?>"/>
 			</div>
 			<div class="form-group">
 				<input type="password" name="password" class="form-control" placeholder="Mot de passe"/>
@@ -34,17 +34,7 @@
 					<?php }?>
 				</select>
 			</div>
-			<?php } ?>
-			<?php if (isset($biraos) && count($biraos)) {?>
-			<div class="form-group hide birao">
-				<select name="birao" class="form-control select-birao">
-					<option></option>
-					<?php foreach ($biraos as $item) {?>
-					<option value="<?php echo $item['id']; ?>"><?php echo $item['fokotany']; ?></option>
-					<?php }?>
-				</select>
-			</div>
-			<?php } ?>
+			<?php } ?>			
 		</div>
 		<div class="footer bg-gray">
 			<button type="submit" class="btn btn-success btn-block">Enregistrer</button>
