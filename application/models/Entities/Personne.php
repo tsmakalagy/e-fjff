@@ -69,7 +69,7 @@ class Personne
 	protected $dateosotra;	
 	
 	/**
-     * @ORM\ManyToMany(targetEntity="Poste", mappedBy="pasteurs")
+     * @ORM\OneToMany(targetEntity="Poste", mappedBy="pasteur")
      */
 	protected $postes;
 	

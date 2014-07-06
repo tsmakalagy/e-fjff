@@ -2,7 +2,6 @@
 namespace Entities;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
  * @ORM\Entity
@@ -21,24 +20,18 @@ class Poste
 	protected $id;
 	
 	/**
-     * @ORM\ManyToMany(targetEntity="Eglise", inversedBy="postes")
-     * @ORM\JoinTable(name="eglises_postes",
-     *              joinColumns={@ORM\JoinColumn(name="eglise_id", referencedColumnName="id", onDelete="CASCADE")},
-     *              inverseJoinColumns={@ORM\JoinColumn(name="poste_id", referencedColumnName="id", onDelete="CASCADE")}
-     *              )
+     * @ORM\ManyToOne(targetEntity="Eglise", inversedBy="postes")
+     * @ORM\JoinColumn(name="eglise_id", referencedColumnName="id")
      *  @var Collection
      */
-	protected $eglises;
+	protected $eglise;
 	
 	/**
-     * @ORM\ManyToMany(targetEntity="Personne", inversedBy="postes")
-     * @ORM\JoinTable(name="pasteurs_postes",
-     *              joinColumns={@ORM\JoinColumn(name="poste_id", referencedColumnName="id", onDelete="CASCADE")},
-     *              inverseJoinColumns={@ORM\JoinColumn(name="pasteur_id", referencedColumnName="id", onDelete="CASCADE")}
-     *              )
-     *  @var Collection
+     * @ORM\ManyToOne(targetEntity="Personne", inversedBy="postes")
+     * @ORM\JoinColumn(name="pasteur_id", referencedColumnName="id")
+     * @var Pasteur
      */
-	protected $pasteurs;
+	protected $pasteur;
 	
 	/**
      * @ORM\Column(type="datetime", nullable=true)
@@ -58,11 +51,6 @@ class Poste
      */
 	protected $current;
 	
-	public function __construct()
-    {
-    	$this->eglises = new Collection();
-    	$this->pasteurs = new Collection();
-    }
     
 	public function getId()
 	{
@@ -75,60 +63,28 @@ class Poste
 		return $this;
 	}
 	
-	public function getEglises()
+	public function getEglise()
     {
-    	return $this->eglises;
+    	return $this->eglise;
     }
     
-    public function addEglise(Eglise $eglise)
+    public function setEglise(Eglise $eglise)
     {
-    	$this->eglises[] = $eglise;
+    	$this->eglise = $eglise;
     	return $this;
     }
-    
-	public function addEglises(Collection $eglises)
+        
+	public function getPasteur()
     {
-        foreach ($eglises as $eglise) {
-            $this->eglises->add($eglise);
-        }
-        return $this;
-    }
-
-    public function removeEglises(Collection $eglises)
-    {
-        foreach ($eglises as $eglise) {
-            $this->eglises->removeElement($eglise);
-        }
-        return $this;
+    	return $this->pasteur;
     }
     
-	public function getPasteurs()
+    public function setPasteur(Personne $pasteur)
     {
-    	return $this->pasteurs;
-    }
-    
-    public function addPasteur(Personne $pasteur)
-    {
-    	$this->pasteurs[] = $pasteur;
+    	$this->pasteur= $pasteur;
     	return $this;
     }
-    
-	public function addPasteurs(Collection $pasteurs)
-    {
-        foreach ($pasteurs as $pasteur) {
-            $this->pasteurs->add($pasteur);
-        }
-        return $this;
-    }
-
-    public function removePasteurs(Collection $pasteurs)
-    {
-        foreach ($pasteurs as $pasteur) {
-            $this->pasteurs->removeElement($pasteur);
-        }
-        return $this;
-    }
-    
+        
 	public function getDebut()
 	{
 		return $this->debut;

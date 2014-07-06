@@ -34,7 +34,7 @@ class Eglise
 	protected $fokotany;
 	
 	/**
-     * @ORM\ManyToMany(targetEntity="Poste", mappedBy="pasteurs")
+     * @ORM\OneToMany(targetEntity="Poste", mappedBy="eglise")
      */
 	protected $postes;
 	

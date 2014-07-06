@@ -12,6 +12,15 @@ class Pasteur extends FJFF_Controller
 		$this->setLayoutView("layout_admin");
 	}
 	
+	public function index()
+	{
+		$data['title'] = 'Pasteur';		
+		$data['pasteurs'] = $this->pasteur->listPasteur();                       
+		$this->setData($data);
+        $this->setContentView('pasteur/list');
+		
+	}
+	
 	public function add()
 	{	
 		$data['title'] = 'Pasteur';	

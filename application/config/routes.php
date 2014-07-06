@@ -42,6 +42,7 @@ $route['user/(.+)$'] = 'user/user/$1';
 
 $route['default_controller'] = 'home';
 $route['pasteur/add'] = 'pasteur/pasteur/add';
+$route['pasteur/list'] = 'pasteur/pasteur/index';
 $route['fokotany/ajax'] = 'eglise/eglise/listFokotanyAjax';
 $route['eglise/add'] = 'eglise/eglise/add';
 $route['upload'] = 'upload/upload';

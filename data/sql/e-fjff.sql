@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 06, 2014 at 08:21 PM
+-- Generation Time: Jul 06, 2014 at 10:09 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-7
 
@@ -32,20 +32,6 @@ CREATE TABLE IF NOT EXISTS `eglises` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_CCCEC876564D0DDB` (`fokotany_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `eglises_postes`
---
-
-CREATE TABLE IF NOT EXISTS `eglises_postes` (
-  `eglise_id` int(11) NOT NULL,
-  `poste_id` int(11) NOT NULL,
-  PRIMARY KEY (`eglise_id`,`poste_id`),
-  KEY `IDX_BBF8A52B62B480E8` (`eglise_id`),
-  KEY `IDX_BBF8A52BA0905086` (`poste_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -110,20 +96,6 @@ CREATE TABLE IF NOT EXISTS `parents_enfants` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pasteurs_postes`
---
-
-CREATE TABLE IF NOT EXISTS `pasteurs_postes` (
-  `pasteur_id` int(11) NOT NULL,
-  `poste_id` int(11) NOT NULL,
-  PRIMARY KEY (`poste_id`,`pasteur_id`),
-  KEY `IDX_136F10CA551E9F21` (`pasteur_id`),
-  KEY `IDX_136F10CAA0905086` (`poste_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `personnes`
 --
 
@@ -156,7 +128,11 @@ CREATE TABLE IF NOT EXISTS `postes` (
   `debut` datetime DEFAULT NULL,
   `fin` datetime DEFAULT NULL,
   `current` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `eglise_id` int(11) DEFAULT NULL,
+  `pasteur_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_5A763C6462B480E8` (`eglise_id`),
+  KEY `IDX_5A763C64551E9F21` (`pasteur_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -220,13 +196,6 @@ ALTER TABLE `eglises`
   ADD CONSTRAINT `FK_CCCEC876564D0DDB` FOREIGN KEY (`fokotany_id`) REFERENCES `fokotany` (`id`);
 
 --
--- Constraints for table `eglises_postes`
---
-ALTER TABLE `eglises_postes`
-  ADD CONSTRAINT `FK_BBF8A52B62B480E8` FOREIGN KEY (`eglise_id`) REFERENCES `postes` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_BBF8A52BA0905086` FOREIGN KEY (`poste_id`) REFERENCES `eglises` (`id`) ON DELETE CASCADE;
-
---
 -- Constraints for table `image`
 --
 ALTER TABLE `image`
@@ -240,18 +209,18 @@ ALTER TABLE `parents_enfants`
   ADD CONSTRAINT `FK_ACA286D8727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `personnes` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `pasteurs_postes`
---
-ALTER TABLE `pasteurs_postes`
-  ADD CONSTRAINT `FK_136F10CA551E9F21` FOREIGN KEY (`pasteur_id`) REFERENCES `personnes` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_136F10CAA0905086` FOREIGN KEY (`poste_id`) REFERENCES `postes` (`id`) ON DELETE CASCADE;
-
---
 -- Constraints for table `personnes`
 --
 ALTER TABLE `personnes`
   ADD CONSTRAINT `FK_2BB4FE2B5E8D7836` FOREIGN KEY (`conjoint_id`) REFERENCES `personnes` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_2BB4FE2B93CB796C` FOREIGN KEY (`file_id`) REFERENCES `file` (`id`);
+
+--
+-- Constraints for table `postes`
+--
+ALTER TABLE `postes`
+  ADD CONSTRAINT `FK_5A763C64551E9F21` FOREIGN KEY (`pasteur_id`) REFERENCES `personnes` (`id`),
+  ADD CONSTRAINT `FK_5A763C6462B480E8` FOREIGN KEY (`eglise_id`) REFERENCES `eglises` (`id`);
 
 --
 -- Constraints for table `role`

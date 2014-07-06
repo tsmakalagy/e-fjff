@@ -69,10 +69,10 @@ class Pasteur_service
 			$currentDebut = $data['current-debut'];
 			if ($eglise instanceof Entities\Eglise) {
 				$currentPoste = new Entities\Poste();
-				$currentPoste->addEglise($eglise);
+				$currentPoste->setEglise($eglise);
 				$currentPoste->setDebut(new \DateTime($currentDebut));
 				$currentPoste->setCurrent(1);
-				$currentPoste->addPasteur($pasteur);
+				$currentPoste->setPasteur($pasteur);
 				$this->em->persist($currentPoste);
 				$this->em->flush();							
 			}
@@ -87,10 +87,10 @@ class Pasteur_service
 				if ($eglise instanceof Entities\Eglise) {					
 					$dates = explode(" - ", $lastDebut[$key]);
 					$lastPoste = new Entities\Poste();
-					$lastPoste->addEglise($eglise);
+					$lastPoste->setEglise($eglise);
 					$lastPoste->setDebut(new \DateTime($dates[0]));
 					$lastPoste->setFin(new \DateTime($dates[1]));
-					$lastPoste->addPasteur($pasteur);
+					$lastPoste->setPasteur($pasteur);
 					$this->em->persist($lastPoste);
 					$this->em->flush();			
 				}
@@ -186,9 +186,53 @@ class Pasteur_service
 		return false;
 	}	
 	
-	public function listPersonne()
+	public function listPasteur()
 	{
-		return $this->em->getRepository('Entities\Personne')->findAll();
+		$loc = setlocale(LC_TIME, 'fr_FR.UTF-8'); // Locale Francais pour la date
+		$sql = 'SELECT p FROM Entities\Personne p ORDER BY p.datesab ASC';
+		$query = $this->em->createQuery($sql);
+		$return = array();
+		$pasteurs = $query->getResult();
+		foreach ($pasteurs as $item) {
+			$res = array();
+			$res['id'] = $item->getId();
+			$res['name'] = strtoupper(strtolower($item->getNom())) . ' ' . ucfirst(strtolower($item->gePreNom()));
+			$datenaissance = $item->getDatenaissance();
+			$now = new \DateTime();
+			if ($datenaissance instanceof \DateTime) {
+				$interval = $now->diff($datenaissance);
+				$res['age'] = $interval->y;	
+			} else {
+				$res['age'] = '-';
+			}
+			$occupation = $item->getOccupation();
+			switch ($occupation) {
+				case "1":
+					$res['occupation'] = "Mpitandrina";
+					break;
+				case "2":
+					$res['occupation'] = "Sekoly Ara-Baiboly";
+					break;
+				default:
+					$res['occupation'] = "Hafa";
+					break;
+			}
+			$postes = $item->getPostes();
+			foreach ($postes as $poste) {
+				$isCurrent = $poste->getCurrent();
+				if ($isCurrent == 1) {
+					$res['current_poste'] = $poste->getEglise()->getNom();
+				}
+			}
+			$res['sexe'] = ($item->getSexe() == 1) ? 'M' : 'F';
+			$datesab = $item->getDatesab();
+			$res['datesab'] = isset($datesab) ? strftime('%d %B %Y', $datesab->getTimeStamp()) : '';
+			$dateosotra = $item->getDateosotra();
+			$res['dateosotra'] = isset($dateosotra) ? strftime('%d %B %Y', $dateosotra->getTimeStamp()) : '';	
+			$res['phone'] = $item->getTelephone();
+			array_push($return, $res);
+		}
+		return $return;
 	}
 	
 }
