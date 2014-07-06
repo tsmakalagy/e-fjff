@@ -39,7 +39,7 @@ class Personne
 	protected $datenaissance;
 	
 	/**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @var int
      */
 	protected $statut;
@@ -214,7 +214,6 @@ class Personne
     
     public function addPoste(Poste $poste)
     {
-    	$poste->addParent($this);
     	$this->postes[] = $poste;
     	return $this;
     }

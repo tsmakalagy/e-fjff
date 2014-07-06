@@ -33,8 +33,8 @@ class Poste
 	/**
      * @ORM\ManyToMany(targetEntity="Personne", inversedBy="postes")
      * @ORM\JoinTable(name="pasteurs_postes",
-     *              joinColumns={@ORM\JoinColumn(name="pasteur_id", referencedColumnName="id", onDelete="CASCADE")},
-     *              inverseJoinColumns={@ORM\JoinColumn(name="poste_id", referencedColumnName="id", onDelete="CASCADE")}
+     *              joinColumns={@ORM\JoinColumn(name="poste_id", referencedColumnName="id", onDelete="CASCADE")},
+     *              inverseJoinColumns={@ORM\JoinColumn(name="pasteur_id", referencedColumnName="id", onDelete="CASCADE")}
      *              )
      *  @var Collection
      */
@@ -51,6 +51,12 @@ class Poste
      * @var datetime
      */
 	protected $fin;
+	
+	/**
+     * @ORM\Column(type="integer", nullable=true)
+     * @var int
+     */
+	protected $current;
 	
 	public function __construct()
     {
@@ -76,7 +82,6 @@ class Poste
     
     public function addEglise(Eglise $eglise)
     {
-    	$eglise->addParent($this);
     	$this->eglises[] = $eglise;
     	return $this;
     }
@@ -104,7 +109,6 @@ class Poste
     
     public function addPasteur(Personne $pasteur)
     {
-    	$pasteur->addParent($this);
     	$this->pasteurs[] = $pasteur;
     	return $this;
     }
@@ -144,6 +148,17 @@ class Poste
 	public function setFin($fin)
 	{
 		$this->fin = $fin;
+		return $this;
+	}
+	
+	public function getCurrent()
+	{
+		return $this->current;
+	}
+	
+	public function setCurrent($current)
+	{
+		$this->current = $current;
 		return $this;
 	}
 }

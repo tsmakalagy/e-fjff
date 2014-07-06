@@ -513,3 +513,22 @@ width: 20px;
 .jcrop-keymgr {
     opacity: 0;
 }
+
+.remove-all {
+    background-color: #FFFFFF;
+    border: 3px solid #BBBBBB;
+    border-radius: 32px 32px 32px 32px;
+    color: red;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: normal;
+    height: 20px;
+    line-height: 13px;
+    position: absolute;
+    right: 6px;
+    text-align: center;
+    text-decoration: none;
+    top: -11px;
+    width: 20px;
+    z-index: 111;
+}

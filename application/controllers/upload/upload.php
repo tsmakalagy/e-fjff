@@ -100,7 +100,7 @@ class Upload extends FJFF_Controller
 					}
 				}			
 				$relativePath = substr($return, strpos($return, '/files/'));
-				$images['image_'.$w] = preg_replace("|files/.*$|", $relativePath, $source['file']);	
+				$images['image_'.$dim] = preg_replace("|files/.*$|", $relativePath, $source['file']);	
 			}	
 			echo json_encode(array('success' => $success, 'images' => $images));
 		}

@@ -13,8 +13,13 @@
     var methods = {
 	init: function(options) { 
 	    // Repeat over each element in selector
+    	
 	    return this.each(function() {
             var $this = $(this);
+            
+            $this.bind( "myEventStart", function( e ) {
+                console.log("event start");
+            });
 
             // Attempt to grab saved settings, if they don't exist we'll get "undefined".
             var settings = $this.data('imageupload');
@@ -120,7 +125,12 @@
 										type: 'POST',
 										dataType: 'JSON',
 										success: function(data) {
-										    $img = '<img src="'+data.images.image_60+'" alt="Profile picture" />'
+									    	$.event.trigger({
+								    			type: "message",
+								    			message: "hello world",
+								    			time: new Date()
+								    		});								    		
+										    $img = '<img src="'+data.images.image_md+'" alt="Profile picture" />'
 										    $('.'+settings.imgPreview).html($img);
 										    $('#'+settings.modalId).modal('hide');
 										    $('.'+settings.imgPreview).append('<input type="hidden" name="'+settings.fileName+'" value="'+f.id+'">');

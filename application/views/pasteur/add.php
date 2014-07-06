@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="<?php echo base_url('assets/datepicker/css/datepicker3.css');?>">
 <link rel="stylesheet" href="<?php echo base_url('assets/select2/css/select2.css');?>">
 <link rel="stylesheet" href="<?php echo base_url('assets/select2/css/select2-bootstrap.css');?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/css/daterangepicker/daterangepicker-bs3.css');?>">
 <!-- FileUpload and Crop -->
 <link rel="stylesheet" href="<?php echo base_url('assets/file-upload/css/file-upload.css');?>">
 <link rel="stylesheet" href="<?php echo base_url('assets/file-upload/css/jquery.fileupload.css');?>">
@@ -43,34 +44,37 @@
 						<?php }?>	
 						<div id="olona-form">							
 							<h3 class="text-light-blue form-title">Mombamomba</h3>
-							<span class="col-md-5">
-								<a class="fileinput-button show-modal" href="#">
-									<span class="upload-profile-picture">
+							<span class="col-md-4">								
+								<a class="fileinput-button show-modal" href="#">								
+									<span class="upload-profile-picture change-image">									
 										<label class="" data-title="Modifier image">
-											<span data-title="No File ..." class=""><i class="fa fa-picture-o fa-5x"></i></span>									
+											<span data-title="No File ..." class="img-preview"><i class="fa fa-picture-o fa-5x"></i></span>									
 										</label>
 									</span>
 								</a>
 							</span>
 							<span class="col-md-7">
 								<div class="form-group">
-									<input type="text" class="form-control" name="nom" placeholder="Anarana" value="<?php echo isset($anarana) ? $anarana : ''; ?>">
+									<input type="text" class="form-control" name="nom" placeholder="Anarana">
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" name="prenom" placeholder="Fanampiny" value="<?php echo isset($fanampiny) ? $fanampiny : ''; ?>">
+									<input type="text" class="form-control" name="prenom" placeholder="Fanampiny">
 								</div>
 							</span>
 							<div class="clearfix"></div>
 							<hr/>
 							<span class="col-md-8 col-md-offset-2">
 								<div class="form-group">
-									<label for="nahaterahana">Daty nahaterahana</label>
-									<input type="text" class="form-control datepicker" name="datenaissance" value="<?php echo isset($nahaterahana) ? $nahaterahana : ''; ?>">
+									<label for="datenaissance">Daty nahaterahana</label>
+									<div class="input-group">
+                                        <input type="text" class="form-control datepicker" name="datenaissance">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>									
 								</div>
 								<div class="form-group">
 									<label for="sexe">Sexe</label>
 									<label class="radio-inline">
-										<input type="radio" class="form-control minimal" value="1" name="sexe" selected="selected"/>
+										<input type="radio" class="form-control minimal" value="1" name="sexe" checked="checked"/>
 										Lehilahy
 		                            </label>
 		                            <label class="radio-inline">
@@ -83,13 +87,13 @@
 							<hr/>
 							<span class="col-md-8 col-md-offset-2">
 								<div class="form-group">
-									<label for="vady">Manam-bady</label>
+									<label for="statut">Manam-bady</label>
 									<label class="radio-inline">
-										<input type="radio" class="form-control minimal" value="1" name="vady" />
+										<input type="radio" class="form-control minimal" value="1" name="statut" />
 										Eny
 		                            </label>
 		                            <label class="radio-inline">
-										<input type="radio" class="form-control minimal" value="0" name="vady" />
+										<input type="radio" class="form-control minimal" value="0" name="statut" checked="checked"/>
 										Tsia
 		                            </label>
 								</div>	
@@ -100,7 +104,7 @@
 										Eny
 		                            </label>
 		                            <label class="radio-inline">
-										<input type="radio" class="form-control minimal" value="0" name="zanaka" />
+										<input type="radio" class="form-control minimal" value="0" name="zanaka" checked="checked"/>
 										Tsia
 		                            </label>
 								</div>
@@ -108,6 +112,90 @@
 									<label for="isany">Isan'ny zanaka</label>
 									<input type="text" class="form-control" name="isany">
 								</div>	
+							</span>
+							<div class="clearfix"></div>
+							<hr/>
+							<span class="col-md-8 col-md-offset-2">
+								<div class="form-group">
+									<label for="telephone">Finday</label>
+									<div class="input-group">
+                                        <input type="text" class="form-control input-mask-phone" name="telephone">
+                                        <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                    </div>
+									
+								</div>
+							</span>							
+							<div class="clearfix"></div>
+							<h3 class="text-light-blue form-title">Asa</h3>
+							<span class="col-md-11 col-md-offset-1">
+								<div class="form-group">
+									<label for="occupation">Andraikitra</label>
+									<label class="radio-inline">
+										<input type="radio" class="form-control minimal" value="1" name="occupation" checked="checked"/>
+										Sekoly Ara-baiboly
+		                            </label>
+		                            <label class="radio-inline">
+										<input type="radio" class="form-control minimal" value="2" name="occupation"/>
+										Mpitandrina
+		                            </label>
+								</div>
+							</span>
+							<div class="clearfix"></div>
+							<span class="col-md-8 col-md-offset-2">
+								<div class="form-group">
+									<label for="datesab">Daty nidirana SAB</label>
+									<div class="input-group">
+                                        <input type="text" class="form-control datepicker" name="datesab">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>									
+								</div>
+								<div class="form-group datenanosorana" style="display: none;">
+									<label for="dateosotra">Daty nanosorana</label>
+									<div class="input-group">
+                                        <input type="text" class="form-control datepicker" name="dateosotra">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>									
+								</div>
+								<div class="form-group">
+									<label for="current-poste">Toerana iasana</label>
+									<select name="current-poste" class="form-control select-current-poste">
+										<option></option>
+										<?php if (isset($eglises) && count($eglises)) {
+											foreach ($eglises as $item) {?>
+												<option value="<?php echo $item->getId(); ?>"><?php echo $item->getNom(); ?></option>
+											<?php }
+										}?>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="current-debut">Daty nahatongavana</label>
+									<div class="input-group">
+                                        <input type="text" class="form-control datepicker" name="current-debut">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>									
+								</div>
+							</span>
+							<div class="clearfix"></div>
+							<h3 class="text-light-blue form-title">Niasana taloha</h3>
+							<span class="col-md-12">
+								<?php for ($i = 0; $i < 5; $i++) { ?>
+								<div class="separation">
+								<span class="col-md-5">
+									<select name="last-poste[]" class="form-control select-last-poste">
+										<option></option>
+										<?php if (isset($eglises) && count($eglises)) {
+											foreach ($eglises as $item) {?>
+												<option value="<?php echo $item->getId(); ?>"><?php echo $item->getNom(); ?></option>
+											<?php }
+										}?>
+									</select>
+								</span>
+								<span class="col-md-7">
+									<input type="text" class="form-control last-date" name="last-debut[]" placeholder="Taona">
+								</span>
+								<div class="clearfix"></div>
+								</div>
+								<?php } ?>
 							</span>
 							<div class="clearfix"></div>
 						</div><!-- /.main-form -->
@@ -158,6 +246,40 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" id="vadyUploadModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue">Modifier profile</h4>
+			</div>
+	
+			<form class="no-margin" id="vadyfileupload" action="" method="POST" enctype="multipart/form-data">
+			<div class="modal-body">
+				<div class="space-4"></div>
+				<div style="width:94%;margin-left:3%;">
+				    <div class="gdn-file-input gdn-file-multiple upload-profile-picture">					
+						<label data-title="Choisisser une image">
+			                <input type="file" name="files[]" id="input_file">
+						    <span data-title="No File ..."><i class="fa fa-picture-o fa-5x"></i></span>
+						</label>
+						<a href="#" class="remove"><i class="fa fa-times"></i></a>
+				    </div>
+				    <div class="gdn-file-preview">
+						<div class="files"></div>
+				    </div>
+				</div>
+			</div>
+			
+			<div class="modal-footer center">
+				<button type="button" class="btn btn-small btn-success vady-submit-button"><i class="fa fa-check"></i> Valider</button>
+				<button type="reset" class="btn btn-small btn-danger" data-dismiss="modal"><i class="fa fa-ban"></i> Annuler</button>
+			</div>
+			</form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
@@ -165,7 +287,7 @@
 	<span class="preview"></span>
 	<strong class="error red"></strong>
 	<p class="size">Processing...</p>
-        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar progress-bar-success" style="width:0%;"></div></div>
+        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-green" style="width:0%;"></div></div>
 	{% if (!i && !o.options.autoUpload) { %}
                 <button class="btn btn-primary start" disabled>
                     <i class="glyphicon glyphicon-upload"></i>
@@ -200,7 +322,7 @@
             {% } %}     
 	<span class="preview">
 	    {% if (file.mediumUrl) { %}
-		<span class="profile-picture"><img src="{%=file.mediumUrl%}" id="target"></span>
+		<span class="profile-picture"><img src="{%=file.mediumUrl%}" id="{%=file.fileId%}"></span>
 	    {% } %}
 	</span> 
 	<div id="preview-pane" class="hide">
@@ -218,6 +340,7 @@
 <script src="<?php echo base_url('assets/js/jquery.validate.min.js');?>"></script>
 <script src="<?php echo base_url('assets/js/additional-methods.min.js');?>"></script>
 <script src="<?php echo base_url('assets/adminlte/js/plugins/iCheck/icheck.js');?>"></script>
+<script src="<?php echo base_url('assets/adminlte/js/plugins/daterangepicker/daterangepicker.js');?>"></script>
 <!-- InputMask -->
 <script src="<?php echo base_url('assets/adminlte/js/plugins/input-mask/jquery.inputmask.js');?>" type="text/javascript"></script>
 <!-- FileUpload and Crop -->
@@ -233,86 +356,71 @@
 <script src="<?php echo base_url('assets/file-upload/js/jquery.fileupload-validate.js');?>"></script>
 <script src="<?php echo base_url('assets/file-upload/js/jquery.fileupload-ui.js');?>"></script>
 <script src="<?php echo base_url('assets/file-upload/js/jquery.Jcrop.js');?>"></script>
-<script src="<?php echo base_url('assets/file-upload/js/upload.godana.js');?>"></script>
+<script src="<?php echo base_url('assets/file-upload/js/jquery.gdn-imageupload-ui.js');?>"></script>
+
 
 <script type="text/javascript">
 <!--
-<?php
-$listAndraikitras = array(); 
-if (isset($andraikitras) && count($andraikitras)) {
-	foreach ($andraikitras as $item) {
-		array_push($listAndraikitras, array('id' => $item->getId(), 'anarana' => $item->getAnarana()));
-	}
-}?>
-var andraikitras = <?php echo json_encode($listAndraikitras); ?>;
-var karapokotany_url = "<?php echo site_url('fokotany/karapokotany/ajax'); ?>";
 var ajaxUrl = "<?php echo site_url('upload'); ?>";
 var cropUrl = "<?php echo site_url('crop'); ?>";
 function format(item) { return item.text; };
 
 $(document).ready(function() {
-	var selectBirao = $(".select-birao").select2({
-		minimumResultsForSearch: 10,
-		allowClear: true, 
-		placeholder: 'Selectionner birao'
-	});
-	var selectKarapokotany = $(".select-karapokotany").select2({
+	var showvadymodal;
+	var selectCurrentPoste = $(".select-current-poste").select2({
 		minimumResultsForSearch: 10, 
 		allowClear: true,
-		placeholder: 'Selectionner karapokotany'
-	});
-	var selectAndraikitra = $(".select-occupation").select2({
-		minimumResultsForSearch: 10, 
-		allowClear: true,
-		placeholder: 'Selectionner andraikitra'
+		placeholder: 'Selectionner eglise'
 	});
 
-	$('.show-modal').imageupload({
+	var selectLastPoste = $(".select-last-poste").select2({
+		minimumResultsForSearch: 10, 
+		allowClear: true,
+		placeholder: 'Eglise'
+	});
+
+	var showmodal = $('.show-modal').imageupload({
 		doCrop: true,
 		uploadUrl: ajaxUrl,
-		cropUrl: cropUrl
-	});	
-
-
-	var karapokotany_opts = {};
-
-	selectBirao.on('change', function(event){
-		$(this).valid();
-		if(event.target == this){
-			var biraoId = event.val;
-			if (biraoId > 0) {
-				var url = karapokotany_url + "/" + biraoId;
-				var data = {results: []};
-				$.ajax({
-					url: url,
-					dataType: 'json',
-					success: function(res) {
-						data.results = res;
-						karapokotany_opts = {
-							placeholder: "Selectionner karapokotany",
-							allowClear: true,
-							minimumResultsForSearch: 10,
-							query: function(query) {
-								query.callback(data);
-							}
-						};
-						$(".select-karapokotany-admin").data("s3opts", karapokotany_opts).
-							select2(karapokotany_opts).
-							on('change', function() {
-								$(this).valid();
-							});
-					}
-				});	
-			}	
-		}
+		cropUrl: cropUrl,
+		fileName: 'pasteurFileId',
+		xs: 40,
+		sm: 60,
+		md: 100
+	}).bind('imageuploadcomplete', function(event, data) {
+		var deleteLink = '<a href="#" class="delete-all remove-all" data-type="'+data.deleteType+'" \
+		data-url="'+data.deleteUrl+'" > \
+        <i class="fa fa-times"></i> \
+        </a>';
+        $('.upload-profile-picture.change-image > label').toggleClass("cropped");        
+		$(this).before(deleteLink);
 	});
+	
+	$(document).on('click', '.delete-all', function(e) {
+		e.preventDefault();
+		var that = $(this);
+		$.ajax({
+			url: that.data("url"),
+			type: that.data("type"),
+			dataType: 'json',
+			success: function(res) {
+				if (res) {
+					$('.img-preview').html('<i class="fa fa-picture-o fa-5x"></i>');
+					$('.upload-profile-picture.change-image > label').toggleClass("cropped");
+					that.detach();
+				}
+			}
+		});	
+    }); 	
 
 	$('.datepicker').datepicker();
+
+	$('.last-date').daterangepicker();
 
 	var next = $('.btn-next');
 	var previous = $('.btn-previous');
 
-	var isVady, isZanaka, previousTarget, nextTarget, previousForm, 
+	var isVady, isZanaka, isPasteur, previousTarget, nextTarget, previousForm, 
 		numberZanaka, selectVAndraikitra, selectZAndraikitra = {},
 		shown, toShowNext, toHideNext, toShowPrev, toHidePrev;
 
@@ -320,12 +428,30 @@ $(document).ready(function() {
     	$(this).valid();
 	});
 	
+	$('body').on('ifChecked', 'input[name="occupation"].minimal', function(event) {
+		var occupationCheckbox = $('input[name="occupation"]:checked').val();
+		
+		if (occupationCheckbox == 2) {
+			isPasteur = true;
+		} else {
+			isPasteur = false;
+		}		
+		if (isPasteur) {
+            $('.datenanosorana').show('fast');
+            
+        } else {
+        	$('.datenanosorana').hide('fast', function() {
+        		$('input[name="dateosotra"]').val("");
+        	});        	   	
+        }
+	});
 	
-    $('body').on('ifChecked', 'input[name="vady"].minimal, input[name="zanaka"].minimal', function(event){
-    	var vadyCheckbox = $('input[name="vady"]:checked').val();
+	
+    $('body').on('ifChecked', 'input[name="statut"].minimal, input[name="zanaka"].minimal', function(event){
+    	var statutCheckbox = $('input[name="statut"]:checked').val();
 		var zanakaCheckbox = $('input[name="zanaka"]:checked').val();
 
-		if (vadyCheckbox == 1) {
+		if (statutCheckbox == 1) {
 			isVady = true;
 		} else {
 			isVady = false;
@@ -342,6 +468,7 @@ $(document).ready(function() {
             
         } else {
         	$('.childnumber').addClass('hide');
+        	$('input[name="isany"]').val("");
         }
     	shown = "#olona-form";
         if (isZanaka || isVady) {            
@@ -419,15 +546,18 @@ $(document).ready(function() {
           			numberZanaka = parseInt($('input[name="isany"]').val());  
             	}
             	if (toShowNext == "#vady-form") { // The target is the spouse subform
-            		var subform = createSubForm(true);
-            		if ($('.box-body').has(toShowNext).length) {
-            			removeRule(true);
-                		$(toShowNext).remove();
+//            		var subform = createVadyForm();
+            		if (!$('.box-body').has(toShowNext).length) {
+//            			removeVadyRule();
+//                		$(toShowNext).remove();
+                		var subform = createVadyForm();
+                		$('.box-body').append($(subform));
+                		addVadyRule();
             		}
-                  	$('.box-body').append($(subform));                    	               	
+//                  	$('.box-body').append($(subform));                    	               	
                   	$(toHideNext).fadeOut('slow'); // hide main form
                   	$(toShowNext).fadeIn('slow', function() {
-                  		addRule(true);     
+//                  		addVadyRule();     
                   		toShowPrev = toHideNext;
               			toHidePrev = toShowNext;
               			previous.data("show", toShowPrev);
@@ -450,15 +580,15 @@ $(document).ready(function() {
                 	var id = parseInt(toShowNext.slice(13));     	
                 	if (id < numberZanaka) {
                 		var nextId = id + 1;
-                		var subform = createSubForm(false, id);
+                		var subform = createZanakaForm(id);
                 		if ($('.box-body').has(toShowNext).length) {
-                    		removeRule(false, id);
+                    		removeZanakaRule(id);
                     		$(toShowNext).remove();
                 		}
                       	$('.box-body').append($(subform));                    	               	
                       	$(toHideNext).fadeOut('slow'); // hide previous form
                       	$(toShowNext).fadeIn('slow', function() {
-                      		addRule(false, id);
+                      		addZanakaRule(id);
 							toShowPrev = toHideNext;
                   			toHidePrev = toShowNext;
                   			previous.data("show", toShowPrev);
@@ -481,68 +611,56 @@ $(document).ready(function() {
                 
     });
 
-   
+    $('.input-mask-phone').inputmask('(999) 99 999 99');
     $("[data-mask]").inputmask();
     
     $('#validation-form').validate({
 		errorElement: 'span',
 		errorClass: 'help-block',
-		focusInvalid: false,
+		focusInvalid: true,
 		rules: {
-			birao: 'required',
-    		karapokotany:'required',
-			andraikitra: 'required',
-			anarana: {
+			nom: {
 				required: true,
 				minlength: 5
 			},
-			lohany: 'required',
-			sex: 'required',
-			nahaterahana: 'date',
-			date_cin: 'date',
-			vady: 'required',
+			datenaissance: 'date',
+			statut: 'required',
 			zanaka: 'required',
 			isany: {
 				required: true,
 				min: 1
-			}
+			},
+			datesab: {
+				required: true,
+//				date: true
+			},
+			dateosotra: 'date'
 		},
 
 		messages: {
-			birao: {
-				required: "Misafidiana birao"
+			nom: {
+				required: "Ce champs est obligatoire",
+				minlength: "Entrer au moins 5 caracteres"
 			},
-			karapokotany: {
-				required: "Misafidiana karapokotany"
+			datenaissance: {
+				date: "Format mm/jj/yyy"
 			},
-			andraikitra: {
-				required: "Inona no andraikiny?"
+			datesab: {
+				required: "Ce champs est obligatoire",
+				date: "Format mm/jj/yyy"
 			},
-			lohany: {
-				required: "Loham-pianakaviana ve?"
+			dateosotra: {
+				date: "Format mm/jj/yyy"
 			},
-			nahaterahana: {
-				date: "Daty mm/dd/yyyy"
-			},
-			dae_cin: {
-				date: "Daty mm/dd/yyyy"
-			},
-			sex: {
-				required: "Lahy sa vavy?"
-			},
-			anarana: {
-				required: "Iza no anarany?",
-				minlength: "Litera 5 fara-fahakeliny"
-			},
-			vady: {
-				required: "Manam-bady ve?"
+			statut: {
+				required: "Choisir une option"
 			},
 			zanaka: {
-				required: "Manan-janaka ve?"
+				required: "Choisir une option"
 			},
 			isany: {
-				required: "Firy ny isany?",
-				min: "Isa mihoatra ny 0"
+				required: "Ce champs est obligatoire",
+				min: "Entrer un nombre positif"
 			}
 		},
 
@@ -569,6 +687,9 @@ $(document).ready(function() {
 			else if(element.is('.chzn-select')) {
 				error.insertAfter(element.siblings('[class*="chzn-container"]:eq(0)'));
 			}
+			else if (element.parent().hasClass('input-group')) {
+				error.insertAfter(element.parent());
+			}
 			else error.insertAfter(element);
 		},
 
@@ -578,144 +699,159 @@ $(document).ready(function() {
 		invalidHandler: function (form) {
 		}
 	});    
-    selectKarapokotany.change(function(){
-        $(this).valid();
-     });
-    selectAndraikitra.change(function(){
-        $(this).valid();
-    });
+    
 });
 
-function createSubForm(isVady, number) {
-	var formId, andraikitraName, selectClass,
-	anaranaName, fanampinyName, nahaterahanaName,
-	sexName, cinName, date_cinName, asaName;
+function createVadyForm() {
+	var formId, showModal, imgPreview, nomName,
+	prenomName, naissanceName, sexeName,
+	phoneName, occupationName, datesabName, dateosotraClass,
+	dateosotraName;
 
-	if (isVady) {
-		formId = 'vady-form';
-		andraikitraName = 'vady-andraikitra';
-		selectClass = 'select-vady-andraikitra';
-		anaranaName = 'vady-anarana';
-		fanampinyName = 'vady-fanampiny';
-		nahaterahanaName = 'vady-nahaterahana';
-		sexName = 'vady-sex';
-		cinName = 'vady-cin';
-		date_cinName = 'vady-date_cin';
-		asaName = 'vady-asa';
-	} else {
-		formId = 'zanaka-form-'+number;
-		andraikitraName = 'zanaka-andraikitra-'+number;
-		selectClass = 'select-zanaka-andraikitra-'+number;
-		anaranaName = 'zanaka-anarana-'+number;
-		fanampinyName = 'zanaka-fanampiny-'+number;
-		nahaterahanaName = 'zanaka-nahaterahana-'+number;
-		sexName = 'zanaka-sex-'+number;
-		cinName = 'zanaka-cin-'+number;
-		date_cinName = 'zanaka-date_cin-'+number;
-		asaName = 'zanaka-asa-'+number;
-	}
-	
+	formId = 'vady-form';
+	showModal = 'vady-show-modal';
+	imgPreview = 'vady-img-preview';
+	nomName = 'vady-nom';
+	prenomName = 'vady-prenom';
+	naissanceName = 'vady-datenaissance';
+	sexeName = 'vady-sexe';
+	phoneName = 'vady-telephone';
+	occupationName = 'vady-occupation';
+	dateosotraClass = 'vady-datenanosorana';
+	datesabName = 'vady-datesab';
+	dateosotraName = 'vady-dateosotra';
+
 	var form = '<div id="'+formId+'" style="display:none;"> \
+	<h3 class="text-light-blue form-title">Mombamomba ny vady</h3> \
+	<span class="col-md-4">	\
+		<a class="fileinput-button '+showModal+'" href="#"> \
+			<span class="upload-profile-picture change-image">	\
+				<label class="" data-title="Modifier image"> \
+					<span data-title="No File ..." class="'+imgPreview+'"><i class="fa fa-picture-o fa-5x"></i></span> \
+				</label> \
+			</span> \
+		</a> \
+	</span> \
+	<span class="col-md-7"> \
 		<div class="form-group"> \
-			<label for="'+andraikitraName+'">Andraikitra</label> \
-			<select name="'+andraikitraName+'" class="form-control '+selectClass+'"> \
-				<option></option>';
-	for (i = 0; i < andraikitras.length; i++) {
-		form += '<option value="'+andraikitras[i].id+'">'+andraikitras[i].anarana+'</option>';
-	}
-	form += '</select> \
+			<input type="text" class="form-control" name="'+nomName+'" placeholder="Anarana"> \
 		</div> \
 		<div class="form-group"> \
-			<label for="'+anaranaName+'">Anarana</label> \
-			<input type="text" class="form-control" name="'+anaranaName+'"> \
+			<input type="text" class="form-control" name="'+prenomName+'" placeholder="Fanampiny"> \
+		</div> \
+	</span> \
+	<div class="clearfix"></div> \
+	<hr/> \
+	<span class="col-md-8 col-md-offset-2"> \
+		<div class="form-group"> \
+			<label for="'+naissanceName+'">Daty nahaterahana</label> \
+			<div class="input-group"> \
+	            <input type="text" class="form-control datepicker" name="'+naissanceName+'"> \
+	            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> \
+	        </div> \
 		</div> \
 		<div class="form-group"> \
-			<label for="'+fanampinyName+'">Fanampiny</label> \
-			<input type="text" class="form-control" name="'+fanampinyName+'"> \
-		</div> \
-		<div class="form-group"> \
-			<label for="'+nahaterahanaName+'">Daty nahaterahana</label> \
-			<input type="text" class="form-control datepicker" name="'+nahaterahanaName+'"> \
-		</div> \
-		<div class="form-group"> \
-			<label for="'+sexName+'">Sexe</label> \
+			<label for="'+sexeName+'">Sexe</label> \
 			<label class="radio-inline"> \
-				<input type="radio" class="form-control minimal" value="1" name="'+sexName+'"/> \
+				<input type="radio" class="form-control minimal" value="1" name="'+sexeName+'" checked="checked"/> \
 				Lehilahy \
-    		</label> \
-    		<label class="radio-inline"> \
-				<input type="radio" class="form-control minimal" value="2" name="'+sexName+'"/> \
+	        </label> \
+	        <label class="radio-inline"> \
+				<input type="radio" class="form-control minimal" value="2" name="'+sexeName+'"/> \
 				Vehivavy \
-    		</label> \
+	        </label> \
 		</div> \
+	</span> \
+	<div class="clearfix"></div> \
+	<hr/> \
+	<span class="col-md-8 col-md-offset-2"> \
 		<div class="form-group"> \
-			<label for="'+cinName+'">Karapanondro</label> \
-			<input type="text" class="form-control" name="'+cinName+'"  data-inputmask="\'mask\': [\'999-999-999-999\']" data-mask/> \
+			<label for="'+phoneName+'">Finday</label> \
+			<div class="input-group"> \
+	            <input type="text" class="form-control input-mask-phone" name="'+phoneName+'"> \
+	            <span class="input-group-addon"><i class="fa fa-phone"></i></span> \
+	        </div> \
 		</div> \
+	</span> \
+	<div class="clearfix"></div> \
+	<h3 class="text-light-blue form-title">Asan\'ny vady</h3> \
+	<span class="col-md-12"> \
 		<div class="form-group"> \
-			<label for="'+date_cinName+'">Nomena t@</label> \
-			<input type="text" class="form-control datepicker" name="'+date_cinName+'"> \
+			<label for="'+occupationName+'">Andraikitra</label> \
+			<label class="radio-inline"> \
+				<input type="radio" class="form-control minimal" value="1" name="'+occupationName+'" checked="checked"/> \
+				Sekoly Ara-baiboly \
+            </label> \
+            <label class="radio-inline"> \
+				<input type="radio" class="form-control minimal" value="2" name="'+occupationName+'"/> \
+				Mpitandrina \
+            </label> \
+            <label class="radio-inline"> \
+				<input type="radio" class="form-control minimal" value="3" name="'+occupationName+'"/> \
+				Hafa \
+	        </label> \
 		</div> \
+	</span> \
+	<div class="clearfix"></div> \
+	<span class="col-md-8 col-md-offset-2"> \
 		<div class="form-group"> \
-			<label for="'+asaName+'">Asa</label> \
-			<input type="text" class="form-control select-asa" name="'+asaName+'"> \
+			<label for="'+datesabName+'">Daty nidirana SAB</label> \
+			<div class="input-group"> \
+	            <input type="text" class="form-control datepicker" name="'+datesabName+'"> \
+	            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> \
+	        </div> \
 		</div> \
-	</div>';	
+		<div class="form-group '+dateosotraClass+'"> \
+			<label for="'+dateosotraName+'">Daty nanosorana</label> \
+			<div class="input-group"> \
+	            <input type="text" class="form-control datepicker" name="'+dateosotraName+'"> \
+	            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> \
+	        </div> \
+		</div> \
+	</span> \
+	<div class="clearfix"></div> \
+	</div><!-- /#'+formId+' -->';
 	return form;
 }
 
-function addRule(isVady, number) {
-	var selectClass, andraikitraName, anaranaName, nahaterahanaName,
-		sexName, date_cinName, select2Andraikitra;
+function addVadyRule() {
+	var nomName, naissanceName, datesabName, dateosotraName, showModal, imgPreview;
+	$('.box-title').html('Ajouter vady');
+	
+	nomName = 'vady-nom';
+	naissanceName = 'vady-datenaissance';
+	datesabName = 'vady-datesab';
+	dateosotraName = 'vady-dateosotra';
+	showModal = 'vady-show-modal';
+	imgPreview = 'vady-img-preview';
 
-	if (isVady) {
-		$('.box-title').html('Ajouter vady');
-		selectClass = 'select-vady-andraikitra';
-		andraikitraName = 'vady-andraikitra';
-		anaranaName = 'vady-anarana';
-		nahaterahanaName = 'vady-nahaterahana';
-		sexName = 'vady-sex';
-		date_cinName = 'vady-date_cin';
-	} else {
-		var num = number + 1;
-		$('.box-title').html('Ajouter zanaka-' + num);
-		selectClass = 'select-zanaka-andraikitra-'+number;
-		andraikitraName = 'zanaka-andraikitra-'+number;
-		anaranaName = 'zanaka-anarana-'+number;
-		nahaterahanaName = 'zanaka-nahaterahana-'+number;
-		sexName = 'zanaka-sex-'+number;
-		date_cinName = 'zanaka-date_cin-'+number;
-	}
-	$('select[name="'+andraikitraName+'"]').rules("add", {
-    	required: true,
-    	messages: {
-    	    required: "Inona no andraikiny?"
-		}
-    });
-	$('input[name="'+anaranaName+'"]').rules("add", {
+	$('input[name="'+nomName+'"]').rules("add", {
     	required: true,
     	minlength: 5,
     	messages: {
-    		required: "Iza no anarany?",
-			minlength: "Litera 5 fara-fahakeliny"
+			required: "Ce champs est obligatoire",
+			minlength: "Entrer au moins 5 caracteres"
 		}
     });
-	$('input[name="'+sexName+'"]').rules("add", {
-    	required: true,
-    	messages: {
-			required: "Lahy sa vavy?"
-		}
-    });
-	$('input[name="'+nahaterahanaName+'"]').rules("add", {
+	
+	$('input[name="'+naissanceName+'"]').rules("add", {
     	date: true,
     	messages: {
-			date: "Daty mm/dd/yyyy"
+			date: "Format mm/jj/yyy"
 		}
     });
-	$('input[name="'+date_cinName+'"]').rules("add", {
+
+	$('input[name="'+datesabName+'"]').rules("add", {
     	date: true,
     	messages: {
-			date: "Daty mm/dd/yyyy"
+			date: "Format mm/jj/yyy"
+		}
+    });
+
+	$('input[name="'+dateosotraName+'"]').rules("add", {
+    	date: true,
+    	messages: {
+			date: "Format mm/jj/yyy"
 		}
     });
 
@@ -727,39 +863,151 @@ function addRule(isVady, number) {
       	var that = this;
   		$(that).valid();
 	});
-  	select2Andraikitra = $('.'+selectClass).select2({
-  	  	minimumResultsForSearch: 10, 
-  	  	placeholder: 'Selectionner andraikitra'
+  	$('.input-mask-phone').inputmask('(999) 99 999 99');
+  	$('.datepicker').datepicker();
+
+  	$('.'+showModal).imageupload({
+    	doCrop: true,
+  		uploadUrl: ajaxUrl,
+  		cropUrl: cropUrl,
+  		fileName: 'vadyFileId',
+  		imgPreview: imgPreview,
+  		modalId: 'vadyUploadModal',
+  		formId: 'vadyfileupload',
+  		submitButton: 'vady-submit-button',
+  		xs: 40,
+		sm: 60,
+		md: 100
+  	}).bind('imageuploadcomplete', function(event, data) {
+  		var deleteLink = '<a href="#" class="delete-vady-all remove-all" data-type="'+data.deleteType+'" \
+  		data-url="'+data.deleteUrl+'" > \
+          <i class="fa fa-times"></i> \
+          </a>';
+        $('.upload-profile-picture.change-image > label').toggleClass("cropped");  
+  		$(this).before(deleteLink);
+  	});  
+
+	$(document).on('click', '.delete-vady-all', function(e) {
+		e.preventDefault();
+		var that = $(this);
+		$.ajax({
+			url: that.data("url"),
+			type: that.data("type"),
+			dataType: 'json',
+			success: function(res) {
+				if (res) {
+					$('.vady-img-preview').html('<i class="fa fa-picture-o fa-5x"></i>');
+					$('.upload-profile-picture.change-image > label').toggleClass("cropped");
+					that.detach();
+				}
+			}
+		});	
+    }); 
+
+	
+}
+
+function createZanakaForm(number) {
+	var formId, nomName, prenomName, naissanceName, sexeName, classeName;
+	
+	formId = 'zanaka-form-'+number;
+	nomName = 'zanaka-nom-'+number;
+	prenomName = 'zanaka-prenom-'+number;
+	naissanceName = 'zanaka-datenaissance-'+number;
+	sexeName = 'zanaka-sexe-'+number;
+	classeName = 'zanaka-classe-'+number;
+
+	var form = '<div id="'+formId+'" style="display:none;"> \
+	<h3 class="text-light-blue form-title">Mombamomba ny zanaka</h3> \
+	<span class="col-md-8 col-md-offset-2"> \
+		<div class="form-group"> \
+			<label for="'+nomName+'">Anarana</label> \
+			<input type="text" class="form-control" name="'+nomName+'"> \
+		</div> \
+		<div class="form-group"> \
+			<label for="'+prenomName+'">Fanampiny</label> \
+			<input type="text" class="form-control" name="'+prenomName+'"> \
+		</div> \
+		<div class="form-group"> \
+			<label for="'+naissanceName+'">Daty nahaterahana</label> \
+			<div class="input-group"> \
+	            <input type="text" class="form-control datepicker" name="'+naissanceName+'"> \
+	            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> \
+	        </div> \
+		</div> \
+		<div class="form-group"> \
+			<label for="'+sexeName+'">Sexe</label> \
+			<label class="radio-inline"> \
+				<input type="radio" class="form-control minimal" value="1" name="'+sexeName+'" checked="checked"/> \
+				Lehilahy \
+	        </label> \
+	        <label class="radio-inline"> \
+				<input type="radio" class="form-control minimal" value="2" name="'+sexeName+'"/> \
+				Vehivavy \
+	        </label> \
+		</div> \
+		<div class="form-group"> \
+			<label for="'+classeName+'">Kilasy</label> \
+			<input type="text" class="form-control" name="'+classeName+'"> \
+		</div> \
+	</span> \
+	<div class="clearfix"></div> \
+	</div><!-- /#'+formId+' -->';
+	return form;
+}
+
+function addZanakaRule(number) {
+	var nomName, naissanceName;
+	var num = number + 1;
+	$('.box-title').html('Ajouter zanaka-' + num);
+	
+	nomName = 'zanaka-nom-'+number;
+	naissanceName = 'zanaka-datenaissance-'+number;
+
+	$('input[name="'+nomName+'"]').rules("add", {
+    	required: true,
+    	minlength: 5,
+    	messages: {
+			required: "Ce champs est obligatoire",
+			minlength: "Entrer au moins 5 caracteres"
+		}
+    });
+	
+	$('input[name="'+naissanceName+'"]').rules("add", {
+    	date: true,
+    	messages: {
+			date: "Format mm/jj/yyy"
+		}
+    });
+	
+	$("input[type='radio']").iCheck({
+      	radioClass: 'iradio_minimal'
   	});
-  	select2Andraikitra.change(function(){
-      	$(this).valid();
-  	});
-  	$("[data-mask]").inputmask();
+  
+  	$('input[type="radio"].minimal').on('ifChecked', function(event){
+      	var that = this;
+  		$(that).valid();
+	});
   	$('.datepicker').datepicker();
 }
 
-function removeRule(isVady, number) {
-	var andraikitraName, anaranaName, nahaterahanaName,
-		sexName, date_cinName;
+function removeVadyRule() {
+	var nomName, naissanceName;
+	nomName = 'vady-nom';
+	naissanceName = 'vady-datenaissance';
 
-	if (isVady) {
-		andraikitraName = 'vady-andraikitra';
-		anaranaName = 'vady-anarana';
-		nahaterahanaName = 'vady-nahaterahana';
-		sexName = 'vady-sex';
-		date_cinName = 'vady-date_cin';
-	} else {
-		andraikitraName = 'zanaka-andraikitra-'+number;
-		anaranaName = 'zanaka-anarana-'+number;
-		nahaterahanaName = 'zanaka-nahaterahana-'+number;
-		sexName = 'zanaka-sex-'+number;
-		date_cinName = 'zanaka-date_cin-'+number;
-	}
-	$('select[name="'+andraikitraName+'"]').rules("remove");
-	$('input[name="'+anaranaName+'"]').rules("remove");
-	$('input[name="'+sexName+'"]').rules("remove");
-	$('input[name="'+nahaterahanaName+'"]').rules("remove");
-	$('input[name="'+date_cinName+'"]').rules("remove");
+	$('input[name="'+nomName+'"]').rules("remove");	
+	$('input[name="'+naissanceName+'"]').rules("remove");
+	$('.vady-show-modal').imageupload("destroy");
+}
+
+function removeZanakaRule(number) {
+	var nomName, naissanceName;
+	nomName = 'zanaka-nom-'+number;
+	naissanceName = 'zanaka-datenaissance-'+number;
+
+	$('input[name="'+nomName+'"]').rules("remove");	
+	$('input[name="'+naissanceName+'"]').rules("remove");
 }
 
 //-->

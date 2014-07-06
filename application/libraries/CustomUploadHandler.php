@@ -31,19 +31,20 @@ class CustomUploadHandler extends UploadHandler
 	        $this->em->persist($myfile);
 	        $this->em->flush();
 	        $file->id = $myfile->getId();
+	        $file->fileId = 'img'.$myfile->getId();
         }
         return $file;
     }
 
     protected function set_additional_file_properties($file) {        
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        	$om = $this->getObjectManager();  
         	$myfile = $this->em->getRepository('Entities\File')->findOneByName($file->name);
         	if ($myfile instanceof Entities\File) {
         		$file->id = $myfile->getId();
         		$file->type = $myfile->getType();
+        		$file->fileId = 'img'.$myfile->getId();
         	} 	
-        }
+        }        
         $relativePath = urldecode(substr($file->url, strpos($file->url, '/files/')));
         $file->relativePath = $relativePath;
         parent::set_additional_file_properties($file);
