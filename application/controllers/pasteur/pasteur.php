@@ -86,4 +86,31 @@ class Pasteur extends FJFF_Controller
         $this->setContentView('pasteur/add');
 	}	
 	
+	public function detailPasteur($type="pasteur", $idPasteur)
+	{
+		$data['title'] = 'Pasteur';
+		$this->setLayoutView("layout_modal");	
+		if ($type == "pasteur") {
+			$data['pasteur'] = $this->pasteur->getPasteurArrayById($idPasteur);	
+			$this->setContentView('pasteur/detail');
+		} else if ($type == "vady") {
+			$data['pasteur'] = $this->pasteur->getConjointPasteurArrayById($idPasteur);
+			$this->setContentView('pasteur/detail');
+		} else if ($type == "zanaka") {
+			$data['enfants'] = $this->pasteur->getEnfantPasteurArrayById($idPasteur);
+			$this->setContentView('pasteur/detail-zanaka');
+		}	                 
+		$this->setData($data);
+        
+	}
+	
+	public function printPasteur($idPasteur)
+	{
+		$this->setLayoutView("layout_modal");	
+		$data['pasteur'] = $this->pasteur->getPasteurArrayById($idPasteur);	
+		$data['conjoint'] = $this->pasteur->getConjointPasteurArrayById($idPasteur);
+		$data['enfants'] = $this->pasteur->getEnfantPasteurArrayById($idPasteur);
+		echo json_encode($data);
+	}
+	
 }

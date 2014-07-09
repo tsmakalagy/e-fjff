@@ -261,3 +261,54 @@ span.loading-username, span.check-password, span.check-password-verify {
 .separation {
     margin-bottom: 12px;
 }
+
+.personne-info-striped {
+	border: 1px solid #DCEBF7;
+}
+
+.personne-info {
+	margin: 0 12px;
+}
+
+.personne-info-row {
+    position: relative;
+}
+
+
+.personne-info-row:first-child .personne-info-name {
+    border-top: 0 none;
+}
+.personne-info-striped .personne-info-name {
+    background-color: #EDF3F4;
+    border-top: 1px solid #F7FBFF;
+    color: #336199;
+}
+
+.personne-info-name {
+    background-color: transparent;
+    border-top: 1px dotted #D5E4F1;
+    bottom: 0;
+    color: #667E99;
+    font-weight: normal;
+    left: 0;
+    padding: 6px 10px 6px 0;
+    position: absolute;
+    text-align: right;
+    top: 0;
+    /*width: 110px;*/
+    width: 40%;
+}
+
+.personne-info-row:first-child .personne-info-value {
+    border-top: 0 none;
+}
+.personne-info-striped .personne-info-value {
+    border-top: 1px dotted #DCEBF7;
+    padding-left: 12px;
+}
+.personne-info-value {
+    border-top: 1px dotted #D5E4F1;
+    /*margin-left: 120px;*/
+    margin-left: 40%;
+    padding: 6px 4px 6px 6px;
+}

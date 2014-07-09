@@ -10,6 +10,7 @@ class Pasteur_service
 		$CI =& get_instance();
 		$CI->load->library('doctrine');
 		$this->em = $CI->doctrine->em;	
+		setlocale(LC_ALL, 'fr_FR');
 	}
 	
 	public function add($data)
@@ -193,46 +194,180 @@ class Pasteur_service
 		$query = $this->em->createQuery($sql);
 		$return = array();
 		$pasteurs = $query->getResult();
-		foreach ($pasteurs as $item) {
-			$res = array();
-			$res['id'] = $item->getId();
-			$res['name'] = strtoupper(strtolower($item->getNom())) . ' ' . ucfirst(strtolower($item->gePreNom()));
-			$datenaissance = $item->getDatenaissance();
-			$now = new \DateTime();
-			if ($datenaissance instanceof \DateTime) {
-				$interval = $now->diff($datenaissance);
-				$res['age'] = $interval->y;	
-			} else {
-				$res['age'] = '-';
-			}
-			$occupation = $item->getOccupation();
-			switch ($occupation) {
-				case "1":
-					$res['occupation'] = "Mpitandrina";
-					break;
-				case "2":
-					$res['occupation'] = "Sekoly Ara-Baiboly";
-					break;
-				default:
-					$res['occupation'] = "Hafa";
-					break;
-			}
-			$postes = $item->getPostes();
-			foreach ($postes as $poste) {
-				$isCurrent = $poste->getCurrent();
-				if ($isCurrent == 1) {
-					$res['current_poste'] = $poste->getEglise()->getNom();
-				}
-			}
-			$res['sexe'] = ($item->getSexe() == 1) ? 'M' : 'F';
-			$datesab = $item->getDatesab();
-			$res['datesab'] = isset($datesab) ? strftime('%d %B %Y', $datesab->getTimeStamp()) : '';
-			$dateosotra = $item->getDateosotra();
-			$res['dateosotra'] = isset($dateosotra) ? strftime('%d %B %Y', $dateosotra->getTimeStamp()) : '';	
-			$res['phone'] = $item->getTelephone();
-			array_push($return, $res);
+		foreach ($pasteurs as $item) {			
+			array_push($return, $this->personneObjectToArray($item));
 		}
 		return $return;
+	}
+	
+	public function getPasteurById($id)
+	{	
+		$pasteur = $this->em->getRepository('Entities\Personne')->find($id);
+		if ($pasteur instanceof Entities\Personne) {
+			return $pasteur;
+		}
+		return false;
+	}
+	
+	public function getPasteurArrayById($id)
+	{	
+		$pasteur = $this->em->getRepository('Entities\Personne')->find($id);
+		if ($pasteur instanceof Entities\Personne) {
+			return $this->personneObjectToArray($pasteur);
+		}
+		return false;
+	}
+	
+	public function getConjointPasteurArrayById($id)
+	{	
+		$pasteur = $this->em->getRepository('Entities\Personne')->find($id);
+		if ($pasteur instanceof Entities\Personne) {
+			$conjoint = $pasteur->getConjoint();
+			if ($conjoint instanceof Entities\Personne) {
+				return $this->personneObjectToArray($conjoint);	
+			}			
+		}
+		return false;
+	}
+	
+	public function getEnfantPasteurArrayById($id)
+	{	
+		$pasteur = $this->em->getRepository('Entities\Personne')->find($id);
+		$return = array();
+		if ($pasteur instanceof Entities\Personne) {
+			$enfants = $pasteur->getEnfants();
+			if (isset($enfants) && count($enfants)) {
+				$i = 1;
+				foreach ($enfants as $enfant) {
+					array_push($return, $this->enfantObjectToArray($enfant, $i++));
+				}
+				return $return;
+			} else {
+				$conjoint = $pasteur->getConjoint();
+				if ($conjoint instanceof Entities\Personne) {
+					$enfants = $conjoint->getEnfants();
+					if (isset($enfants) && count($enfants)) {
+						$i = 1;
+						foreach ($enfants as $enfant) {
+							array_push($return, $this->enfantObjectToArray($enfant, $i++));
+						}
+						return $return;
+					}
+				}
+			}			
+		}
+		return false;
+	}
+	
+	public function personneObjectToArray($object)
+	{
+		$res = array();
+		$res['id'] = $object->getId();
+		$res['name'] = strtoupper(strtolower($object->getNom())) . ' ' . ucfirst(strtolower($object->getPrenom()));
+		$datenaissance = $object->getDatenaissance();
+		$now = new \DateTime();
+		if ($datenaissance instanceof \DateTime) {
+			$interval = $now->diff($datenaissance);
+			$res['age'] = strval($interval->y);	
+		} else {
+			$res['age'] = '-';
+		}
+		$occupation = $object->getOccupation();
+		switch ($occupation) {
+			case "1":
+				$res['occupation'] = "Sekoly Ara-Baiboly";
+				break;
+			case "2":
+				$res['occupation'] = "Mpitandrina";
+				break;
+			default:
+				$res['occupation'] = "Hafa";
+				break;
+		}
+		$postes = $object->getPostes();
+		$res['last_poste'] = array();
+		foreach ($postes as $poste) {
+			$isCurrent = $poste->getCurrent();
+			if ($isCurrent == 1) {
+				$res['current_poste'] = $poste->getEglise()->getNom();
+				$datedebut = $poste->getDebut();
+				$res['current_debut'] = isset($datedebut) ? $this->displayDate($datedebut->getTimeStamp()) : '';
+			} else {
+				$datedebut = $poste->getDebut();
+				$d = isset($datedebut) ? $this->displayDate($datedebut->getTimeStamp()) : '';
+				$datefin = $poste->getFin();
+				$f = isset($datefin) ? $this->displayDate($datefin->getTimeStamp()) : '';
+				array_push($res['last_poste'], array(
+					'eglise' => $poste->getEglise()->getNom(),
+					'date' => $d . ' - ' . $f
+				));		
+			}
+		}
+		$res['sexe'] = ($object->getSexe() == 1) ? 'Lahy' : 'Vavy';
+		$datesab = $object->getDatesab();
+		$res['datesab'] = isset($datesab) ? $this->displayDate($datesab->getTimeStamp()) : '';
+		$dateosotra = $object->getDateosotra();
+		$res['dateosotra'] = isset($dateosotra) ? $this->displayDate($dateosotra->getTimeStamp()) : '';	
+		$res['phone'] = $object->getTelephone();
+		$conjoint = $object->getConjoint();
+		if ($conjoint instanceof Entities\Personne) {
+			$res['isVady'] = true;
+		} else {
+			$res['isVady'] = false;
+		}
+		$enfants = $object->getEnfants();
+		if (isset($enfants) && count($enfants)) {
+			$res['isZanaka'] = true;
+		} else {
+			if ($res['isVady']) {
+				$enfants = $conjoint->getEnfants();
+				if (isset($enfants) && count($enfants)) {
+					$res['isZanaka'] = true;
+				} else {
+					$res['isZanaka'] = false;
+				}	
+			} else {
+				$res['isZanaka'] = false;
+			}			
+		}
+		$res['imgUrl'] = base_url('assets' . relative_image_path('md', $res['id']));
+		return $res;
+	}
+	
+	public function enfantObjectToArray($object, $num)
+	{
+		$res = array();
+		$res['num'] = $num;
+		$res['id'] = $object->getId();
+		$res['name'] = strtoupper(strtolower($object->getNom())) . ' ' . ucfirst(strtolower($object->getPrenom()));
+		$datenaissance = $object->getDatenaissance();
+		$now = new \DateTime();
+		if ($datenaissance instanceof \DateTime) {
+			$interval = $now->diff($datenaissance);
+			$res['age'] = strval($interval->y);	
+		} else {
+			$res['age'] = '-';
+		}
+		$res['sexe'] = ($object->getSexe() == 1) ? 'Lahy' : 'Vavy';
+		$res['classe'] = $object->getClasse();
+		return $res;
+	}
+	
+	public function getImageRelativePath($dimension, $id)
+	{
+		$pasteur = $this->getPasteurById($id);
+		if ($pasteur) {
+			$file = $pasteur->getFile();
+			if ($file instanceof Entities\File) {
+				return $file->getImageRelativePathByDimension($dimension);
+			}
+		}
+		return false;
+	}
+	
+	private function displayDate($date)
+	{
+		return utf8_encode(ucwords(strftime('%d %B %Y', $date)));
 	}
 	
 }

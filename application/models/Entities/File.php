@@ -152,6 +152,7 @@ class File
     {    	
 		$images = $this->getImages();
 		$relativePath = $this->getRelativePath();
+		$imageName = '';
 		foreach ($images as $image) {
 			$dim = $image->getDimension();
 			if ($dim == $dimension) {
