@@ -10,6 +10,7 @@ application/logs/*
 
 assets/files/users/default/*
 !assets/files/users/default/no-photo.jpg
+assets/files/users/default/cropped/*
 !assets/files/users/default/cropped/no-photo.jpg*
 .settings/*
 application/models/proxies/*.php
