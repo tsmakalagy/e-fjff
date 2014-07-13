@@ -8,10 +8,11 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 
+assets/files/users/default/cropped/*
+!assets/files/users/default/cropped/no-photo*
 assets/files/users/default/*
 !assets/files/users/default/no-photo.jpg
-assets/files/users/default/cropped/*
-!assets/files/users/default/cropped/*
+
 .settings/*
 application/models/proxies/*.php
 
