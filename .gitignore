@@ -8,7 +8,7 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 
-assets/files/*
+assets/files/users/default/*
 !assets/files/users/default/no-photo.jpg
 !assets/files/users/default/cropped/no-photo.jpg*
 .settings/*
