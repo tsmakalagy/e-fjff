@@ -9,7 +9,7 @@ application/logs/*
 !application/logs/.htaccess
 
 assets/files/users/default/*
-!assets/files/users/default/no-photo.jpg
+
 !assets/files/users/default/cropped/*
 assets/files/users/default/cropped/*
 !assets/files/users/default/cropped/no-photo.jpg_w100_cx0_cy0_cw598_ch598.jpg
