@@ -360,6 +360,11 @@ class Pasteur_service
 			$file = $pasteur->getFile();
 			if ($file instanceof Entities\File) {
 				return $file->getImageRelativePathByDimension($dimension);
+			} else {
+				$f = $this->em->getRepository('Entities\File')->getDefaultFile();
+				if ($f instanceof Entities\File) {
+					return $f->getImageRelativePathByDimension($dimension);
+				}
 			}
 		}
 		return false;

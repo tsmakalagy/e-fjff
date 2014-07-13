@@ -226,7 +226,7 @@ span.loading-username, span.check-password, span.check-password-verify {
     content: attr(data-title);    
     padding: 0 8px;
     display: block;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .upload-profile-picture > label.cropped:before {

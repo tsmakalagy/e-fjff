@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /** 
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Repositories\FileRepository")
  * @ORM\Table(name="file")
  * 
  */

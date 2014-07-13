@@ -357,7 +357,7 @@
 <script src="<?php echo base_url('assets/file-upload/js/jquery.fileupload-ui.js');?>"></script>
 <script src="<?php echo base_url('assets/file-upload/js/jquery.Jcrop.js');?>"></script>
 <script src="<?php echo base_url('assets/file-upload/js/jquery.gdn-imageupload-ui.js');?>"></script>
-
+<script src="<?php echo base_url('assets/js/detect-browser.js');?>"></script>
 
 <script type="text/javascript">
 <!--
@@ -366,6 +366,13 @@ var cropUrl = "<?php echo site_url('crop'); ?>";
 function format(item) { return item.text; };
 
 $(document).ready(function() {
+	if (BrowserDetect.browser == 'Firefox' && BrowserDetect.version <= 19) {
+		$(".gdn-file-input label").on("click",function(e) {
+			if(e.currentTarget === this && e.target.nodeName !== 'INPUT') {
+		      	$(this.control).click();
+		    }
+		});
+	}
 	var showvadymodal;
 	var selectCurrentPoste = $(".select-current-poste").select2({
 		minimumResultsForSearch: 10, 
