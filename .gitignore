@@ -9,6 +9,8 @@ application/logs/*
 !application/logs/.htaccess
 
 assets/files/*
+!assets/files/users/default/no-photo.jpg
+!assets/files/users/default/cropped/no-photo.jpg*
 .settings/*
 application/models/proxies/*.php
 
