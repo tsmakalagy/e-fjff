@@ -6,7 +6,7 @@ class UserUploadHandler extends CustomUploadHandler
 	
 	public function __construct($options)
 	{
-		$options['script_url'] = $this->get_full_url() . '/upload?type=user';
+		$options['script_url'] = $this->get_full_url() . '/upload';
 		parent::__construct($options);
 	}
 	
@@ -15,7 +15,7 @@ class UserUploadHandler extends CustomUploadHandler
 	 */
 	protected function get_user_id()
 	{
-		return 'users/default';
+		return 'users';
 	}	
 	
 }
