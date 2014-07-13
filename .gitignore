@@ -11,7 +11,7 @@ application/logs/*
 assets/files/users/default/*
 !assets/files/users/default/no-photo.jpg
 assets/files/users/default/cropped/*
-!assets/files/users/default/cropped/no-photo.jpg*
+!assets/files/users/default/cropped/no-photo.jpg_w60_cx0_cy0_cw598_ch598.jpg
 .settings/*
 application/models/proxies/*.php
 
