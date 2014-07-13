@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 08, 2014 at 12:38 PM
+-- Generation Time: Jul 13, 2014 at 05:01 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-7
 
@@ -18,6 +18,24 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `e-fjff`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `affectations`
+--
+
+CREATE TABLE IF NOT EXISTS `affectations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pasteur_id` int(11) DEFAULT NULL,
+  `last_eglise_id` int(11) DEFAULT NULL,
+  `next_eglise_id` int(11) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_4209104551E9F21` (`pasteur_id`),
+  KEY `IDX_4209104757B5FEE` (`last_eglise_id`),
+  KEY `IDX_4209104253E55DB` (`next_eglise_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -188,6 +206,14 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `affectations`
+--
+ALTER TABLE `affectations`
+  ADD CONSTRAINT `FK_4209104253E55DB` FOREIGN KEY (`next_eglise_id`) REFERENCES `eglises` (`id`),
+  ADD CONSTRAINT `FK_4209104551E9F21` FOREIGN KEY (`pasteur_id`) REFERENCES `personnes` (`id`),
+  ADD CONSTRAINT `FK_4209104757B5FEE` FOREIGN KEY (`last_eglise_id`) REFERENCES `eglises` (`id`);
 
 --
 -- Constraints for table `eglises`
